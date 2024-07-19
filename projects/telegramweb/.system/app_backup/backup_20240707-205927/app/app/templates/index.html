@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram-Inspired Messaging Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>Secure Messaging Platform</h1>
+            <nav id="main-nav">
+                <!-- Navigation items will be dynamically populated -->
+            </nav>
+        </header>
+
+        <main>
+            <section id="auth-section">
+                <div id="login-container">
+                    <h2>Login</h2>
+                    <form id="login-form">
+                        <input type="text" id="login-username" name="username" placeholder="Username" required>
+                        <input type="password" id="login-password" name="password" placeholder="Password" required>
+                        <button type="submit">Login</button>
+                    </form>
+                </div>
+                <div id="register-container">
+                    <h2>Register</h2>
+                    <form id="register-form">
+                        <input type="text" id="register-username" name="username" placeholder="Username" required>
+                        <input type="password" id="register-password" name="password" placeholder="Password" required>
+                        <button type="submit">Register</button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="chat-section" class="hidden">
+                <div id="user-list">
+                    <!-- List of users/chats -->
+                </div>
+                <div id="message-area">
+                    <div id="message-list">
+                        <!-- Messages will be displayed here -->
+                    </div>
+                    <div id="message-input">
+                        <form id="message-form">
+                            <input type="hidden" id="receiver-id" name="receiver_id" value="">
+                            <input type="text" id="message-content" name="content" placeholder="Type your message..." required>
+                            <button type="submit">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <section id="media-section" class="hidden">
+                <form id="media-upload-form">
+                    <input type="file" id="media-file" name="file" required>
+                    <button type="submit">Upload Media</button>
+                </form>
+            </section>
+
+            <section id="search-section" class="hidden">
+                <form id="search-form">
+                    <input type="text" id="search-query" name="query" placeholder="Search..." required>
+                    <button type="submit">Search</button>
+                </form>
+                <div id="search-results">
+                    <!-- Search results will be displayed here -->
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2023 Secure Messaging Platform. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

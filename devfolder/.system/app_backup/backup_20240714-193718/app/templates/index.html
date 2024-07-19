@@ -1,0 +1,35 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+<div id="app-root">
+    <h1>Welcome to AI Software Factory</h1>
+    
+    {% if current_user.is_authenticated %}
+        <h2>Your Projects</h2>
+        <div id="project-list">
+            {% for project in projects %}
+                {% include "components/project_card.html" %}
+            {% endfor %}
+        </div>
+        
+        <button id="create-project-btn" class="btn btn-primary">Create New Project</button>
+    {% else %}
+        <p>Please <a href="{{ url_for('auth.login') }}">login</a> or <a href="{{ url_for('auth.register') }}">register</a> to start using the AI Software Factory.</p>
+    {% endif %}
+    
+    <div id="ai-chat-container">
+        {% include "components/ai_chat.html" %}
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeApp();
+    });
+</script>
+{% endblock %}

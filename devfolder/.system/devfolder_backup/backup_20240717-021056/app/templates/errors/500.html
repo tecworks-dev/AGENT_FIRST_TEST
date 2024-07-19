@@ -1,0 +1,28 @@
+
+{% extends "layout.html" %}
+
+{% block title %}500 Internal Server Error{% endblock %}
+
+{% block content %}
+<div class="error-container">
+    <h1>500 Internal Server Error</h1>
+    <p>Oops! Something went wrong on our end. We're working to fix it.</p>
+    <p>Here are some helpful links instead:</p>
+    <ul>
+        <li><a href="{{ url_for('main.index') }}">Home</a></li>
+        <li><a href="{{ url_for('main.projects') }}">Projects</a></li>
+        <li><a href="{{ url_for('main.about') }}">About</a></li>
+    </ul>
+    <p>If you continue to experience issues, please <a href="{{ url_for('main.contact') }}">contact our support team</a>.</p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script>
+    // Log the error to our error tracking service
+    if (typeof errorTracker !== 'undefined') {
+        errorTracker.logError('500 Internal Server Error');
+    }
+</script>
+{% endblock %}

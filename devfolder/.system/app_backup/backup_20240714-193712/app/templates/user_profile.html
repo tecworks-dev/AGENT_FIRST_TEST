@@ -1,0 +1,51 @@
+
+{% extends "layout.html" %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">User Profile</h1>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{ user.username }}</h5>
+            <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
+            <p class="card-text"><strong>Member since:</strong> {{ user.created_at.strftime('%Y-%m-%d') }}</p>
+        </div>
+    </div>
+
+    <h2 class="mt-5 mb-3">Projects</h2>
+    <div class="row">
+        {% for project in user.projects %}
+        <div class="col-md-4 mb-4">
+            {% include 'components/project_card.html' %}
+        </div>
+        {% else %}
+        <p>No projects yet.</p>
+        {% endfor %}
+    </div>
+
+    <h2 class="mt-5 mb-3">Recent Activity</h2>
+    <ul class="list-group">
+        {% for activity in user.recent_activity %}
+        <li class="list-group-item">
+            <strong>{{ activity.action }}</strong> on {{ activity.timestamp.strftime('%Y-%m-%d %H:%M') }}
+            {% if activity.project %}
+            in project <a href="{{ url_for('project', project_id=activity.project.id) }}">{{ activity.project.name }}</a>
+            {% endif %}
+        </li>
+        {% else %}
+        <li class="list-group-item">No recent activity.</li>
+        {% endfor %}
+    </ul>
+
+    <div class="mt-5">
+        <a href="{{ url_for('edit_profile') }}" class="btn btn-primary">Edit Profile</a>
+        <a href="{{ url_for('change_password') }}" class="btn btn-secondary">Change Password</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/user_profile.js') }}"></script>
+{% endblock %}

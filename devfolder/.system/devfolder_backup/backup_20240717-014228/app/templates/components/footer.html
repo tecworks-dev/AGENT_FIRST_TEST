@@ -1,0 +1,46 @@
+
+<!-- app/templates/components/footer.html -->
+<!-- Reusable footer component -->
+
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>AI Software Factory</h5>
+                <p class="text-muted">Empowering developers with AI-assisted software development.</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                    <li><a href="{{ url_for('main.about') }}">About</a></li>
+                    <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+                    <li><a href="{{ url_for('main.privacy') }}">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Connect With Us</h5>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="#" target="_blank"><i class="fab fa-github"></i></a></li>
+                    <li class="list-inline-item"><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                    <li class="list-inline-item"><a href="#" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-12 text-center">
+                <p class="text-muted">&copy; {{ current_year }} AI Software Factory. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Update the current year dynamically
+    document.addEventListener('DOMContentLoaded', function() {
+        const yearElement = document.querySelector('.footer .text-muted');
+        const currentYear = new Date().getFullYear();
+        yearElement.textContent = yearElement.textContent.replace('{{ current_year }}', currentYear);
+    });
+</script>

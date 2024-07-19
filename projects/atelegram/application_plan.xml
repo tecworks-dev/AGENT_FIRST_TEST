@@ -1,0 +1,255 @@
+<application_plan>
+ <overview>
+ A secure messaging platform with end-to-end encryption, group chats, file sharing, voice/video calls, and admin tools. The application supports desktop, mobile, and web interfaces, with API and bot integration capabilities.
+ </overview>
+ <mechanics>
+ - User authentication with multi-factor support
+ - End-to-end encryption for messages and files
+ - Group chat and broadcast channel functionality
+ - Secure file sharing with large file support
+ - Voice and video calling
+ - Admin dashboard for user management and analytics
+ - API for third-party integrations and bot creation
+ </mechanics>
+ <files>
+ <file>
+    <name>/app/main.py</name>
+    <description>
+    Entry point of the application. Initializes all components.
+    
+    Functions:
+    - main(): No arguments. Initializes and runs the application.
+    
+    Imports:
+    from app.core import authentication, encryption, messaging, file_sharing, calls
+    from app.ui import desktop_ui, mobile_ui, web_ui
+    from app.admin import dashboard, analytics, integration
+    from app.api import api_handler, bot_handler
+    from app.utils import config, logger
+    </description>
+ </file>
+ <file>
+    <name>/app/core/authentication.py</name>
+    <description>
+    Handles user authentication and multi-factor authentication.
+    
+    Functions:
+    - authenticate(username: str, password: str) -> bool: Authenticates a user.
+    - enable_mfa(user_id: int) -> bool: Enables multi-factor authentication for a user.
+    - verify_mfa(user_id: int, token: str) -> bool: Verifies MFA token.
+    
+    Imports:
+    from app.utils import config, logger
+    </description>
+ </file>
+ <file>
+    <name>/app/core/encryption.py</name>
+    <description>
+    Implements end-to-end encryption for messages and files.
+    
+    Functions:
+    - encrypt_message(message: str, public_key: str) -> str: Encrypts a message.
+    - decrypt_message(encrypted_message: str, private_key: str) -> str: Decrypts a message.
+    - generate_key_pair() -> tuple: Generates a public-private key pair.
+    
+    Imports:
+    from app.utils import config, logger
+    </description>
+ </file>
+ <file>
+    <name>/app/core/messaging.py</name>
+    <description>
+    Manages message sending, receiving, and group chat functionality.
+    
+    Functions:
+    - send_message(sender_id: int, recipient_id: int, message: str) -> bool: Sends a message.
+    - create_group(creator_id: int, group_name: str) -> int: Creates a new group chat.
+    - add_to_group(group_id: int, user_id: int) -> bool: Adds a user to a group.
+    
+    Imports:
+    from app.core import encryption
+    from app.utils import config, logger
+    </description>
+ </file>
+ <file>
+    <name>/app/core/file_sharing.py</name>
+    <description>
+    Handles secure file sharing and large file support.
+    
+    Functions:
+    - upload_file(user_id: int, file_path: str) -> str: Uploads a file and returns a secure link.
+    - download_file(user_id: int, file_id: str) -> bytes: Downloads a file.
+    - share_file(file_id: str, recipient_id: int) -> bool: Shares a file with another user.
+    
+    Imports:
+    from app.core import encryption
+    from app.utils import config, logger
+    </description>
+ </file>
+ <file>
+    <name>/app/core/calls.py</name>
+    <description>
+    Implements voice and video calling functionality.
+    
+    Functions:
+    - initiate_call(caller_id: int, callee_id: int, is_video: bool) -> str: Initiates a call and returns a session ID.
+    - end_call(session_id: str) -> bool: Ends an active call.
+    
+    Imports:
+    from app.utils import config, logger
+    </description>
+ </file>
+ <file>
+    <name>/app/ui/desktop_ui.py</name>
+    <description>
+    Desktop user interface implementation.
+    
+    Classes:
+    - DesktopUI: Manages the desktop user interface.
+    
+    Methods:
+    - __init__(self)
+    - show_login_screen(self)
+    - show_main_screen(self)
+    - display_message(self, message: str)
+    
+    Imports:
+    from app.core import messaging, file_sharing, calls
+    from app.utils import config, logger
+    </description>
+ </file>
+ <file>
+    <name>/app/ui/mobile_ui.py</name>
+    <description>
+    Mobile user interface implementation.
+    
+    Classes:
+    - MobileUI: Manages the mobile user interface.
+    
+    Methods:
+    - __init__(self)
+    - show_login_screen(self)
+    - show_main_screen(self)
+    - display_message(self, message: str)
+    
+    Imports:
+    from app.core import messaging, file_sharing, calls
+    from app.utils import config, logger
+    </description>
+ </file>
+ <file>
+    <name>/app/ui/web_ui.py</name>
+    <description>
+    Web-based user interface implementation.
+    
+    Classes:
+    - WebUI: Manages the web-based user interface.
+    
+    Methods:
+    - __init__(self)
+    - render_login_page(self)
+    - render_main_page(self)
+    - display_message(self, message: str)
+    
+    Imports:
+    from app.core import messaging, file_sharing, calls
+    from app.utils import config, logger
+    </description>
+ </file>
+ <file>
+    <name>/app/admin/dashboard.py</name>
+    <description>
+    Admin dashboard for user management.
+    
+    Functions:
+    - get_user_list() -> list: Returns a list of all users.
+    - ban_user(user_id: int) -> bool: Bans a user from the platform.
+    - reset_user_password(user_id: int) -> str: Resets a user's password and returns a new one.
+    
+    Imports:
+    from app.core import authentication
+    from app.utils import config, logger
+    </description>
+ </file>
+ <file>
+    <name>/app/admin/analytics.py</name>
+    <description>
+    Analytics and reporting functionality for admins.
+    
+    Functions:
+    - get_active_users(time_period: str) -> int: Returns the number of active users for a given time period.
+    - get_message_count(time_period: str) -> int: Returns the total number of messages sent in a given time period.
+    - generate_usage_report(start_date: str, end_date: str) -> dict: Generates a usage report for a specified date range.
+    
+    Imports:
+    from app.utils import config, logger
+    </description>
+ </file>
+ <file>
+    <name>/app/admin/integration.py</name>
+    <description>
+    Integration with enterprise systems (CRM, project management).
+    
+    Functions:
+    - sync_with_crm(crm_api_key: str) -> bool: Synchronizes user data with a CRM system.
+    - import_project_data(project_id: str) -> bool: Imports project data from a project management tool.
+    
+    Imports:
+    from app.utils import config, logger
+    </description>
+ </file>
+ <file>
+    <name>/app/api/api_handler.py</name>
+    <description>
+    Handles API requests for third-party integrations.
+    
+    Functions:
+    - handle_api_request(request: dict) -> dict: Processes an API request and returns the response.
+    - authenticate_api_client(api_key: str) -> bool: Authenticates an API client.
+    
+    Imports:
+    from app.core import messaging, file_sharing
+    from app.utils import config, logger
+    </description>
+ </file>
+ <file>
+    <name>/app/api/bot_handler.py</name>
+    <description>
+    Manages custom bot creation and automation.
+    
+    Functions:
+    - create_bot(creator_id: int, bot_name: str) -> str: Creates a new bot and returns its API key.
+    - execute_bot_action(bot_id: str, action: str, params: dict) -> dict: Executes a bot action and returns the result.
+    
+    Imports:
+    from app.core import messaging
+    from app.utils import config, logger
+    </description>
+ </file>
+ <file>
+    <name>/app/utils/config.py</name>
+    <description>
+    Configuration settings for the application.
+    
+    Functions:
+    - load_config(config_file: str) -> dict: Loads configuration from a file.
+    - get_config_value(key: str) -> any: Retrieves a configuration value.
+    
+    Imports: None
+    </description>
+ </file>
+ <file>
+    <name>/app/utils/logger.py</name>
+    <description>
+    Logging utility for the entire application.
+    
+    Functions:
+    - setup_logger() -> logging.Logger: Sets up and returns a logger object.
+    - log_error(message: str): Logs an error message.
+    - log_info(message: str): Logs an info message.
+    
+    Imports: None
+    </description>
+ </file>
+ </files>
+</application_plan>

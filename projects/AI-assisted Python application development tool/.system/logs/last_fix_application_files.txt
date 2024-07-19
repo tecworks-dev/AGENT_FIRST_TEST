@@ -1,0 +1,2148 @@
+An error occurred while running the python application project. Here's the error message:
+
+Runtime errors:
+
+Error running application: 'coroutine' object has no attribute 'strip'
+Traceback (most recent call last):
+  File "H:\git\AGENT_FIRST_TEST\makeappssubfolder\agent_application_makercopysystemupdate.py", line 383, in run_application
+    await asyncio.gather(
+  File "H:\git\AGENT_FIRST_TEST\makeappssubfolder\agent_application_makercopysystemupdate.py", line 376, in user_input
+    if await asyncio.to_thread(sys.stdin.readline).strip().lower() == 'q':
+AttributeError: 'coroutine' object has no attribute 'strip'
+
+
+
+Here is the output of diagnostics_report.py unittest:
+
+Runtime errors:
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "H:\git\AGENT_FIRST_TEST\makeappssubfolder\app\main.py", line 12, in <module>
+    from code_generator import agent_write_file
+  File "H:\git\AGENT_FIRST_TEST\makeappssubfolder\app\code_generator.py", line 53
+    code_start = response.find("
+                               ^
+SyntaxError: unterminated string literal (detected at line 53)
+
+Process exited with return code 1
+
+
+Here are the contents of the files involved in the error:File: api_utils.py
+
+
+# api_utils.py
+"""
+Utility functions for API interactions.
+This module provides a rate-limited request function to interact with the Anthropic API.
+"""
+
+import time
+import asyncio
+from anthropic import AsyncAnthropic, RateLimitError, APIError
+import traceback
+from constants import DEBUG
+
+# Initialize the AsyncAnthropic client
+client = AsyncAnthropic()
+
+async def rate_limited_request(prompt, max_retries=3, base_delay=1):
+    """
+    Performs a rate-limited request to the Anthropic API.
+
+    Args:
+        prompt (str): The prompt to send to the API.
+        max_retries (int): Maximum number of retries in case of rate limit errors.
+        base_delay (int): Base delay between retries in seconds.
+
+    Returns:
+        str: The response from the API.
+
+    Raises:
+        Exception: If the request fails after all retries.
+    """
+    for attempt in range(max_retries):
+        try:
+            if DEBUG:
+                print(f"Sending API request (attempt {attempt + 1}/{max_retries})...")
+
+            response = await client.completions.create(
+                prompt=prompt,
+                max_tokens_to_sample=1000,
+                model="claude-v1"
+            )
+
+            if DEBUG:
+                print("API request successful.")
+
+            return response.completion
+
+        except RateLimitError as e:
+            if attempt < max_retries - 1:
+                delay = base_delay * (2 ** attempt)
+                if DEBUG:
+                    print(f"Rate limit reached. Retrying in {delay} seconds...")
+                await asyncio.sleep(delay)
+            else:
+                if DEBUG:
+                    print("Max retries reached. Unable to complete the request.")
+                raise
+
+        except APIError as e:
+            if DEBUG:
+                print(f"API Error occurred: {str(e)}")
+                print(traceback.format_exc())
+            raise
+
+        except Exception as e:
+            if DEBUG:
+                print(f"Unexpected error occurred: {str(e)}")
+                print(traceback.format_exc())
+            raise
+
+    raise Exception("Failed to complete the API request after multiple retries.")
+
+# Unit tests
+import unittest
+from unittest.mock import patch, MagicMock
+
+class TestApiUtils(unittest.TestCase):
+
+    @patch('api_utils.AsyncAnthropic')
+    async def test_rate_limited_request_success(self, mock_anthropic):
+        mock_client = MagicMock()
+        mock_anthropic.return_value = mock_client
+        mock_response = MagicMock()
+        mock_response.completion = "Test response"
+        mock_client.completions.create.return_value = mock_response
+
+        result = await rate_limited_request("Test prompt")
+        self.assertEqual(result, "Test response")
+
+    @patch('api_utils.AsyncAnthropic')
+    @patch('api_utils.asyncio.sleep')
+    async def test_rate_limited_request_rate_limit_retry(self, mock_sleep, mock_anthropic):
+        mock_client = MagicMock()
+        mock_anthropic.return_value = mock_client
+        mock_client.completions.create.side_effect = [
+            RateLimitError("Rate limit exceeded"),
+            MagicMock(completion="Test response after retry")
+        ]
+
+        result = await rate_limited_request("Test prompt")
+        self.assertEqual(result, "Test response after retry")
+        mock_sleep.assert_called_once()
+
+    @patch('api_utils.AsyncAnthropic')
+    async def test_rate_limited_request_api_error(self, mock_anthropic):
+        mock_client = MagicMock()
+        mock_anthropic.return_value = mock_client
+        mock_client.completions.create.side_effect = APIError("API Error")
+
+        with self.assertRaises(APIError):
+            await rate_limited_request("Test prompt")
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+File: code_generator.py
+
+
+"""
+code_generator.py
+
+This file is responsible for generating code files based on the project plan.
+It contains the agent_write_file() function which uses the Anthropic API to generate Python code.
+"""
+
+import os
+import traceback
+from termcolor import colored
+from api_utils import rate_limited_request
+from file_utils import save_file_contents
+import unittest
+
+DEBUG = True
+
+async def agent_write_file(file_name, file_description, project_plan):
+    """
+    Generate code for a specific file using the Anthropic API.
+
+    Args:
+    file_name (str): The name of the file to be generated.
+    file_description (str): A description of the file's purpose and contents.
+    project_plan (str): The overall project plan.
+
+    Returns:
+    str: The generated code for the file.
+    """
+    try:
+        if DEBUG:
+            print(f"Generating code for {file_name}...")
+
+        prompt = f"""
+        Create a file named '{file_name}' with the following description: 
+        {file_description}
+
+        For python files include framework such as unittest
+
+        Here's the overall application plan which you should follow while writing the file:
+        {project_plan}
+
+        Remember, the application should start with a main module in the main.py file(main shouldn't take any arguments).
+        Always return the full contents of the file
+        """
+
+        response = await rate_limited_request(prompt)
+        
+        if DEBUG:
+            print(f"Code generated for {file_name}")
+
+        # Extract code from the response
+        code_start = response.find("
+
+File: constants.py
+
+
+# constants.py
+# Purpose: Store constant values used throughout the application
+# Description: This file contains only variable definitions without any functions or imports
+
+# Debug mode flag
+DEBUG = True
+
+# Application name
+APP_NAME = "AI-Assisted Python Developer"
+
+# Version number
+VERSION = "1.0.0"
+
+# Maximum retries for API requests
+MAX_RETRIES = 3
+
+# Delay between retries (in seconds)
+RETRY_DELAY = 5
+
+# Maximum number of files to process in a single run
+MAX_FILES = 10
+
+# Default timeout for API requests (in seconds)
+API_TIMEOUT = 30
+
+# Backup folder name
+BACKUP_FOLDER = "backups"
+
+# Maximum length of file content to send in API requests
+MAX_FILE_CONTENT_LENGTH = 100000
+
+# File extensions to ignore during processing
+IGNORED_EXTENSIONS = [".pyc", ".pyo", ".pyd", ".db", ".log"]
+
+# Maximum number of lines to display in error messages
+MAX_ERROR_LINES = 10
+
+# Default model to use for AI requests
+DEFAULT_MODEL = "claude-2"
+
+# Temperature setting for AI responses (0.0 to 1.0)
+AI_TEMPERATURE = 0.7
+
+# Maximum tokens for AI response
+MAX_TOKENS = 4000
+
+# Prompt prefix for code generation
+CODE_GENERATION_PREFIX = "You are a Python and Web Full Stack expert Developer. Your task is to write error-free code for the application based on the overall project logical structure."
+
+# Prompt prefix for error fixing
+ERROR_FIXING_PREFIX = "You are a Python debugging expert. Your task is to identify and fix errors in the following code:"
+
+# Prompt prefix for unit test creation
+UNITTEST_CREATION_PREFIX = "You are a Python testing expert. Your task is to create comprehensive unit tests for the following code:"
+
+# Color codes for terminal output
+COLORS = {
+    "INFO": "cyan",
+    "SUCCESS": "green",
+    "WARNING": "yellow",
+    "ERROR": "red",
+    "DEBUG": "magenta"
+}
+
+
+File: error_fixer.py
+
+
+# error_fixer.py
+"""
+This module handles error detection and fixing for the AI-assisted Python application development tool.
+It contains functions to analyze application errors and generate fixes using AI assistance.
+"""
+
+import re
+import traceback
+from termcolor import colored
+from api_utils import rate_limited_request
+from file_utils import get_project_files_contents, save_file_contents
+import unittest
+
+DEBUG = True
+
+async def fix_application_files(error_message, project_files):
+    """
+    Analyzes the error message and attempts to fix the relevant project files.
+
+    Args:
+    error_message (str): The error message to be analyzed and fixed.
+    project_files (dict): A dictionary containing the project file names and their contents.
+
+    Returns:
+    dict: Updated project files with fixes applied.
+    """
+    if DEBUG:
+        print(colored(f"Debugging: Attempting to fix error: {error_message}", "yellow"))
+
+    try:
+        # Extract relevant information from the error message
+        file_name, line_number, error_type = parse_error_message(error_message)
+
+        if not file_name or not line_number or not error_type:
+            raise ValueError("Unable to parse error message")
+
+        # Get the content of the file with the error
+        file_content = project_files.get(file_name)
+        if not file_content:
+            raise ValueError(f"File {file_name} not found in project files")
+
+        # Generate a fix for the error using AI
+        fix = await generate_fix(file_name, file_content, line_number, error_type, error_message)
+
+        # Apply the fix to the file content
+        updated_content = apply_fix(file_content, fix, line_number)
+
+        # Update the project files dictionary with the fixed content
+        project_files[file_name] = updated_content
+
+        if DEBUG:
+            print(colored(f"Debugging: Fix applied to {file_name}", "green"))
+
+        return project_files
+
+    except Exception as e:
+        print(colored(f"Error in fix_application_files: {str(e)}", "red"))
+        if DEBUG:
+            traceback.print_exc()
+        return project_files
+
+def parse_error_message(error_message):
+    """
+    Parses the error message to extract relevant information.
+
+    Args:
+    error_message (str): The error message to be parsed.
+
+    Returns:
+    tuple: (file_name, line_number, error_type)
+    """
+    # Example regex pattern, adjust based on your error message format
+    pattern = r"File \"(.+)\", line (\d+).+(?:(\w+Error):)?"
+    match = re.search(pattern, error_message)
+    
+    if match:
+        return match.group(1), int(match.group(2)), match.group(3)
+    return None, None, None
+
+async def generate_fix(file_name, file_content, line_number, error_type, error_message):
+    """
+    Generates a fix for the error using AI assistance.
+
+    Args:
+    file_name (str): Name of the file containing the error.
+    file_content (str): Content of the file containing the error.
+    line_number (int): Line number where the error occurred.
+    error_type (str): Type of the error.
+    error_message (str): Full error message.
+
+    Returns:
+    str: Suggested fix for the error.
+    """
+    prompt = f"""
+    Given the following error in the file '{file_name}' at line {line_number}:
+    Error Type: {error_type}
+    Error Message: {error_message}
+
+    Please provide a fix for this error. Here's the relevant part of the file:
+
+    {file_content}
+
+    Suggest a correction that resolves the error.
+    """
+
+    response = await rate_limited_request(prompt)
+    return response.completion
+
+def apply_fix(file_content, fix, line_number):
+    """
+    Applies the generated fix to the file content.
+
+    Args:
+    file_content (str): Original content of the file.
+    fix (str): The fix to be applied.
+    line_number (int): Line number where the fix should be applied.
+
+    Returns:
+    str: Updated file content with the fix applied.
+    """
+    lines = file_content.split('\n')
+    lines[line_number - 1] = fix.strip()
+    return '\n'.join(lines)
+
+class TestErrorFixer(unittest.TestCase):
+    def test_parse_error_message(self):
+        error_message = 'File "test.py", line 10, in <module>\n    TypeError: unsupported operand type(s) for +: "int" and "str"'
+        file_name, line_number, error_type = parse_error_message(error_message)
+        self.assertEqual(file_name, "test.py")
+        self.assertEqual(line_number, 10)
+        self.assertEqual(error_type, "TypeError")
+
+    def test_apply_fix(self):
+        file_content = "line1\nline2\nline3\nline4"
+        fix = "fixed line"
+        line_number = 3
+        expected_result = "line1\nline2\nfixed line\nline4"
+        result = apply_fix(file_content, fix, line_number)
+        self.assertEqual(result, expected_result)
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+File: feedback_handler.py
+
+
+# feedback_handler.py
+"""
+Manages the user feedback loop and updates files accordingly.
+This module handles user feedback and updates the application files based on that feedback.
+"""
+
+import os
+import traceback
+from termcolor import colored
+from api_utils import rate_limited_request
+from file_utils import select_relevant_files, save_file_contents
+import constants
+
+DEBUG = True
+
+async def update_application_files(feedback, project_files):
+    """
+    Updates application files based on user feedback.
+
+    Args:
+    feedback (str): User feedback on the current state of the application.
+    project_files (dict): Dictionary containing file names and their contents.
+
+    Returns:
+    dict: Updated project files.
+    """
+    try:
+        if DEBUG:
+            print(colored("Updating application files based on user feedback...", "cyan"))
+
+        # Select relevant files for update based on feedback
+        relevant_files = select_relevant_files(feedback, project_files)
+
+        for file_name, file_content in relevant_files.items():
+            if DEBUG:
+                print(colored(f"Updating file: {file_name}", "yellow"))
+
+            prompt = f"""
+            You are a Python and Web Full Stack expert Developer. Your task is to update the following file based on user feedback:
+
+            File name: {file_name}
+            Current content:
+            {file_content}
+
+            User feedback:
+            {feedback}
+
+            Please provide the updated content for this file, addressing the user's feedback.
+            Return only the updated file content, without any additional explanations.
+            """
+
+            updated_content = await rate_limited_request(prompt)
+
+            # Save the updated content
+            save_file_contents(file_name, updated_content)
+            project_files[file_name] = updated_content
+
+        if DEBUG:
+            print(colored("Application files updated successfully.", "green"))
+
+        return project_files
+
+    except Exception as e:
+        print(colored(f"Error in update_application_files: {str(e)}", "red"))
+        if DEBUG:
+            traceback.print_exc()
+        return project_files
+
+# Unit tests
+import unittest
+from unittest.mock import patch, AsyncMock
+
+class TestFeedbackHandler(unittest.TestCase):
+    @patch('feedback_handler.rate_limited_request')
+    @patch('feedback_handler.select_relevant_files')
+    @patch('feedback_handler.save_file_contents')
+    async def test_update_application_files(self, mock_save, mock_select, mock_request):
+        # Mock dependencies
+        mock_select.return_value = {'test.py': 'original content'}
+        mock_request.return_value = 'updated content'
+
+        # Test data
+        feedback = "Please update test.py"
+        project_files = {'test.py': 'original content', 'other.py': 'content'}
+
+        # Run the function
+        updated_files = await update_application_files(feedback, project_files)
+
+        # Assertions
+        mock_select.assert_called_once_with(feedback, project_files)
+        mock_request.assert_called_once()
+        mock_save.assert_called_once_with('test.py', 'updated content')
+        self.assertEqual(updated_files['test.py'], 'updated content')
+        self.assertEqual(updated_files['other.py'], 'content')
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+File: file_utils.py
+
+
+"""
+Purpose: Utility functions for file operations.
+Description: This module provides functions for reading and writing file contents,
+             and updating the backup folder. It includes error handling and logging.
+"""
+
+import os
+import traceback
+import shutil
+from termcolor import colored
+import aiofiles
+
+DEBUG = True
+
+async def get_file_contents(file_path):
+    """
+    Asynchronously read the contents of a file.
+
+    Args:
+        file_path (str): Path to the file to be read.
+
+    Returns:
+        str: Contents of the file.
+
+    Raises:
+        FileNotFoundError: If the file does not exist.
+        IOError: If there's an error reading the file.
+    """
+    try:
+        async with aiofiles.open(file_path, 'r') as file:
+            contents = await file.read()
+        if DEBUG:
+            print(colored(f"Successfully read file: {file_path}", "green"))
+        return contents
+    except FileNotFoundError:
+        error_msg = f"File not found: {file_path}"
+        print(colored(error_msg, "red"))
+        traceback.print_exc()
+        raise
+    except IOError as e:
+        error_msg = f"Error reading file {file_path}: {str(e)}"
+        print(colored(error_msg, "red"))
+        traceback.print_exc()
+        raise
+
+async def save_file_contents(file_path, contents):
+    """
+    Asynchronously save contents to a file.
+
+    Args:
+        file_path (str): Path to the file to be written.
+        contents (str): Contents to be written to the file.
+
+    Raises:
+        IOError: If there's an error writing to the file.
+    """
+    try:
+        async with aiofiles.open(file_path, 'w') as file:
+            await file.write(contents)
+        if DEBUG:
+            print(colored(f"Successfully saved file: {file_path}", "green"))
+    except IOError as e:
+        error_msg = f"Error writing to file {file_path}: {str(e)}"
+        print(colored(error_msg, "red"))
+        traceback.print_exc()
+        raise
+
+def update_backup_folder(source_folder, backup_folder):
+    """
+    Update the backup folder with the contents of the source folder.
+
+    Args:
+        source_folder (str): Path to the source folder.
+        backup_folder (str): Path to the backup folder.
+
+    Raises:
+        OSError: If there's an error during the backup process.
+    """
+    try:
+        if os.path.exists(backup_folder):
+            shutil.rmtree(backup_folder)
+        shutil.copytree(source_folder, backup_folder)
+        if DEBUG:
+            print(colored(f"Successfully updated backup folder: {backup_folder}", "green"))
+    except OSError as e:
+        error_msg = f"Error updating backup folder: {str(e)}"
+        print(colored(error_msg, "red"))
+        traceback.print_exc()
+        raise
+
+import unittest
+
+class TestFileUtils(unittest.TestCase):
+    async def test_get_file_contents(self):
+        # Test reading an existing file
+        test_file = "test_file.txt"
+        test_content = "This is a test file."
+        await save_file_contents(test_file, test_content)
+        content = await get_file_contents(test_file)
+        self.assertEqual(content, test_content)
+
+        # Test reading a non-existent file
+        with self.assertRaises(FileNotFoundError):
+            await get_file_contents("non_existent_file.txt")
+
+    async def test_save_file_contents(self):
+        # Test writing to a file
+        test_file = "test_save.txt"
+        test_content = "This is a test save."
+        await save_file_contents(test_file, test_content)
+        content = await get_file_contents(test_file)
+        self.assertEqual(content, test_content)
+
+    def test_update_backup_folder(self):
+        # Test updating backup folder
+        source_folder = "test_source"
+        backup_folder = "test_backup"
+        os.makedirs(source_folder, exist_ok=True)
+        with open(os.path.join(source_folder, "test.txt"), "w") as f:
+            f.write("Test file")
+        
+        update_backup_folder(source_folder, backup_folder)
+        self.assertTrue(os.path.exists(backup_folder))
+        self.assertTrue(os.path.exists(os.path.join(backup_folder, "test.txt")))
+
+        # Clean up
+        shutil.rmtree(source_folder)
+        shutil.rmtree(backup_folder)
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+File: main.py
+
+
+# main.py
+# Purpose: Main entry point for the AI-assisted Python application development tool.
+# Description: Orchestrates the entire process including project planning, code generation,
+#              error fixing, user feedback handling, and unit testing.
+
+import asyncio
+import sys
+import traceback
+from termcolor import colored
+from planner import plan_project
+from code_generator import agent_write_file
+from error_fixer import fix_application_files
+from feedback_handler import update_application_files
+from unittest_creator import create_unittests, run_unittests
+from constants import DEBUG
+
+# IMPORTANT: do not remove main function as automated test will fail
+# IMPORTANT: do not remove this comment
+async def main():
+    try:
+        print(colored("Starting AI-assisted Python application development...", "cyan"))
+
+        # Project Planning
+        project_plan = await plan_project()
+        if DEBUG:
+            print(colored("Project plan created.", "green"))
+
+        # Code Generation
+        for file_info in project_plan['files']:
+            await agent_write_file(file_info['name'], file_info['description'])
+        if DEBUG:
+            print(colored("Initial code files generated.", "green"))
+
+        # Error Detection and Fixing
+        fixed = await fix_application_files()
+        if DEBUG:
+            print(colored(f"Application files fixed: {fixed}", "green"))
+
+        # User Feedback Loop
+        while True:
+            user_feedback = input(colored("Enter your feedback (or 'done' to finish): ", "yellow"))
+            if user_feedback.lower() == 'done':
+                break
+            updated = await update_application_files(user_feedback)
+            if DEBUG:
+                print(colored(f"Files updated based on feedback: {updated}", "green"))
+
+        # Unit Testing
+        await create_unittests()
+        test_results = await run_unittests()
+        if DEBUG:
+            print(colored(f"Unit test results: {test_results}", "green"))
+
+        print(colored("AI-assisted Python application development completed.", "cyan"))
+
+    except Exception as e:
+        print(colored(f"An error occurred: {str(e)}", "red"))
+        if DEBUG:
+            print(colored("Traceback:", "red"))
+            traceback.print_exc()
+
+if __name__ == "__main__":
+    asyncio.run(main())
+
+# Unit tests
+import unittest
+
+class TestMain(unittest.TestCase):
+    def test_main_exists(self):
+        self.assertTrue(callable(main), "main function should exist and be callable")
+
+    def test_main_is_coroutine(self):
+        self.assertTrue(asyncio.iscoroutinefunction(main), "main should be a coroutine function")
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+File: planner.py
+
+
+# planner.py
+"""
+Handles the project planning phase. Contains plan_project() function.
+This module is responsible for generating a project plan based on user input using AI assistance.
+"""
+
+import asyncio
+import re
+from termcolor import colored
+from api_utils import rate_limited_request
+from file_utils import save_file_contents
+import traceback
+
+DEBUG = True
+
+async def plan_project(user_input):
+    """
+    Generate a project plan based on user input using AI assistance.
+    
+    Args:
+    user_input (str): The user's description of the desired project.
+    
+    Returns:
+    str: The generated project plan.
+    """
+    try:
+        if DEBUG:
+            print(colored("DEBUG: Starting project planning...", "yellow"))
+
+        # Prepare the prompt for the AI
+        prompt = f"""
+        Based on the following user input, create a detailed project plan:
+
+        User Input: {user_input}
+
+        The project plan should include:
+        1. An overview of the project
+        2. A list of main features
+        3. A suggested file structure with brief descriptions of each file's purpose
+        4. Any potential challenges or considerations
+
+        Please format the response in a clear, structured manner.
+        """
+
+        # Make the API request
+        response = await rate_limited_request(prompt)
+
+        # Extract the project plan from the response
+        project_plan = response.completion.text.strip()
+
+        # Save the project plan to a file
+        await save_file_contents("project_plan.txt", project_plan)
+
+        if DEBUG:
+            print(colored("DEBUG: Project plan generated and saved.", "yellow"))
+
+        return project_plan
+
+    except Exception as e:
+        print(colored(f"Error in plan_project: {str(e)}", "red"))
+        if DEBUG:
+            print(colored("Traceback:", "red"))
+            print(colored(traceback.format_exc(), "red"))
+        return None
+
+async def validate_plan(project_plan):
+    """
+    Validate the generated project plan to ensure it meets the required format and content.
+    
+    Args:
+    project_plan (str): The generated project plan.
+    
+    Returns:
+    bool: True if the plan is valid, False otherwise.
+    """
+    try:
+        if DEBUG:
+            print(colored("DEBUG: Validating project plan...", "yellow"))
+
+        # Check for required sections
+        required_sections = ["overview", "main features", "file structure", "challenges"]
+        for section in required_sections:
+            if section not in project_plan.lower():
+                print(colored(f"Error: Project plan is missing the '{section}' section.", "red"))
+                return False
+
+        # Check for file structure format
+        file_structure = re.search(r"file structure:(.*?)(?:\n\n|\Z)", project_plan, re.DOTALL | re.IGNORECASE)
+        if not file_structure:
+            print(colored("Error: File structure section is not properly formatted.", "red"))
+            return False
+
+        if DEBUG:
+            print(colored("DEBUG: Project plan validation completed.", "yellow"))
+
+        return True
+
+    except Exception as e:
+        print(colored(f"Error in validate_plan: {str(e)}", "red"))
+        if DEBUG:
+            print(colored("Traceback:", "red"))
+            print(colored(traceback.format_exc(), "red"))
+        return False
+
+# Add more helper functions as needed
+
+if __name__ == "__main__":
+    # This block allows you to test the module independently
+    test_input = "Create a simple to-do list application with a command-line interface."
+    asyncio.run(plan_project(test_input))
+
+# Unit tests
+import unittest
+
+class TestPlanner(unittest.TestCase):
+    def test_plan_project(self):
+        test_input = "Create a simple to-do list application with a command-line interface."
+        plan = asyncio.run(plan_project(test_input))
+        self.assertIsNotNone(plan)
+        self.assertIn("overview", plan.lower())
+        self.assertIn("main features", plan.lower())
+        self.assertIn("file structure", plan.lower())
+
+    def test_validate_plan(self):
+        valid_plan = """
+        Overview: This is a test plan.
+        Main Features: Feature 1, Feature 2
+        File Structure: main.py, utils.py
+        Challenges: Challenge 1, Challenge 2
+        """
+        self.assertTrue(asyncio.run(validate_plan(valid_plan)))
+
+        invalid_plan = "This is an invalid plan without proper sections."
+        self.assertFalse(asyncio.run(validate_plan(invalid_plan)))
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+File: requirements.txt
+
+Flask
+aiofiles
+anthropic
+api_docs
+api_utils
+asyncio
+backend
+code_generator
+config
+constants
+datetime
+file_utils
+flask_socketio
+flask_sqlalchemy
+importlib
+logging
+models
+planner
+routes
+termcolor
+time
+unittest2
+
+
+File: unittest_creator.py
+
+
+# unittest_creator.py
+# Purpose: Creates and runs unit tests for the application
+# Description: Contains functions to create and run unit tests for the AI-assisted Python application development tool
+
+import subprocess
+import unittest
+import importlib
+import traceback
+from termcolor import colored
+from api_utils import rate_limited_request
+from file_utils import get_project_files_contents, save_file_contents
+
+DEBUG = True
+
+async def create_unittests():
+    """
+    Creates unit tests for the application based on the existing code files.
+    """
+    try:
+        if DEBUG:
+            print(colored("Creating unit tests...", "cyan"))
+
+        # Get the contents of all project files
+        project_files = await get_project_files_contents()
+
+        # Generate unit tests using AI
+        prompt = f"Create unit tests for the following Python application files:\n\n{project_files}\n\nProvide the unit tests in a single Python file with appropriate test cases for each module."
+        
+        response = await rate_limited_request(prompt)
+
+        # Save the generated unit tests
+        await save_file_contents("tests.py", response)
+
+        if DEBUG:
+            print(colored("Unit tests created successfully.", "green"))
+
+    except Exception as e:
+        print(colored(f"Error creating unit tests: {str(e)}", "red"))
+        if DEBUG:
+            traceback.print_exc()
+
+async def run_unittests():
+    """
+    Runs the created unit tests and reports the results.
+    """
+    try:
+        if DEBUG:
+            print(colored("Running unit tests...", "cyan"))
+
+        # Run the unit tests using subprocess
+        result = subprocess.run(["python", "-m", "unittest", "tests.py"], capture_output=True, text=True)
+
+        if result.returncode == 0:
+            print(colored("All unit tests passed successfully.", "green"))
+        else:
+            print(colored("Some unit tests failed. Details:", "yellow"))
+            print(result.stdout)
+            print(result.stderr)
+
+        # Return test results for further processing if needed
+        return result.returncode == 0, result.stdout, result.stderr
+
+    except Exception as e:
+        print(colored(f"Error running unit tests: {str(e)}", "red"))
+        if DEBUG:
+            traceback.print_exc()
+        return False, "", str(e)
+
+if __name__ == "__main__":
+    import asyncio
+    
+    async def main():
+        await create_unittests()
+        await run_unittests()
+
+    asyncio.run(main())
+
+
+File: backend/main.py
+
+
+"""
+backend/main.py
+
+Entry point for the Flask application. Initializes the app, database, and WebSocket.
+"""
+
+import os
+import traceback
+from flask import Flask
+from flask_socketio import SocketIO
+from config import Config, DevelopmentConfig, ProductionConfig
+from routes import init_app as init_routes
+from models import db
+from socket_events import init_socketio
+from api_docs import setup_api_docs
+
+DEBUG = True
+
+def create_app():
+    """Creates and configures the Flask app"""
+    app = Flask(__name__)
+
+    # Load configuration based on environment
+    if os.environ.get('FLASK_ENV') == 'production':
+        app.config.from_object(ProductionConfig)
+    else:
+        app.config.from_object(DevelopmentConfig)
+
+    # Initialize database
+    db.init_app(app)
+
+    # Initialize routes
+    init_routes(app)
+
+    # Initialize SocketIO
+    socketio = SocketIO(app)
+    init_socketio(socketio)
+
+    # Setup API documentation
+    setup_api_docs(app)
+
+    if DEBUG:
+        print("Flask app created and configured")
+
+    return app, socketio
+
+def main():
+    """Runs the application"""
+    try:
+        app, socketio = create_app()
+
+        if DEBUG:
+            print("Starting the application...")
+
+        # Create database tables
+        with app.app_context():
+            db.create_all()
+            if DEBUG:
+                print("Database tables created")
+
+        # Run the app
+        port = int(os.environ.get('PORT', 5000))
+        socketio.run(app, host='0.0.0.0', port=port, debug=DEBUG)
+
+    except Exception as e:
+        print(f"An error occurred while starting the application: {str(e)}")
+        if DEBUG:
+            traceback.print_exc()
+
+if __name__ == '__main__':
+    main()
+
+# Unit tests
+import unittest
+from unittest.mock import patch, MagicMock
+
+class TestMain(unittest.TestCase):
+
+    @patch('main.Flask')
+    @patch('main.SocketIO')
+    @patch('main.init_routes')
+    @patch('main.init_socketio')
+    @patch('main.setup_api_docs')
+    def test_create_app(self, mock_setup_api_docs, mock_init_socketio, mock_init_routes, mock_SocketIO, mock_Flask):
+        app, socketio = create_app()
+        
+        mock_Flask.assert_called_once()
+        mock_SocketIO.assert_called_once()
+        mock_init_routes.assert_called_once()
+        mock_init_socketio.assert_called_once()
+        mock_setup_api_docs.assert_called_once()
+
+    @patch('main.create_app')
+    @patch('main.db')
+    def test_main(self, mock_db, mock_create_app):
+        mock_app = MagicMock()
+        mock_socketio = MagicMock()
+        mock_create_app.return_value = (mock_app, mock_socketio)
+
+        main()
+
+        mock_create_app.assert_called_once()
+        mock_db.create_all.assert_called_once()
+        mock_socketio.run.assert_called_once()
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+File: backend/models/group.py
+
+
+# Group model and related classes for the secure messaging platform
+# This file defines the Group and GroupMember models using SQLAlchemy
+
+from flask_sqlalchemy import SQLAlchemy
+from backend.database import db
+from datetime import datetime
+import traceback
+
+class Group(db.Model):
+    """
+    Represents a group in the system
+    """
+    __tablename__ = 'groups'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    # Relationships
+    members = db.relationship('GroupMember', back_populates='group', cascade='all, delete-orphan')
+    messages = db.relationship('Message', back_populates='group', cascade='all, delete-orphan')
+
+    def __init__(self, name, description=None):
+        self.name = name
+        self.description = description
+
+    def __repr__(self):
+        return f'<Group {self.name}>'
+
+    def to_dict(self):
+        """
+        Convert the Group object to a dictionary
+        """
+        return {
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat(),
+            'member_count': len(self.members)
+        }
+
+class GroupMember(db.Model):
+    """
+    Represents a group membership
+    """
+    __tablename__ = 'group_members'
+
+    id = db.Column(db.Integer, primary_key=True)
+    group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    role = db.Column(db.String(20), default='member')  # e.g., 'admin', 'member'
+    joined_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    # Relationships
+    group = db.relationship('Group', back_populates='members')
+    user = db.relationship('User', back_populates='group_memberships')
+
+    def __init__(self, group_id, user_id, role='member'):
+        self.group_id = group_id
+        self.user_id = user_id
+        self.role = role
+
+    def __repr__(self):
+        return f'<GroupMember {self.user_id} in Group {self.group_id}>'
+
+    def to_dict(self):
+        """
+        Convert the GroupMember object to a dictionary
+        """
+        return {
+            'id': self.id,
+            'group_id': self.group_id,
+            'user_id': self.user_id,
+            'role': self.role,
+            'joined_at': self.joined_at.isoformat()
+        }
+
+# Debug function to print model details
+def print_model_details():
+    if __debug__:
+        print("Group Model Details:")
+        print(f"Table name: {Group.__tablename__}")
+        print("Columns:")
+        for column in Group.__table__.columns:
+            print(f"- {column.name}: {column.type}")
+        
+        print("\nGroupMember Model Details:")
+        print(f"Table name: {GroupMember.__tablename__}")
+        print("Columns:")
+        for column in GroupMember.__table__.columns:
+            print(f"- {column.name}: {column.type}")
+
+# Call debug function
+print_model_details()
+
+# Error handling wrapper
+def handle_db_error(func):
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            print(f"Database error in {func.__name__}: {str(e)}")
+            print(traceback.format_exc())
+            db.session.rollback()
+            raise
+    return wrapper
+
+# Apply error handling to model methods
+Group.to_dict = handle_db_error(Group.to_dict)
+GroupMember.to_dict = handle_db_error(GroupMember.to_dict)
+
+# Unit tests
+import unittest
+
+class TestGroupModel(unittest.TestCase):
+    def setUp(self):
+        self.app = create_app('testing')
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        db.create_all()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
+
+    def test_create_group(self):
+        group = Group(name="Test Group", description="A test group")
+        db.session.add(group)
+        db.session.commit()
+        self.assertIsNotNone(group.id)
+        self.assertEqual(group.name, "Test Group")
+
+    def test_create_group_member(self):
+        group = Group(name="Test Group")
+        user = User(username="testuser", email="test@example.com")
+        db.session.add(group)
+        db.session.add(user)
+        db.session.commit()
+
+        member = GroupMember(group_id=group.id, user_id=user.id, role="admin")
+        db.session.add(member)
+        db.session.commit()
+
+        self.assertIsNotNone(member.id)
+        self.assertEqual(member.role, "admin")
+        self.assertEqual(member.group, group)
+        self.assertEqual(member.user, user)
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+File: backend/models/user.py
+
+
+# User model for the secure messaging platform
+# This file defines the User class, representing users in the system
+
+from flask_sqlalchemy import SQLAlchemy
+from backend.database import db
+import datetime
+import unittest
+
+class User(db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    is_active = db.Column(db.Boolean, default=True)
+    is_admin = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    last_login = db.Column(db.DateTime)
+    two_factor_secret = db.Column(db.String(32))
+
+    def __init__(self, username, email, password_hash):
+        self.username = username
+        self.email = email
+        self.password_hash = password_hash
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'username': self.username,
+            'email': self.email,
+            'is_active': self.is_active,
+            'is_admin': self.is_admin,
+            'created_at': self.created_at.isoformat(),
+            'last_login': self.last_login.isoformat() if self.last_login else None
+        }
+
+# Unit tests for the User model
+class TestUserModel(unittest.TestCase):
+    def setUp(self):
+        self.user = User('testuser', 'test@example.com', 'password_hash')
+
+    def test_user_creation(self):
+        self.assertEqual(self.user.username, 'testuser')
+        self.assertEqual(self.user.email, 'test@example.com')
+        self.assertEqual(self.user.password_hash, 'password_hash')
+        self.assertTrue(self.user.is_active)
+        self.assertFalse(self.user.is_admin)
+
+    def test_user_representation(self):
+        self.assertEqual(repr(self.user), '<User testuser>')
+
+    def test_user_to_dict(self):
+        user_dict = self.user.to_dict()
+        self.assertEqual(user_dict['username'], 'testuser')
+        self.assertEqual(user_dict['email'], 'test@example.com')
+        self.assertTrue(user_dict['is_active'])
+        self.assertFalse(user_dict['is_admin'])
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+File: backend/routes/__init__.py
+
+
+# Purpose: Initialize routes package and combine all route blueprints
+# Description: This file imports all route blueprints and provides a function to register them with the Flask app
+
+import logging
+import traceback
+from flask import Blueprint
+from .auth import auth_bp
+from .messages import messages_bp
+from .groups import groups_bp
+from .files import files_bp
+from .admin import admin_bp
+
+# Create a logger for this module
+logger = logging.getLogger(__name__)
+
+# Create a main blueprint to combine all route blueprints
+main_bp = Blueprint('main', __name__)
+
+def init_app(app):
+    """
+    Registers all blueprints with the Flask app
+    
+    Args:
+        app: Flask application instance
+    """
+    try:
+        # Register individual blueprints
+        app.register_blueprint(auth_bp, url_prefix='/auth')
+        app.register_blueprint(messages_bp, url_prefix='/messages')
+        app.register_blueprint(groups_bp, url_prefix='/groups')
+        app.register_blueprint(files_bp, url_prefix='/files')
+        app.register_blueprint(admin_bp, url_prefix='/admin')
+        
+        # Register the main blueprint
+        app.register_blueprint(main_bp)
+        
+        logger.info("All blueprints registered successfully")
+    except Exception as e:
+        logger.error(f"Error registering blueprints: {str(e)}")
+        if app.debug:
+            logger.error(traceback.format_exc())
+        raise
+
+# Debug statements
+if __name__ == "__main__":
+    import unittest
+    
+    class TestRoutes(unittest.TestCase):
+        def setUp(self):
+            from flask import Flask
+            self.app = Flask(__name__)
+            self.app.config['TESTING'] = True
+            self.app.config['DEBUG'] = True
+        
+        def test_init_app(self):
+            init_app(self.app)
+            self.assertTrue(len(self.app.blueprints) > 0, "Blueprints should be registered")
+        
+        def test_blueprint_registration(self):
+            init_app(self.app)
+            self.assertIn('auth', self.app.blueprints)
+            self.assertIn('messages', self.app.blueprints)
+            self.assertIn('groups', self.app.blueprints)
+            self.assertIn('files', self.app.blueprints)
+            self.assertIn('admin', self.app.blueprints)
+            self.assertIn('main', self.app.blueprints)
+    
+    unittest.main()
+
+
+File: backend/utils/__init__.py
+
+
+# Purpose: Initializes utils package.
+# Description: This file imports and makes available utility modules for encryption, authentication, and WebSocket operations.
+
+import logging
+from .encryption import *
+from .auth import *
+from .websocket import *
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Debug mode
+DEBUG = True
+
+if DEBUG:
+    logger.setLevel(logging.DEBUG)
+    logger.debug("Debug mode is enabled in utils/__init__.py")
+
+try:
+    logger.info("Utils package initialized successfully")
+except Exception as e:
+    logger.error(f"Error initializing utils package: {str(e)}")
+    import traceback
+    logger.error(traceback.format_exc())
+
+# Test imports
+def test_imports():
+    try:
+        # Test encryption module
+        assert 'encrypt_message' in globals(), "encrypt_message not imported from encryption module"
+        assert 'decrypt_message' in globals(), "decrypt_message not imported from encryption module"
+        assert 'generate_key' in globals(), "generate_key not imported from encryption module"
+        
+        # Test auth module
+        assert 'generate_2fa_secret' in globals(), "generate_2fa_secret not imported from auth module"
+        assert 'verify_2fa' in globals(), "verify_2fa not imported from auth module"
+        
+        # Test websocket module
+        assert 'emit_message' in globals(), "emit_message not imported from websocket module"
+        assert 'emit_group_message' in globals(), "emit_group_message not imported from websocket module"
+        
+        logger.debug("All expected functions are imported correctly")
+    except AssertionError as e:
+        logger.error(f"Import test failed: {str(e)}")
+        raise
+
+if DEBUG:
+    test_imports()
+
+# Unittest
+import unittest
+
+class TestUtils(unittest.TestCase):
+    def test_encryption_imports(self):
+        self.assertTrue('encrypt_message' in globals())
+        self.assertTrue('decrypt_message' in globals())
+        self.assertTrue('generate_key' in globals())
+
+    def test_auth_imports(self):
+        self.assertTrue('generate_2fa_secret' in globals())
+        self.assertTrue('verify_2fa' in globals())
+
+    def test_websocket_imports(self):
+        self.assertTrue('emit_message' in globals())
+        self.assertTrue('emit_group_message' in globals())
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+File: frontend/src/index.js
+
+
+// Entry point for React application
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
+
+// Enable strict mode for additional checks and warnings
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
+
+// Hot Module Replacement (HMR) - Remove this snippet to remove HMR.
+// Learn more: https://www.snowpack.dev/concepts/hot-module-replacement
+if (import.meta.hot) {
+  import.meta.hot.accept();
+}
+
+// Log a message to confirm the application has started
+console.log('React application started');
+
+
+File: frontend/src/components/Auth/Register.js
+
+
+// Register.js
+// Purpose: Registration component for user sign-up
+// Description: Handles user registration process, including form submission and API interaction
+
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+const Register = () => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    try {
+      const response = await axios.post('/api/auth/register', {
+        username,
+        email,
+        password,
+      });
+
+      if (response.data.success) {
+        // Registration successful, redirect to login page
+        navigate('/login');
+      } else {
+        setError(response.data.message || 'Registration failed');
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      setError('An error occurred during registration. Please try again.');
+    }
+  };
+
+  return (
+    <div className="register-container">
+      <h2>Register</h2>
+      {error && <p className="error-message">{error}</p>}
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="confirmPassword">Confirm Password:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit">Register</button>
+      </form>
+    </div>
+  );
+};
+
+export default Register;
+
+
+File: frontend/src/components/Chat/Message.js
+
+
+// Message.js
+// Purpose: Individual message component for displaying a single message in the chat interface.
+// Description: This component renders a single message with sender information, content, and timestamp.
+
+import React from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+
+const MessageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 70%;
+  ${props => props.isSender ? 'align-self: flex-end;' : 'align-self: flex-start;'}
+  background-color: ${props => props.isSender ? '#DCF8C6' : '#FFFFFF'};
+`;
+
+const SenderName = styled.span`
+  font-weight: bold;
+  font-size: 0.9em;
+  margin-bottom: 5px;
+`;
+
+const MessageContent = styled.p`
+  margin: 0;
+  word-wrap: break-word;
+`;
+
+const Timestamp = styled.span`
+  font-size: 0.8em;
+  color: #999;
+  align-self: flex-end;
+  margin-top: 5px;
+`;
+
+const Message = ({ content, sender, timestamp, currentUser }) => {
+  const isSender = sender === currentUser;
+
+  return (
+    <MessageContainer isSender={isSender}>
+      {!isSender && <SenderName>{sender}</SenderName>}
+      <MessageContent>{content}</MessageContent>
+      <Timestamp>{new Date(timestamp).toLocaleString()}</Timestamp>
+    </MessageContainer>
+  );
+};
+
+Message.propTypes = {
+  content: PropTypes.string.isRequired,
+  sender: PropTypes.string.isRequired,
+  timestamp: PropTypes.string.isRequired,
+  currentUser: PropTypes.string.isRequired,
+};
+
+export default Message;
+
+// Debug logging
+if (process.env.NODE_ENV === 'development') {
+  console.log('Message component loaded');
+}
+
+
+File: frontend/src/components/Group/GroupChat.js
+
+
+// Group chat component
+// Handles group chat functionality
+
+import React, { useState, useEffect } from 'react';
+import MessageList from '../Chat/MessageList';
+import { connectSocket, disconnectSocket, onNewMessage } from '../../utils/socket';
+import { get, post } from '../../utils/api';
+import { encryptMessage, decryptMessage } from '../../utils/encryption';
+
+const GroupChat = ({ groupId, currentUser }) => {
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState('');
+  const [groupKey, setGroupKey] = useState('');
+
+  useEffect(() => {
+    // Connect to WebSocket when component mounts
+    connectSocket();
+
+    // Fetch group messages and encryption key
+    fetchGroupMessages();
+    fetchGroupKey();
+
+    // Listen for new messages
+    onNewMessage((message) => {
+      if (message.groupId === groupId) {
+        const decryptedMessage = decryptMessage(message.content, groupKey);
+        setMessages((prevMessages) => [...prevMessages, { ...message, content: decryptedMessage }]);
+      }
+    });
+
+    // Disconnect from WebSocket when component unmounts
+    return () => {
+      disconnectSocket();
+    };
+  }, [groupId]);
+
+  const fetchGroupMessages = async () => {
+    try {
+      const response = await get(`/api/groups/${groupId}/messages`);
+      const decryptedMessages = response.data.map(message => ({
+        ...message,
+        content: decryptMessage(message.content, groupKey)
+      }));
+      setMessages(decryptedMessages);
+    } catch (error) {
+      console.error('Error fetching group messages:', error);
+    }
+  };
+
+  const fetchGroupKey = async () => {
+    try {
+      const response = await get(`/api/groups/${groupId}/key`);
+      setGroupKey(response.data.key);
+    } catch (error) {
+      console.error('Error fetching group key:', error);
+    }
+  };
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (newMessage.trim() === '') return;
+
+    const encryptedMessage = encryptMessage(newMessage, groupKey);
+
+    try {
+      await post(`/api/groups/${groupId}/messages`, { content: encryptedMessage });
+      setNewMessage('');
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
+  };
+
+  return (
+    <div className="group-chat">
+      <h2>Group Chat</h2>
+      <MessageList messages={messages} currentUser={currentUser} />
+      <form onSubmit={handleSendMessage}>
+        <input
+          type="text"
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          placeholder="Type a message..."
+        />
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  );
+};
+
+export default GroupChat;
+
+
+File: frontend/src/components/Group/GroupManagement.js
+
+
+// Group management component
+// Handles group settings and member management
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const GroupManagement = ({ groupId }) => {
+  const [groupName, setGroupName] = useState('');
+  const [members, setMembers] = useState([]);
+  const [newMember, setNewMember] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    fetchGroupDetails();
+  }, [groupId]);
+
+  const fetchGroupDetails = async () => {
+    try {
+      const response = await axios.get(`/api/groups/${groupId}`);
+      setGroupName(response.data.name);
+      setMembers(response.data.members);
+    } catch (err) {
+      console.error('Error fetching group details:', err);
+      setError('Failed to fetch group details');
+    }
+  };
+
+  const updateGroupName = async () => {
+    try {
+      await axios.put(`/api/groups/${groupId}`, { name: groupName });
+      setError('');
+    } catch (err) {
+      console.error('Error updating group name:', err);
+      setError('Failed to update group name');
+    }
+  };
+
+  const addMember = async () => {
+    try {
+      const response = await axios.post(`/api/groups/${groupId}/members`, { username: newMember });
+      setMembers([...members, response.data]);
+      setNewMember('');
+      setError('');
+    } catch (err) {
+      console.error('Error adding member:', err);
+      setError('Failed to add member');
+    }
+  };
+
+  const removeMember = async (memberId) => {
+    try {
+      await axios.delete(`/api/groups/${groupId}/members/${memberId}`);
+      setMembers(members.filter(member => member.id !== memberId));
+      setError('');
+    } catch (err) {
+      console.error('Error removing member:', err);
+      setError('Failed to remove member');
+    }
+  };
+
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Group Management Component Rendered');
+    console.log('Group ID:', groupId);
+    console.log('Group Name:', groupName);
+    console.log('Members:', members);
+  }
+
+  return (
+    <div className="group-management">
+      <h2>Group Management</h2>
+      {error && <p className="error">{error}</p>}
+      <div>
+        <input
+          type="text"
+          value={groupName}
+          onChange={(e) => setGroupName(e.target.value)}
+          placeholder="Group Name"
+        />
+        <button onClick={updateGroupName}>Update Name</button>
+      </div>
+      <div>
+        <h3>Members</h3>
+        <ul>
+          {members.map((member) => (
+            <li key={member.id}>
+              {member.username}
+              <button onClick={() => removeMember(member.id)}>Remove</button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <input
+          type="text"
+          value={newMember}
+          onChange={(e) => setNewMember(e.target.value)}
+          placeholder="New Member Username"
+        />
+        <button onClick={addMember}>Add Member</button>
+      </div>
+    </div>
+  );
+};
+
+export default GroupManagement;
+
+
+File: frontend/src/components/Search/Search.js
+
+
+// frontend/src/components/Search/Search.js
+// Purpose: Advanced search component for the secure messaging platform
+// Description: Provides functionality for searching messages, contacts, and groups
+
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+const Search = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchType, setSearchType] = useState('messages');
+  const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (searchQuery.length > 2) {
+      performSearch();
+    } else {
+      setSearchResults([]);
+    }
+  }, [searchQuery, searchType]);
+
+  const performSearch = async () => {
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.get('/api/search', {
+        params: {
+          query: searchQuery,
+          type: searchType
+        },
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      setSearchResults(response.data.results);
+    } catch (err) {
+      console.error('Search error:', err);
+      setError('An error occurred while searching. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchTypeChange = (e) => {
+    setSearchType(e.target.value);
+  };
+
+  const renderSearchResults = () => {
+    if (isLoading) {
+      return <p>Loading...</p>;
+    }
+
+    if (error) {
+      return <p className="error">{error}</p>;
+    }
+
+    if (searchResults.length === 0) {
+      return <p>No results found.</p>;
+    }
+
+    return (
+      <ul className="search-results">
+        {searchResults.map((result) => (
+          <li key={result.id} className="search-result-item">
+            {searchType === 'messages' && (
+              <div>
+                <p>{result.content}</p>
+                <small>From: {result.sender} - {new Date(result.timestamp).toLocaleString()}</small>
+              </div>
+            )}
+            {searchType === 'contacts' && (
+              <div>
+                <p>{result.name}</p>
+                <small>{result.email}</small>
+              </div>
+            )}
+            {searchType === 'groups' && (
+              <div>
+                <p>{result.name}</p>
+                <small>Members: {result.memberCount}</small>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  return (
+    <div className="search-component">
+      <h2>Advanced Search</h2>
+      <div className="search-controls">
+        <input
+          type="text"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          placeholder="Enter search query"
+          className="search-input"
+        />
+        <select value={searchType} onChange={handleSearchTypeChange} className="search-type-select">
+          <option value="messages">Messages</option>
+          <option value="contacts">Contacts</option>
+          <option value="groups">Groups</option>
+        </select>
+      </div>
+      {renderSearchResults()}
+    </div>
+  );
+};
+
+export default Search;
+
+
+File: frontend/src/utils/socket.js
+
+
+// WebSocket utility functions for real-time communication
+
+import io from 'socket.io-client';
+
+let socket;
+
+// Connect to the WebSocket server
+export const connectSocket = () => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Connecting to WebSocket server...');
+  }
+  
+  socket = io(process.env.REACT_APP_WEBSOCKET_URL, {
+    transports: ['websocket'],
+    upgrade: false,
+  });
+
+  socket.on('connect', () => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Connected to WebSocket server');
+    }
+  });
+
+  socket.on('connect_error', (error) => {
+    console.error('WebSocket connection error:', error);
+  });
+
+  return socket;
+};
+
+// Disconnect from the WebSocket server
+export const disconnectSocket = () => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Disconnecting from WebSocket server...');
+  }
+
+  if (socket) {
+    socket.disconnect();
+  }
+};
+
+// Listen for new messages
+export const onNewMessage = (callback) => {
+  if (!socket) {
+    console.error('Socket is not connected. Call connectSocket() first.');
+    return;
+  }
+
+  socket.on('new_message', (message) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('New message received:', message);
+    }
+    callback(message);
+  });
+};
+
+// Join a chat room
+export const joinRoom = (roomId) => {
+  if (!socket) {
+    console.error('Socket is not connected. Call connectSocket() first.');
+    return;
+  }
+
+  socket.emit('join_room', { room_id: roomId });
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`Joined room: ${roomId}`);
+  }
+};
+
+// Leave a chat room
+export const leaveRoom = (roomId) => {
+  if (!socket) {
+    console.error('Socket is not connected. Call connectSocket() first.');
+    return;
+  }
+
+  socket.emit('leave_room', { room_id: roomId });
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`Left room: ${roomId}`);
+  }
+};
+
+// Send a message through WebSocket
+export const sendMessage = (message) => {
+  if (!socket) {
+    console.error('Socket is not connected. Call connectSocket() first.');
+    return;
+  }
+
+  socket.emit('new_message', message);
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Message sent:', message);
+  }
+};
+
+// Listen for typing events
+export const onTyping = (callback) => {
+  if (!socket) {
+    console.error('Socket is not connected. Call connectSocket() first.');
+    return;
+  }
+
+  socket.on('typing', (data) => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Typing event received:', data);
+    }
+    callback(data);
+  });
+};
+
+// Emit typing event
+export const emitTyping = (roomId, userId) => {
+  if (!socket) {
+    console.error('Socket is not connected. Call connectSocket() first.');
+    return;
+  }
+
+  socket.emit('typing', { room_id: roomId, user_id: userId });
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`Emitted typing event for user ${userId} in room ${roomId}`);
+  }
+};
+
+// Error handler
+const handleError = (error) => {
+  console.error('WebSocket error:', error);
+  // Implement retry logic or show user-friendly error message
+};
+
+// Add error listener
+if (socket) {
+  socket.on('error', handleError);
+}
+
+
+Here a reminder of the error:
+
+Runtime errors:
+
+Error running application: 'coroutine' object has no attribute 'strip'
+Traceback (most recent call last):
+  File "H:\git\AGENT_FIRST_TEST\makeappssubfolder\agent_application_makercopysystemupdate.py", line 383, in run_application
+    await asyncio.gather(
+  File "H:\git\AGENT_FIRST_TEST\makeappssubfolder\agent_application_makercopysystemupdate.py", line 376, in user_input
+    if await asyncio.to_thread(sys.stdin.readline).strip().lower() == 'q':
+AttributeError: 'coroutine' object has no attribute 'strip'
+
+
+
+Please analyze the error and provide corrected versions of the files to resolve the error. return the full content of the files Remember that the application should start with a main module in the main.py file(main shouldn't take any arguments).

@@ -1,0 +1,91 @@
+
+{% extends "layout.html" %}
+
+{% block title %}Project: {{ project.name }}{% endblock %}
+
+{% block content %}
+<div class="project-container">
+    <h1 class="project-title">{{ project.name }}</h1>
+    
+    <div class="project-details">
+        <p class="project-description">{{ project.description }}</p>
+        <p class="project-meta">Created by: {{ project.user.username }} | Created at: {{ project.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+    </div>
+
+    <div class="project-actions">
+        <button class="btn btn-primary" id="editProjectBtn">Edit Project</button>
+        <button class="btn btn-danger" id="deleteProjectBtn">Delete Project</button>
+    </div>
+
+    <div class="project-tasks">
+        <h2>Tasks</h2>
+        <button class="btn btn-success" id="addTaskBtn">Add Task</button>
+        <ul class="task-list">
+            {% for task in project.tasks %}
+            <li class="task-item">
+                <span class="task-title">{{ task.title }}</span>
+                <span class="task-status">{{ task.status }}</span>
+                <button class="btn btn-sm btn-info editTaskBtn" data-task-id="{{ task.id }}">Edit</button>
+                <button class="btn btn-sm btn-danger deleteTaskBtn" data-task-id="{{ task.id }}">Delete</button>
+            </li>
+            {% else %}
+            <li>No tasks yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="project-files">
+        <h2>Files</h2>
+        <button class="btn btn-success" id="addFileBtn">Add File</button>
+        <ul class="file-list">
+            {% for file in project.files %}
+            <li class="file-item">
+                <span class="file-name">{{ file.name }}</span>
+                <button class="btn btn-sm btn-info viewFileBtn" data-file-id="{{ file.id }}">View</button>
+                <button class="btn btn-sm btn-warning editFileBtn" data-file-id="{{ file.id }}">Edit</button>
+                <button class="btn btn-sm btn-danger deleteFileBtn" data-file-id="{{ file.id }}">Delete</button>
+            </li>
+            {% else %}
+            <li>No files yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="project-ai-chat">
+        <h2>AI Assistant</h2>
+        {% include "components/ai_chat.html" %}
+    </div>
+</div>
+
+<!-- Modals for edit/add actions -->
+<div id="editProjectModal" class="modal fade" tabindex="-1" role="dialog">
+    <!-- Add modal content for editing project -->
+</div>
+
+<div id="addTaskModal" class="modal fade" tabindex="-1" role="dialog">
+    <!-- Add modal content for adding task -->
+</div>
+
+<div id="editTaskModal" class="modal fade" tabindex="-1" role="dialog">
+    <!-- Add modal content for editing task -->
+</div>
+
+<div id="addFileModal" class="modal fade" tabindex="-1" role="dialog">
+    <!-- Add modal content for adding file -->
+</div>
+
+<div id="editFileModal" class="modal fade" tabindex="-1" role="dialog">
+    <!-- Add modal content for editing file -->
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/project.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        // Initialize project page functionality
+        initProjectPage({{ project.id }});
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,1 @@
+ A professional-grade web-based messaging platform inspired by Telegram pro, including secure chat messaging, group chats, file sharing, calling capabilities, status, broadcast groups/channels, a flask web interfaces for user and admin and API and bot integration capabilities.

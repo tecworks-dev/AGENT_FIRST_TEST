@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Telegram-inspired Communication Platform</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h1, h2 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        button { background-color: #4CAF50; color: white; padding: 5px 10px; border: none; cursor: pointer; }
+        .delete { background-color: #f44336; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Panel</h1>
+        <div id="user-management">
+            <h2>User Management</h2>
+            <table id="users-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="group-management">
+            <h2>Group Management</h2>
+            <table id="groups-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Members</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="channel-management">
+            <h2>Channel Management</h2>
+            <table id="channels-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Subscribers</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        async function fetchUsers() {
+            const response = await fetch('/admin/users');
+            const data = await response.json();
+            const tbody = document.querySelector('#users-table tbody');
+            tbody.innerHTML = '';
+            data.users.forEach(user => {
+                const row = `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.username}</td>
+                        <td>${user.email}</td>
+                        <td>
+                            <button onclick="banUser(${user.id})">Ban</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        async function banUser(userId) {
+            const response = await fetch(`/admin/ban_user/${userId}`, { method: 'POST' });
+            const data = await response.json();
+            alert(data.message);
+            fetchUsers();
+        }
+
+        async function fetchGroups() {
+            const response = await fetch('/admin/groups');
+            const data = await response.json();
+            const tbody = document.querySelector('#groups-table tbody');
+            tbody.innerHTML = '';
+            data.groups.forEach(group => {
+                const row = `
+                    <tr>
+                        <td>${group.id}</td>
+                        <td>${group.name}</td>
+                        <td>${group.member_count}</td>
+                        <td>
+                            <button class="delete" onclick="deleteGroup(${group.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        async function deleteGroup(groupId) {
+            const response = await fetch(`/admin/delete_group/${groupId}`, { method: 'DELETE' });
+            const data = await response.json();
+            alert(data.message);
+            fetchGroups();
+        }
+
+        async function fetchChannels() {
+            const response = await fetch('/admin/channels');
+            const data = await response.json();
+            const tbody = document.querySelector('#channels-table tbody');
+            tbody.innerHTML = '';
+            data.channels.forEach(channel => {
+                const row = `
+                    <tr>
+                        <td>${channel.id}</td>
+                        <td>${channel.name}</td>
+                        <td>${channel.subscriber_count}</td>
+                        <td>
+                            <button class="delete" onclick="deleteChannel(${channel.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        async function deleteChannel(channelId) {
+            const response = await fetch(`/admin/delete_channel/${channelId}`, { method: 'DELETE' });
+            const data = await response.json();
+            alert(data.message);
+            fetchChannels();
+        }
+
+        // Fetch data when the page loads
+        fetchUsers();
+        fetchGroups();
+        fetchChannels();
+    </script>
+</body>
+</html>

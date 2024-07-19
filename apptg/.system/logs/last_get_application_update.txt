@@ -1,0 +1,1844 @@
+
+Here are the current contents of the relevant python application project files:
+File: app/routes/groups.py
+
+
+# Purpose: Routes for group chat functionality
+# Description: This file contains route handlers for creating groups, managing group members,
+#              and sending messages to groups.
+
+from flask import Blueprint, request, jsonify
+from flask_login import login_required, current_user
+from app.models import Group, Message, User
+from app import db
+import traceback
+
+groups = Blueprint('groups', __name__)
+
+@groups.route('/create', methods=['POST'])
+@login_required
+def create_group():
+    """Creates a new group"""
+    if not request.json or 'name' not in request.json:
+        return jsonify({'error': 'Group name is required'}), 400
+
+    try:
+        group_name = request.json['name']
+        new_group = Group(name=group_name, created_by=current_user.id)
+        new_group.members.append(current_user)
+        db.session.add(new_group)
+        db.session.commit()
+
+        if current_app.config['DEBUG']:
+            print(f"Group created: {new_group.name}")
+
+        return jsonify({'message': 'Group created successfully', 'group_id': new_group.id}), 201
+    except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
+        return jsonify({'error': 'An error occurred while creating the group'}), 500
+
+@groups.route('/<int:group_id>/add_member/<int:user_id>', methods=['POST'])
+@login_required
+def add_member(group_id, user_id):
+    """Adds a member to a group"""
+    try:
+        group = Group.query.get(group_id)
+        user = User.query.get(user_id)
+
+        if not group or not user:
+            return jsonify({'error': 'Group or user not found'}), 404
+
+        if current_user.id != group.created_by:
+            return jsonify({'error': 'Only group creator can add members'}), 403
+
+        if user in group.members:
+            return jsonify({'error': 'User is already a member of this group'}), 400
+
+        group.members.append(user)
+        db.session.commit()
+
+        if current_app.config['DEBUG']:
+            print(f"User {user.id} added to group {group.id}")
+
+        return jsonify({'message': 'Member added successfully'}), 200
+    except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
+        return jsonify({'error': 'An error occurred while adding the member'}), 500
+
+@groups.route('/<int:group_id>/remove_member/<int:user_id>', methods=['DELETE'])
+@login_required
+def remove_member(group_id, user_id):
+    """Removes a member from a group"""
+    try:
+        group = Group.query.get(group_id)
+        user = User.query.get(user_id)
+
+        if not group or not user:
+            return jsonify({'error': 'Group or user not found'}), 404
+
+        if current_user.id != group.created_by:
+            return jsonify({'error': 'Only group creator can remove members'}), 403
+
+        if user not in group.members:
+            return jsonify({'error': 'User is not a member of this group'}), 400
+
+        group.members.remove(user)
+        db.session.commit()
+
+        if current_app.config['DEBUG']:
+            print(f"User {user.id} removed from group {group.id}")
+
+        return jsonify({'message': 'Member removed successfully'}), 200
+    except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
+        return jsonify({'error': 'An error occurred while removing the member'}), 500
+
+@groups.route('/<int:group_id>/send_message', methods=['POST'])
+@login_required
+def send_group_message(group_id):
+    """Sends a message to a group"""
+    if not request.json or 'content' not in request.json:
+        return jsonify({'error': 'Message content is required'}), 400
+
+    try:
+        group = Group.query.get(group_id)
+
+        if not group:
+            return jsonify({'error': 'Group not found'}), 404
+
+        if current_user not in group.members:
+            return jsonify({'error': 'You are not a member of this group'}), 403
+
+        content = request.json['content']
+        new_message = Message(content=content, sender_id=current_user.id, group_id=group_id)
+        db.session.add(new_message)
+        db.session.commit()
+
+        if current_app.config['DEBUG']:
+            print(f"Message sent to group {group.id}: {content[:20]}...")
+
+        return jsonify({'message': 'Message sent successfully', 'message_id': new_message.id}), 201
+    except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
+        return jsonify({'error': 'An error occurred while sending the message'}), 500
+
+# Add more group-related routes as needed
+
+# Unit tests for the groups routes
+import unittest
+from app import create_app, db
+from app.models import User, Group
+
+class GroupRoutesTestCase(unittest.TestCase):
+    def setUp(self):
+        self.app = create_app('testing')
+        self.client = self.app.test_client()
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        db.create_all()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
+
+    def test_create_group(self):
+        # Add test for create_group route
+        pass
+
+    def test_add_member(self):
+        # Add test for add_member route
+        pass
+
+    def test_remove_member(self):
+        # Add test for remove_member route
+        pass
+
+    def test_send_group_message(self):
+        # Add test for send_group_message route
+        pass
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+File: app/templates/admin_interface.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Telegram-inspired Communication Platform</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        h1, h2 { color: #333; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        button { background-color: #4CAF50; color: white; padding: 5px 10px; border: none; cursor: pointer; }
+        .delete { background-color: #f44336; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Panel</h1>
+        <div id="user-management">
+            <h2>User Management</h2>
+            <table id="users-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="group-management">
+            <h2>Group Management</h2>
+            <table id="groups-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Members</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="channel-management">
+            <h2>Channel Management</h2>
+            <table id="channels-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Subscribers</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        async function fetchUsers() {
+            const response = await fetch('/admin/users');
+            const data = await response.json();
+            const tbody = document.querySelector('#users-table tbody');
+            tbody.innerHTML = '';
+            data.users.forEach(user => {
+                const row = `
+                    <tr>
+                        <td>${user.id}</td>
+                        <td>${user.username}</td>
+                        <td>${user.email}</td>
+                        <td>
+                            <button onclick="banUser(${user.id})">Ban</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        async function banUser(userId) {
+            const response = await fetch(`/admin/ban_user/${userId}`, { method: 'POST' });
+            const data = await response.json();
+            alert(data.message);
+            fetchUsers();
+        }
+
+        async function fetchGroups() {
+            const response = await fetch('/admin/groups');
+            const data = await response.json();
+            const tbody = document.querySelector('#groups-table tbody');
+            tbody.innerHTML = '';
+            data.groups.forEach(group => {
+                const row = `
+                    <tr>
+                        <td>${group.id}</td>
+                        <td>${group.name}</td>
+                        <td>${group.member_count}</td>
+                        <td>
+                            <button class="delete" onclick="deleteGroup(${group.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        async function deleteGroup(groupId) {
+            const response = await fetch(`/admin/delete_group/${groupId}`, { method: 'DELETE' });
+            const data = await response.json();
+            alert(data.message);
+            fetchGroups();
+        }
+
+        async function fetchChannels() {
+            const response = await fetch('/admin/channels');
+            const data = await response.json();
+            const tbody = document.querySelector('#channels-table tbody');
+            tbody.innerHTML = '';
+            data.channels.forEach(channel => {
+                const row = `
+                    <tr>
+                        <td>${channel.id}</td>
+                        <td>${channel.name}</td>
+                        <td>${channel.subscriber_count}</td>
+                        <td>
+                            <button class="delete" onclick="deleteChannel(${channel.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        async function deleteChannel(channelId) {
+            const response = await fetch(`/admin/delete_channel/${channelId}`, { method: 'DELETE' });
+            const data = await response.json();
+            alert(data.message);
+            fetchChannels();
+        }
+
+        // Fetch data when the page loads
+        fetchUsers();
+        fetchGroups();
+        fetchChannels();
+    </script>
+</body>
+</html>
+
+File: app/routes/calls.py
+
+
+# Purpose: Routes for voice and video calling features
+# Description: This file contains Flask routes for initiating and ending voice and video calls
+
+from flask import Blueprint, request, jsonify
+from flask_login import login_required, current_user
+from app.services import websocket
+import traceback
+
+calls = Blueprint('calls', __name__)
+
+DEBUG = True
+
+@calls.route('/initiate_call/<int:user_id>', methods=['POST'])
+@login_required
+def initiate_call(user_id):
+    """
+    Initiates a call with another user
+    """
+    try:
+        # Check if the user exists and is available
+        # This should be implemented in a user service
+        if not user_exists(user_id):
+            return jsonify({'error': 'User not found'}), 404
+        
+        if not user_available(user_id):
+            return jsonify({'error': 'User is not available'}), 400
+
+        # Generate a unique call ID
+        call_id = generate_call_id()
+
+        # Initialize the call using WebSocket service
+        websocket.initialize_call(current_user.id, user_id, call_id)
+
+        if DEBUG:
+            print(f"Initiating call: {current_user.id} -> {user_id}, Call ID: {call_id}")
+
+        return jsonify({
+            'message': 'Call initiated successfully',
+            'call_id': call_id
+        }), 200
+
+    except Exception as e:
+        if DEBUG:
+            print(f"Error in initiate_call: {str(e)}")
+            traceback.print_exc()
+        return jsonify({'error': 'An error occurred while initiating the call'}), 500
+
+@calls.route('/end_call/<string:call_id>', methods=['POST'])
+@login_required
+def end_call(call_id):
+    """
+    Ends an ongoing call
+    """
+    try:
+        # Verify that the call exists and the current user is part of it
+        if not call_exists(call_id):
+            return jsonify({'error': 'Call not found'}), 404
+        
+        if not user_in_call(current_user.id, call_id):
+            return jsonify({'error': 'User is not part of this call'}), 403
+
+        # End the call using WebSocket service
+        websocket.end_call(call_id)
+
+        if DEBUG:
+            print(f"Ending call: {call_id}, User: {current_user.id}")
+
+        return jsonify({'message': 'Call ended successfully'}), 200
+
+    except Exception as e:
+        if DEBUG:
+            print(f"Error in end_call: {str(e)}")
+            traceback.print_exc()
+        return jsonify({'error': 'An error occurred while ending the call'}), 500
+
+# Helper functions (these should be implemented in appropriate services)
+def user_exists(user_id):
+    # Check if user exists in the database
+    # This is a placeholder and should be implemented
+    return True
+
+def user_available(user_id):
+    # Check if user is available for a call
+    # This is a placeholder and should be implemented
+    return True
+
+def generate_call_id():
+    # Generate a unique call ID
+    # This is a placeholder and should be implemented
+    import uuid
+    return str(uuid.uuid4())
+
+def call_exists(call_id):
+    # Check if the call exists
+    # This is a placeholder and should be implemented
+    return True
+
+def user_in_call(user_id, call_id):
+    # Check if the user is part of the call
+    # This is a placeholder and should be implemented
+    return True
+
+# Unit tests
+import unittest
+from app import create_app
+from app.models import User
+from flask_login import login_user
+
+class CallRoutesTestCase(unittest.TestCase):
+    def setUp(self):
+        self.app = create_app('testing')
+        self.client = self.app.test_client()
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        
+        # Create a test user and log them in
+        self.user = User(username='testuser', email='test@example.com')
+        self.user.set_password('password')
+        login_user(self.user)
+
+    def tearDown(self):
+        self.app_context.pop()
+
+    def test_initiate_call(self):
+        response = self.client.post('/initiate_call/2')
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertIn('call_id', data)
+
+    def test_end_call(self):
+        # First initiate a call
+        init_response = self.client.post('/initiate_call/2')
+        call_id = init_response.get_json()['call_id']
+
+        # Then end the call
+        end_response = self.client.post(f'/end_call/{call_id}')
+        self.assertEqual(end_response.status_code, 200)
+        data = end_response.get_json()
+        self.assertEqual(data['message'], 'Call ended successfully')
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+File: app/__init__.py
+
+# app/__init__.py
+"""
+Initializes the Flask application and its extensions.
+This module sets up the Flask app, configures it, and initializes all necessary extensions.
+"""
+
+import os
+from flask import Flask, send_from_directory
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_login import LoginManager
+from flask_socketio import SocketIO
+from config import Config
+
+# Initialize extensions
+db = SQLAlchemy()
+migrate = Migrate()
+login_manager = LoginManager()
+socketio = SocketIO()
+
+def create_app(config_class=Config):
+    """
+    Creates and configures the Flask application.
+    
+    Args:
+        config_class: Configuration class to use (default: Config)
+    
+    Returns:
+        Initialized Flask application
+    """
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+
+    # Initialize extensions with the app
+    db.init_app(app)
+    migrate.init_app(app, db)
+    login_manager.init_app(app)
+    socketio.init_app(app)
+
+    # Set up login manager
+    login_manager.login_view = 'auth.login'
+    login_manager.login_message_category = 'info'
+
+    # Import models
+    from app.models.user import User
+    from app.models.message import Message
+    from app.models.group import Group
+    from app.models.channel import Channel
+    from app.models.file import File
+
+    # Import and register blueprints
+    from app.routes import auth, messaging, groups, channels, calls, admin
+    app.register_blueprint(auth.auth)
+    app.register_blueprint(messaging.messaging)
+    app.register_blueprint(groups.groups)
+    app.register_blueprint(channels.channels)
+    app.register_blueprint(calls.calls)
+    app.register_blueprint(admin.admin, url_prefix='/admin')
+
+    # Import and register API routes
+    from app.api.v1 import routes as api_routes
+    app.register_blueprint(api_routes.api_bp, url_prefix='/api/v1')
+
+    # Add favicon route
+    @app.route('/favicon.ico')
+    def favicon():
+        return send_from_directory(os.path.join(app.root_path, 'static'),
+                                   'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+    # Error handling
+    @app.errorhandler(404)
+    def not_found_error(error):
+        return {'error': 'Not Found'}, 404
+
+    @app.errorhandler(500)
+    def internal_error(error):
+        db.session.rollback()
+        return {'error': 'Internal Server Error'}, 500
+
+    # Shell context for flask cli
+    @app.shell_context_processor
+    def make_shell_context():
+        return {'db': db, 'User': User, 'Message': Message, 'Group': Group, 'Channel': Channel, 'File': File}
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
+
+    return app
+
+# Debug mode
+DEBUG = True
+
+if DEBUG:
+    print("Debug mode is ON")
+else:
+    print("Debug mode is OFF")
+
+File: app/templates/login.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; }
+        h1 { color: #333; }
+        form { margin-bottom: 20px; }
+        input[type="email"], input[type="password"] { width: 100%; padding: 10px; margin-bottom: 10px; }
+        button { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Login</h1>
+        <form id="login-form" method="POST">
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    window.location.href = '/admin/';
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>
+
+File: app/main.py
+
+
+"""
+Purpose: Main entry point for the application.
+This file initializes the Flask application and sets up necessary configurations.
+"""
+
+import asyncio
+from flask import Flask
+from app import create_app, socketio
+from app.models import db
+
+# Global flag for user termination
+user_terminated_flag = asyncio.Event()
+
+def main():
+    """
+    IMPORTANT: do not remove main function as automated test will fail
+    IMPORTANT: do not remove this comment
+    """
+    app = create_app()
+    
+    with app.app_context():
+        db.create_all()
+
+    @app.route('/')
+    def index():
+        return "Welcome to the Secure Messaging App!"
+
+    # Run the Flask application with SocketIO
+    socketio.run(app, debug=True)
+
+if __name__ == '__main__':
+    main()
+
+# Asynchronous function to handle user input
+async def user_input(process, user_terminated_flag):
+    while not user_terminated_flag.is_set():
+        user_in = await asyncio.get_event_loop().run_in_executor(None, input, "Enter 'q' to quit: ")
+        if user_in.lower() == 'q':
+            user_terminated_flag.set()
+            process.terminate()
+            break
+
+# Function to run the application asynchronously
+async def run_application():
+    process = await asyncio.create_subprocess_exec(
+        'python', 'app/main.py',
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE
+    )
+
+    user_input_task = asyncio.create_task(user_input(process, user_terminated_flag))
+
+    stdout, stderr = await process.communicate()
+
+    if stdout:
+        print(f'Application output: {stdout.decode()}')
+    if stderr:
+        print(f'Application error: {stderr.decode()}')
+
+    await user_input_task
+
+# Run the application
+if __name__ == '__main__':
+    asyncio.run(run_application())
+
+
+File: app/routes/auth.py
+
+# Authentication routes (login, register, logout)
+# This file handles user authentication, including login, registration, and logout functionalities.
+
+import traceback
+from flask import Blueprint, request, jsonify, current_app, render_template, redirect, url_for
+from flask_login import login_user, logout_user, login_required, current_user
+from werkzeug.security import check_password_hash, generate_password_hash
+from app.models.user import User
+from app.utils import validators
+from app import db
+
+auth = Blueprint('auth', __name__)
+
+@auth.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('root'))
+
+    if request.method == 'POST':
+        try:
+            data = request.get_json() or request.form
+            username = data.get('username')
+            email = data.get('email')
+            password = data.get('password')
+
+            if not username or not email or not password:
+                return jsonify({'message': 'Username, email, and password are required'}), 400
+
+            if User.query.filter_by(username=username).first():
+                return jsonify({'message': 'Username already exists'}), 400
+
+            if User.query.filter_by(email=email).first():
+                return jsonify({'message': 'Email already exists'}), 400
+
+            new_user = User(username=username, email=email)
+            new_user.set_password(password)
+            db.session.add(new_user)
+            db.session.commit()
+
+            login_user(new_user)
+            return redirect(url_for('root'))
+        except Exception as e:
+            if current_app.config['DEBUG']:
+                print(f"Error in register route: {str(e)}")
+                traceback.print_exc()
+            return jsonify({'message': 'An error occurred during registration'}), 500
+
+    return render_template('register.html')
+
+@auth.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('root'))
+
+    if request.method == 'POST':
+        try:
+            data = request.get_json() or request.form
+            email = data.get('email')
+            password = data.get('password')
+
+            if not email or not password:
+                return jsonify({'message': 'Email and password are required'}), 400
+
+            user = User.query.filter_by(email=email).first()
+
+            if user and user.check_password(password):
+                if user.is_banned:
+                    return jsonify({'message': 'This account has been banned'}), 403
+                login_user(user)
+                next_page = request.args.get('next')
+                if next_page:
+                    return redirect(next_page)
+                return redirect(url_for('root'))
+            else:
+                return jsonify({'message': 'Invalid email or password'}), 401
+
+        except Exception as e:
+            if current_app.config['DEBUG']:
+                print(f"Error in login route: {str(e)}")
+                traceback.print_exc()
+            return jsonify({'message': 'An error occurred during login'}), 500
+    
+    return render_template('login.html')
+
+@auth.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('auth.login'))
+
+File: app/templates/user_interface.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram-inspired Communication Platform</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1, h2 { color: #333; }
+        form { margin-bottom: 20px; }
+        input[type="text"], input[type="email"], input[type="password"] { width: 100%; padding: 10px; margin-bottom: 10px; }
+        button { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; cursor: pointer; }
+        #chat-area { border: 1px solid #ddd; padding: 20px; min-height: 300px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to the Telegram-inspired Communication Platform</h1>
+        <div id="login-form">
+            <h2>Login</h2>
+            <form id="login">
+                <input type="email" id="login-email" placeholder="Email" required>
+                <input type="password" id="login-password" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+        <div id="register-form">
+            <h2>Register</h2>
+            <form id="register">
+                <input type="text" id="register-username" placeholder="Username" required>
+                <input type="email" id="register-email" placeholder="Email" required>
+                <input type="password" id="register-password" placeholder="Password" required>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+        <div id="chat-area" style="display:none;">
+            <h2>Chat</h2>
+            <div id="messages"></div>
+            <form id="send-message">
+                <input type="text" id="message-input" placeholder="Type a message..." required>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        const socket = io();
+        
+        document.getElementById('login').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            console.log("login")
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    document.getElementById('login-form').style.display = 'none';
+                    document.getElementById('register-form').style.display = 'none';
+                    document.getElementById('chat-area').style.display = 'block';
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        document.getElementById('register').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password })
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    alert('Registration successful. Please login.');
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            }
+        });
+
+        document.getElementById('send-message').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const message = document.getElementById('message-input').value;
+            socket.emit('send_message', { message });
+            document.getElementById('message-input').value = '';
+        });
+
+        socket.on('receive_message', (data) => {
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML += `<p>${data.username}: ${data.message}</p>`;
+        });
+    </script>
+</body>
+</html>
+
+File: README.md
+
+# Telegram-inspired Communication Platform
+
+This is a sophisticated web-based communication platform inspired by Telegram, offering secure messaging, group chats, file sharing, voice/video calls, and a robust API. Built with Flask, it prioritizes security, scalability, and user experience.
+
+## Features
+
+- End-to-end encrypted messaging
+- Group and channel management
+- File sharing and media transfer
+- Voice and video calling
+- User status updates
+- Admin panel for platform management
+- RESTful API for third-party integrations
+- WebSocket for real-time communications
+
+## URL Paths
+
+### Authentication
+
+- `/auth/login` (POST): User login
+- `/auth/register` (POST): User registration
+- `/auth/logout` (POST): User logout
+
+### Messaging
+
+- `/messaging/send/<recipient_id>` (POST): Send a message to a user
+- `/messaging/messages/<user_id>` (GET): Retrieve messages for a conversation
+
+### Groups
+
+- `/groups/create` (POST): Create a new group
+- `/groups/<group_id>/add_member/<user_id>` (POST): Add a member to a group
+- `/groups/<group_id>/remove_member/<user_id>` (DELETE): Remove a member from a group
+- `/groups/<group_id>/send_message` (POST): Send a message to a group
+
+### Channels
+
+- `/channels/create` (POST): Create a new channel
+- `/channels/<channel_id>/post` (POST): Post a message to a channel
+- `/channels/<channel_id>/subscribe` (POST): Subscribe a user to a channel
+
+### Calls
+
+- `/calls/initiate_call/<user_id>` (POST): Initiate a call with another user
+- `/calls/end_call/<call_id>` (POST): End an ongoing call
+
+### Admin
+
+- `/admin/users` (GET): Retrieve all users
+- `/admin/ban_user/<user_id>` (POST): Ban a user
+- `/admin/delete_group/<group_id>` (DELETE): Delete a group
+- `/admin/delete_channel/<channel_id>` (DELETE): Delete a channel
+
+### API (v1)
+
+- `/api/v1/users` (GET, POST): User-related API endpoints
+- `/api/v1/messages` (GET, POST): Message-related API endpoints
+- `/api/v1/groups` (GET, POST): Group-related API endpoints
+- `/api/v1/channels` (GET, POST): Channel-related API endpoints
+
+## Getting Started
+
+1. Clone the repository
+2. Install dependencies: `pip install -r requirements.txt`
+3. Set up environment variables
+4. Run the application: `python main.py`
+
+## Contributing
+
+Please read CONTRIBUTING.md for details on our code of conduct and the process for submitting pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE.md file for details.
+
+File: config.py
+
+
+# config.py
+# Purpose: Configuration settings for the application
+# Description: This file contains configuration classes for different environments
+
+import os
+import unittest
+
+class Config:
+    """Base configuration class."""
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///app.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    DEBUG = True
+    TESTING = False
+    
+    # File upload settings
+    UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16 MB max-limit
+    
+    # WebSocket settings
+    SOCKETIO_ASYNC_MODE = 'eventlet'
+    
+    # API settings
+    API_VERSION = 'v1'
+    
+    # Logging
+    LOG_TO_STDOUT = os.environ.get('LOG_TO_STDOUT')
+    
+    @staticmethod
+    def init_app(app):
+        pass
+
+class DevelopmentConfig(Config):
+    """Development-specific settings."""
+    DEBUG = True
+    
+    # Add any development-specific settings here
+    SQLALCHEMY_ECHO = True  # Log SQL queries
+
+class ProductionConfig(Config):
+    """Production-specific settings."""
+    DEBUG = False
+    
+    # Add any production-specific settings here
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
+    
+    @classmethod
+    def init_app(cls, app):
+        Config.init_app(app)
+        
+        # Log to stderr
+        import logging
+        from logging import StreamHandler
+        file_handler = StreamHandler()
+        file_handler.setLevel(logging.INFO)
+        app.logger.addHandler(file_handler)
+
+class TestingConfig(Config):
+    """Testing-specific settings."""
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+
+# Dictionary to easily switch between configurations
+config = {
+    'development': DevelopmentConfig,
+    'production': ProductionConfig,
+    'testing': TestingConfig,
+    'default': DevelopmentConfig
+}
+
+# Unit tests for configuration
+class TestConfig(unittest.TestCase):
+    def test_config_values(self):
+        self.assertTrue(Config.SECRET_KEY)
+        self.assertTrue(Config.SQLALCHEMY_DATABASE_URI)
+        self.assertFalse(Config.SQLALCHEMY_TRACK_MODIFICATIONS)
+    
+    def test_development_config(self):
+        dev_config = DevelopmentConfig()
+        self.assertTrue(dev_config.DEBUG)
+        self.assertTrue(dev_config.SQLALCHEMY_ECHO)
+    
+    def test_production_config(self):
+        prod_config = ProductionConfig()
+        self.assertFalse(prod_config.DEBUG)
+    
+    def test_testing_config(self):
+        test_config = TestingConfig()
+        self.assertTrue(test_config.TESTING)
+        self.assertEqual(test_config.SQLALCHEMY_DATABASE_URI, 'sqlite:///:memory:')
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+File: app/routes/channels.py
+
+
+# Purpose: Routes for broadcast channels
+# Description: This file contains Flask routes for managing broadcast channels,
+# including creating channels, posting messages to channels, and subscribing users to channels.
+
+import traceback
+from flask import Blueprint, request, jsonify
+from flask_login import login_required, current_user
+from app.models import Channel, Message, User
+from app import db
+from app.services.encryption import encrypt_message
+from app.utils.helpers import generate_unique_id
+from app.services.push_notifications import send_notification
+
+channels = Blueprint('channels', __name__)
+
+DEBUG = True
+
+@channels.route('/create', methods=['POST'])
+@login_required
+def create_channel():
+    """
+    Creates a new channel.
+    """
+    try:
+        data = request.json
+        name = data.get('name')
+        description = data.get('description')
+
+        if not name:
+            return jsonify({'error': 'Channel name is required'}), 400
+
+        new_channel = Channel(
+            id=generate_unique_id(),
+            name=name,
+            description=description,
+            owner_id=current_user.id
+        )
+
+        db.session.add(new_channel)
+        db.session.commit()
+
+        if DEBUG:
+            print(f"Channel created: {new_channel.name}")
+
+        return jsonify({'message': 'Channel created successfully', 'channel_id': new_channel.id}), 201
+    except Exception as e:
+        if DEBUG:
+            print(f"Error creating channel: {str(e)}")
+            traceback.print_exc()
+        return jsonify({'error': 'An error occurred while creating the channel'}), 500
+
+@channels.route('/<channel_id>/post', methods=['POST'])
+@login_required
+def post_to_channel(channel_id):
+    """
+    Posts a message to a channel.
+    """
+    try:
+        channel = Channel.query.get(channel_id)
+        if not channel:
+            return jsonify({'error': 'Channel not found'}), 404
+
+        if current_user.id != channel.owner_id:
+            return jsonify({'error': 'Only channel owner can post messages'}), 403
+
+        data = request.json
+        content = data.get('content')
+
+        if not content:
+            return jsonify({'error': 'Message content is required'}), 400
+
+        encrypted_content = encrypt_message(content, channel.encryption_key)
+
+        new_message = Message(
+            id=generate_unique_id(),
+            sender_id=current_user.id,
+            channel_id=channel.id,
+            content=encrypted_content
+        )
+
+        db.session.add(new_message)
+        db.session.commit()
+
+        # Send push notifications to subscribers
+        for subscriber in channel.subscribers:
+            send_notification(subscriber.device_token, f"New message in {channel.name}", "You have a new channel message")
+
+        if DEBUG:
+            print(f"Message posted to channel {channel.name}")
+
+        return jsonify({'message': 'Message posted successfully'}), 201
+    except Exception as e:
+        if DEBUG:
+            print(f"Error posting to channel: {str(e)}")
+            traceback.print_exc()
+        return jsonify({'error': 'An error occurred while posting the message'}), 500
+
+@channels.route('/<channel_id>/subscribe', methods=['POST'])
+@login_required
+def subscribe_to_channel(channel_id):
+    """
+    Subscribes a user to a channel.
+    """
+    try:
+        channel = Channel.query.get(channel_id)
+        if not channel:
+            return jsonify({'error': 'Channel not found'}), 404
+
+        if current_user in channel.subscribers:
+            return jsonify({'message': 'You are already subscribed to this channel'}), 200
+
+        channel.subscribers.append(current_user)
+        db.session.commit()
+
+        if DEBUG:
+            print(f"User {current_user.username} subscribed to channel {channel.name}")
+
+        return jsonify({'message': 'Subscribed to channel successfully'}), 200
+    except Exception as e:
+        if DEBUG:
+            print(f"Error subscribing to channel: {str(e)}")
+            traceback.print_exc()
+        return jsonify({'error': 'An error occurred while subscribing to the channel'}), 500
+
+# For testing purposes
+if __name__ == '__main__':
+    import unittest
+
+    class TestChannelRoutes(unittest.TestCase):
+        def setUp(self):
+            # Set up test client and test database
+            pass
+
+        def test_create_channel(self):
+            # Test channel creation
+            pass
+
+        def test_post_to_channel(self):
+            # Test posting a message to a channel
+            pass
+
+        def test_subscribe_to_channel(self):
+            # Test subscribing to a channel
+            pass
+
+    unittest.main()
+
+
+File: app/routes/admin.py
+
+# Purpose: Admin panel routes
+# Description: This file contains routes for administrative functions such as retrieving users,
+#              banning users, and deleting groups or channels.
+
+import traceback
+from flask import Blueprint, request, jsonify, render_template, current_app, redirect, url_for
+from flask_login import login_required, current_user
+from app.models import User, Group, Channel
+from app import db
+
+admin = Blueprint('admin', __name__)
+
+DEBUG = True
+
+@admin.route('/')
+@login_required
+def admin_panel():
+    """
+    Renders the admin panel interface.
+    """
+    if not current_user.is_authenticated:
+        return redirect(url_for('auth.login', next=request.url))
+    if not current_user.is_admin:
+        return redirect(url_for('root'))
+    return render_template('admin_interface.html')
+
+# ... (rest of the file remains unchanged)
+
+File: app/routes/messaging.py
+
+
+"""
+Purpose: Routes for one-on-one messaging.
+This file contains the routes and logic for sending and retrieving messages between users.
+"""
+
+import traceback
+from flask import Blueprint, request, jsonify, current_app
+from flask_login import login_required, current_user
+from app.models import Message, User
+from app.services import encryption
+from app import db
+
+messaging = Blueprint('messaging', __name__)
+
+@messaging.route('/send/<int:recipient_id>', methods=['POST'])
+@login_required
+def send_message(recipient_id):
+    """
+    Sends a message to a user.
+    
+    Args:
+        recipient_id (int): The ID of the recipient user.
+    
+    Returns:
+        JSON response with status and message.
+    """
+    try:
+        if current_app.config['DEBUG']:
+            print(f"Attempting to send message to user {recipient_id}")
+
+        recipient = User.query.get(recipient_id)
+        if not recipient:
+            return jsonify({"status": "error", "message": "Recipient not found"}), 404
+
+        content = request.json.get('content')
+        if not content:
+            return jsonify({"status": "error", "message": "Message content is required"}), 400
+
+        # Encrypt the message content
+        encrypted_content = encryption.encrypt_message(content, recipient.public_key)
+
+        new_message = Message(
+            sender_id=current_user.id,
+            recipient_id=recipient_id,
+            content=encrypted_content
+        )
+        db.session.add(new_message)
+        db.session.commit()
+
+        if current_app.config['DEBUG']:
+            print(f"Message sent successfully to user {recipient_id}")
+
+        return jsonify({"status": "success", "message": "Message sent successfully"}), 200
+    except Exception as e:
+        if current_app.config['DEBUG']:
+            print(f"Error sending message: {str(e)}")
+            traceback.print_exc()
+        return jsonify({"status": "error", "message": "An error occurred while sending the message"}), 500
+
+@messaging.route('/messages/<int:user_id>', methods=['GET'])
+@login_required
+def get_messages(user_id):
+    """
+    Retrieves messages for a conversation between the current user and the specified user.
+    
+    Args:
+        user_id (int): The ID of the user to retrieve messages with.
+    
+    Returns:
+        JSON response with status and list of messages.
+    """
+    try:
+        if current_app.config['DEBUG']:
+            print(f"Retrieving messages with user {user_id}")
+
+        other_user = User.query.get(user_id)
+        if not other_user:
+            return jsonify({"status": "error", "message": "User not found"}), 404
+
+        messages = Message.query.filter(
+            ((Message.sender_id == current_user.id) & (Message.recipient_id == user_id)) |
+            ((Message.sender_id == user_id) & (Message.recipient_id == current_user.id))
+        ).order_by(Message.timestamp.asc()).all()
+
+        decrypted_messages = []
+        for message in messages:
+            decrypted_content = encryption.decrypt_message(message.content, current_user.private_key)
+            decrypted_messages.append({
+                "id": message.id,
+                "sender_id": message.sender_id,
+                "recipient_id": message.recipient_id,
+                "content": decrypted_content,
+                "timestamp": message.timestamp.isoformat()
+            })
+
+        if current_app.config['DEBUG']:
+            print(f"Retrieved {len(decrypted_messages)} messages with user {user_id}")
+
+        return jsonify({"status": "success", "messages": decrypted_messages}), 200
+    except Exception as e:
+        if current_app.config['DEBUG']:
+            print(f"Error retrieving messages: {str(e)}")
+            traceback.print_exc()
+        return jsonify({"status": "error", "message": "An error occurred while retrieving messages"}), 500
+
+# Unit tests
+import unittest
+from app import create_app, db
+from app.models import User, Message
+
+class MessagingRoutesTestCase(unittest.TestCase):
+    def setUp(self):
+        self.app = create_app('testing')
+        self.client = self.app.test_client()
+        self.app_context = self.app.app_context()
+        self.app_context.push()
+        db.create_all()
+
+        # Create test users
+        self.user1 = User(username='testuser1', email='test1@example.com')
+        self.user1.set_password('password1')
+        self.user2 = User(username='testuser2', email='test2@example.com')
+        self.user2.set_password('password2')
+        db.session.add_all([self.user1, self.user2])
+        db.session.commit()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_context.pop()
+
+    def test_send_message(self):
+        with self.client:
+            # Login as user1
+            self.client.post('/auth/login', json={
+                'email': 'test1@example.com',
+                'password': 'password1'
+            })
+
+            # Send a message to user2
+            response = self.client.post(f'/messaging/send/{self.user2.id}', json={
+                'content': 'Hello, User2!'
+            })
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.json['status'], 'success')
+
+    def test_get_messages(self):
+        with self.client:
+            # Login as user1
+            self.client.post('/auth/login', json={
+                'email': 'test1@example.com',
+                'password': 'password1'
+            })
+
+            # Send a message to user2
+            self.client.post(f'/messaging/send/{self.user2.id}', json={
+                'content': 'Hello, User2!'
+            })
+
+            # Get messages between user1 and user2
+            response = self.client.get(f'/messaging/messages/{self.user2.id}')
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.json['status'], 'success')
+            self.assertEqual(len(response.json['messages']), 1)
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+File: main.py
+
+# main.py
+"""
+Entry point of the application. Initializes and runs the Flask app.
+"""
+
+import os
+from app import create_app, db, socketio
+from flask.logging import create_logger
+from app.models.user import User
+from flask import render_template, redirect, url_for
+from flask_login import login_required, current_user
+from flask_migrate import upgrade, init, Migrate, migrate
+
+# Set DEBUG to True by default
+DEBUG = True
+
+def create_default_admin():
+    """
+    Creates a default admin user if it doesn't exist.
+    """
+    admin = User.query.filter_by(username='admin').first()
+    if not admin:
+        admin = User(username='admin', email='admin@example.com', is_admin=True)
+        admin.set_password('admin123')
+        db.session.add(admin)
+        db.session.commit()
+        print("Default admin user created.")
+
+def initialize_migrations(app):
+    """
+    Initializes the migrations folder if it doesn't exist.
+    """
+    migrations_dir = os.path.join(app.root_path, 'migrations')
+    if not os.path.exists(migrations_dir):
+        with app.app_context():
+            init()
+        print("Migrations folder initialized.")
+
+def create_migration(app):
+    """
+    Creates a new migration for the database schema changes.
+    """
+    with app.app_context():
+        migrate()
+    print("New migration created.")
+
+def main():
+    """
+    IMPORTANT: do not remove main function as automated test will fail
+    IMPORTANT: do not remove this comment
+    """
+    app = create_app()
+    
+    with app.app_context():
+        db.create_all()
+
+    @app.route('/')
+    def root():
+        if current_user.is_authenticated:
+            return render_template('user_interface.html')
+        else:
+            return redirect(url_for('auth.login'))
+
+    # Run the Flask application with SocketIO
+    socketio.run(app, debug=True)
+
+if __name__ == '__main__':
+    main()
+
+# Asynchronous function to handle user input
+async def user_input(process, user_terminated_flag):
+    while not user_terminated_flag.is_set():
+        user_in = await asyncio.get_event_loop().run_in_executor(None, input, "Enter 'q' to quit: ")
+        if user_in.lower() == 'q':
+            user_terminated_flag.set()
+            process.terminate()
+            break
+
+# Function to run the application asynchronously
+async def run_application():
+    process = await asyncio.create_subprocess_exec(
+        'python', 'app/main.py',
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE
+    )
+
+    user_input_task = asyncio.create_task(user_input(process, user_terminated_flag))
+
+    stdout, stderr = await process.communicate()
+
+    if stdout:
+        print(f'Application output: {stdout.decode()}')
+    if stderr:
+        print(f'Application error: {stderr.decode()}')
+
+    await user_input_task
+
+# Run the application
+if __name__ == '__main__':
+    asyncio.run(run_application())
+
+The current application plan is application_plan xml:
+<application_plan>
+    <overview>
+        A sophisticated web-based communication platform inspired by Telegram, offering secure messaging, group chats, file sharing, voice/video calls, and a robust API. Built with Flask, it prioritizes security, scalability, and user experience.
+    </overview>
+    
+    <mechanics>
+        - End-to-end encrypted messaging
+        - Group and channel management
+        - File sharing and media transfer
+        - Voice and video calling
+        - User status updates
+        - Admin panel for platform management
+        - RESTful API for third-party integrations
+        - WebSocket for real-time communications
+    </mechanics>
+    
+    <components>
+        - Flask web application
+        - SQLAlchemy ORM
+        - Flask-SocketIO for WebSocket support
+        - Encryption service
+        - File handling service
+        - Push notification service
+        - RESTful API
+        - Admin panel
+        - User authentication system
+    </components>
+    
+    <files>
+        <file>
+            <name>main.py</name>
+            <description>
+                Entry point of the application. Initializes and runs the Flask app.
+                Imports: from app import create_app, db, socketio; from flask_migrate import upgrade, Migrate
+                Functions:
+                - main(): No parameters, initializes and runs the Flask application
+                - create_default_admin(): Creates a default admin user if it doesn't exist
+                - root(): Handles the root route ("/") and returns the user interface
+                Changes: Removed admin route from this file as it's now handled in the admin blueprint
+            </description>
+        </file>
+        <file>
+            <name>config.py</name>
+            <description>
+                Configuration settings for the application.
+                Imports: os
+                Classes:
+                - Config: Holds configuration variables
+                - DevelopmentConfig(Config): Development-specific settings
+                - ProductionConfig(Config): Production-specific settings
+            </description>
+        </file>
+        <file>
+            <name>app/__init__.py</name>
+            <description>
+                Initializes the Flask application and its extensions.
+                Imports: flask, flask_sqlalchemy, flask_migrate, flask_login, flask_socketio
+                Functions:
+                - create_app(config_class=Config): Returns initialized Flask app
+            </description>
+        </file>
+        <file>
+            <name>app/models/user.py</name>
+            <description>
+                User model definition.
+                Imports: from app import db; from flask_login import UserMixin; from werkzeug.security import generate_password_hash, check_password_hash
+                Classes:
+                - User(db.Model, UserMixin): User model with authentication methods, admin status, and ban status
+                Methods:
+                - set_password(password): Sets the user's password
+                - check_password(password): Checks if the provided password is correct
+                - is_administrator(): Checks if the user is an admin
+                - to_dict(): Returns a dictionary representation of the user
+            </description>
+        </file>
+        <file>
+            <name>app/models/message.py</name>
+            <description>
+                Message model definition.
+                Imports: from app import db; from datetime import datetime
+                Classes:
+                - Message(db.Model): Message model for storing chat messages
+            </description>
+        </file>
+        <file>
+            <name>app/models/group.py</name>
+            <description>
+                Group model definition.
+                Imports: from app import db
+                Classes:
+                - Group(db.Model): Group model for managing group chats
+            </description>
+        </file>
+        <file>
+            <name>app/models/channel.py</name>
+            <description>
+                Channel model definition.
+                Imports: from app import db
+                Classes:
+                - Channel(db.Model): Channel model for broadcast communications
+            </description>
+        </file>
+        <file>
+            <name>app/models/file.py</name>
+            <description>
+                File model definition for shared files.
+                Imports: from app import db; from datetime import datetime
+                Classes:
+                - File(db.Model): File model for managing shared files
+            </description>
+        </file>
+        <file>
+            <name>app/routes/auth.py</name>
+            <description>
+                Authentication routes (login, register, logout).
+                Updated to include separate routes for GET and POST methods for register and login.
+                Added proper error handling and response messages.
+                Modified login route to handle both GET and POST requests, and to support redirection.
+            </description>
+        </file>
+        <file>
+            <name>app/routes/messaging.py</name>
+            <description>
+                Routes for one-on-one messaging.
+                Imports: from flask import Blueprint, request, jsonify; from flask_login import login_required, current_user; from app.models import Message, User; from app.services import encryption
+                Functions:
+                - send_message(recipient_id): Sends a message to a user (POST /messaging/send/&lt;recipient_id&gt;)
+                - get_messages(user_id): Retrieves messages for a conversation (GET /messaging/messages/&lt;user_id&gt;)
+            </description>
+        </file>
+        <file>
+            <name>app/routes/groups.py</name>
+            <description>
+                Routes for group chat functionality.
+                Imports: from flask import Blueprint, request, jsonify; from flask_login import login_required, current_user; from app.models import Group, Message
+                Functions:
+                - create_group(): Creates a new group (POST /groups/create)
+                - add_member(group_id, user_id): Adds a member to a group (POST /groups/&lt;group_id&gt;/add_member/&lt;user_id&gt;)
+                - remove_member(group_id, user_id): Removes a member from a group (DELETE /groups/&lt;group_id&gt;/remove_member/&lt;user_id&gt;)
+                - send_group_message(group_id): Sends a message to a group (POST /groups/&lt;group_id&gt;/send_message)
+            </description>
+        </file>
+        <file>
+            <name>app/routes/channels.py</name>
+            <description>
+                Routes for broadcast channels.
+                Imports: from flask import Blueprint, request, jsonify; from flask_login import login_required, current_user; from app.models import Channel, Message
+                Functions:
+                - create_channel(): Creates a new channel (POST /channels/create)
+                - post_to_channel(channel_id): Posts a message to a channel (POST /channels/&lt;channel_id&gt;/post)
+                - subscribe_to_channel(channel_id): Subscribes a user to a channel (POST /channels/&lt;channel_id&gt;/subscribe)
+            </description>
+        </file>
+        <file>
+            <name>app/routes/calls.py</name>
+            <description>
+                Routes for voice and video calling features.
+                Imports: from flask import Blueprint, request, jsonify; from flask_login import login_required, current_user; from app.services import websocket
+                Functions:
+                - initiate_call(user_id): Initiates a call with another user (POST /calls/initiate_call/&lt;user_id&gt;)
+                - end_call(call_id): Ends an ongoing call (POST /calls/end_call/&lt;call_id&gt;)
+            </description>
+        </file>
+        <file>
+            <name>app/routes/admin.py</name>
+            <description>
+                Admin panel routes.
+                Updated to properly check for admin privileges and user authentication before allowing access to admin panel.
+                Added redirection to login page if user is not authenticated.
+            </description>
+        </file>
+        <file>
+            <name>app/services/encryption.py</name>
+            <description>
+                Handles end-to-end encryption for messages.
+                Imports: from cryptography.fernet import Fernet
+                Functions:
+                - generate_key(): Generates a new encryption key
+                - encrypt_message(message, key): Encrypts a message
+                - decrypt_message(encrypted_message, key): Decrypts a message
+            </description>
+        </file>
+        <file>
+            <name>app/services/file_handler.py</name>
+            <description>
+                Manages file uploads and downloads.
+                Imports: from flask import current_app; from werkzeug.utils import secure_filename; import os
+                Functions:
+                - save_file(file): Saves an uploaded file
+                - get_file(filename): Retrieves a file for download
+            </description>
+        </file>
+        <file>
+            <name>app/services/push_notifications.py</name>
+            <description>
+                Handles push notifications for real-time updates.
+                Imports: import firebase_admin; from firebase_admin import messaging
+                Functions:
+                - send_notification(token, title, body): Sends a push notification
+            </description>
+        </file>
+        <file>
+            <name>app/services/websocket.py</name>
+            <description>
+                Manages WebSocket connections for real-time communication.
+                Imports: from flask_socketio import SocketIO, emit, join_room, leave_room
+                Functions:
+                - handle_connect(): Handles new WebSocket connections
+                - handle_disconnect(): Handles WebSocket disconnections
+                - handle_join_room(room): Handles joining a room
+                - handle_leave_room(room): Handles leaving a room
+                - handle_message(data): Handles incoming messages
+            </description>
+        </file>
+        <file>
+            <name>app/utils/validators.py</name>
+            <description>
+                Input validation functions.
+                Imports: import re
+                Functions:
+                - validate_email(email): Validates email format
+                - validate_password(password): Validates password strength
+                - validate_username(username): Validates username format
+            </description>
+        </file>
+        <file>
+            <name>app/utils/helpers.py</name>
+            <description>
+                Helper functions used across the application.
+                Imports: None
+                Functions:
+                - generate_unique_id(): Generates a unique identifier
+                - format_timestamp(timestamp): Formats a timestamp for display
+            </description>
+        </file>
+        <file>
+            <name>app/api/v1/routes.py</name>
+            <description>
+                Defines API endpoints.
+                Imports: from flask import Blueprint, request, jsonify; from flask_restful import Api, Resource; from app.models import User, Message, Group, Channel; from .schemas import UserSchema, MessageSchema
+                Classes:
+                - UserAPI(Resource): Handles user-related API endpoints (GET, POST /api/v1/users)
+                - MessageAPI(Resource): Handles message-related API endpoints (GET, POST /api/v1/messages)
+                - GroupAPI(Resource): Handles group-related API endpoints (GET, POST /api/v1/groups)
+                - ChannelAPI(Resource): Handles channel-related API endpoints (GET, POST /api/v1/channels)
+            </description>
+        </file>
+        <file>
+            <name>app/api/v1/schemas.py</name>
+            <description>
+                Defines serialization schemas for API responses.
+                Imports: from marshmallow import Schema, fields
+                Classes:
+                - UserSchema(Schema): Schema for User model serialization
+                - MessageSchema(Schema): Schema for Message model serialization
+                - GroupSchema(Schema): Schema for Group model serialization
+                - ChannelSchema(Schema): Schema for Channel model serialization
+            </description>
+        </file>
+    <file>
+            <name>README.md</name>
+            <description>
+                Project documentation and setup instructions.
+                Contents:
+                - Project overview
+                - Features list
+                - URL paths and their descriptions
+                - Getting started guide
+                - Contributing guidelines
+                - License information
+            </description>
+        </file>
+    <file>
+            <name>app/templates/user_interface.html</name>
+            <description>
+                User interface HTML file for the main application page.
+                Updated to fix login functionality and improve error handling.
+            </description>
+        </file>
+        <file>
+            <name>app/templates/login.html</name>
+            <description>
+                Login page HTML template.
+                New file added to provide a user interface for login.
+                Includes form for email and password input, and JavaScript for form submission.
+            </description>
+        </file>
+        
+    </files>
+    
+    <logic>
+        1. User registration and authentication
+        2. Secure message sending and receiving
+        3. Group and channel creation and management
+        4. File upload, storage, and sharing
+        5. Real-time updates via WebSockets
+        6. Push notifications for offline users
+        7. Voice and video call initiation and management
+        8. Admin operations for platform management
+        9. API endpoints for third-party integrations
+        10. End-to-end encryption for all communications
+    </logic>
+</application_plan>
+
+The user has provided the following feedback about the application:
+route should be returning json for /register /login 
+route should be returning the admin login and template for /admin
+
+Please analyze the feedback and suggest Full updates to the application files to address the user's comments.
+Provide the Full updated content for any files that need changes.
+Return the updated Full file contents in the following format only for the files that require updates:
+<file name="path/to/filename.ext">
+updated_file_contents
+</file>
+Important: ensure to provide a full and complete xml application_plan  with any changes or additions.

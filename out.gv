@@ -1,0 +1,117 @@
+digraph G {
+concentrate=true;
+splines="ortho";
+rankdir="LR";
+subgraph legend{
+    rank = min;
+    label = "legend";
+    Legend [shape=none, margin=0, label = <
+        <table cellspacing="0" cellpadding="0" border="1"><tr><td>Code2flow Legend</td></tr><tr><td>
+        <table cellspacing="0">
+        <tr><td>Regular function</td><td width="50px" bgcolor='#cccccc'></td></tr>
+        <tr><td>Trunk function (nothing calls this)</td><td bgcolor='#966F33'></td></tr>
+        <tr><td>Leaf function (this calls nothing else)</td><td bgcolor='#6db33f'></td></tr>
+        <tr><td>Function call</td><td><font color='black'>&#8594;</font></td></tr>
+        </table></td></tr></table>
+        >];
+}node_b39e9a8e [label="0: (global)()" name="agent_application_makercopysystemupdate::(global)" shape="rect" style="rounded,filled" fillcolor="#966F33" ];
+node_46146759 [label="65: add_separator_between_consecutive_user_messages()" name="agent_application_makercopysystemupdate::add_separator_between_consecutive_user_messages" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_71c1e7ec [label="168: agent_write_file()" name="agent_application_makercopysystemupdate::agent_write_file" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_c0f9c0b2 [label="804: application_files_updates()" name="agent_application_makercopysystemupdate::application_files_updates" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_943b3cf1 [label="884: count_lines_of_code()" name="agent_application_makercopysystemupdate::count_lines_of_code" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_83c62f3b [label="272: create_application()" name="agent_application_makercopysystemupdate::create_application" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_2afca513 [label="223: create_plan()" name="agent_application_makercopysystemupdate::create_plan" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_375fc863 [label="504: create_unittests()" name="agent_application_makercopysystemupdate::create_unittests" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_56da0c9d [label="398: fix_application_files()" name="agent_application_makercopysystemupdate::fix_application_files" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_9c52ebb2 [label="1022: get_file_contents()" name="agent_application_makercopysystemupdate::get_file_contents" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_e66c4704 [label="633: get_multiline_input()" name="agent_application_makercopysystemupdate::get_multiline_input" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_b5fea8de [label="943: get_number_from_user()" name="agent_application_makercopysystemupdate::get_number_from_user" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_c5fad363 [label="847: get_project_files_contents()" name="agent_application_makercopysystemupdate::get_project_files_contents" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_67c417bd [label="926: get_string_from_user()" name="agent_application_makercopysystemupdate::get_string_from_user" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_f9b5d18b [label="986: load_application_plan()" name="agent_application_makercopysystemupdate::load_application_plan" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_9e5f802c [label="829: parse_file_structure_xml()" name="agent_application_makercopysystemupdate::parse_file_structure_xml" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_3ac4ced6 [label="72: plan_project()" name="agent_application_makercopysystemupdate::plan_project" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_eeeef3f0 [label="1033: rate_limited_request()" name="agent_application_makercopysystemupdate::rate_limited_request" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_04abf854 [label="319: run_application()" name="agent_application_makercopysystemupdate::run_application" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_36bf11db [label="543: run_unittests()" name="agent_application_makercopysystemupdate::run_unittests" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_3ccc1c63 [label="997: save_application_plan()" name="agent_application_makercopysystemupdate::save_application_plan" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_9f880610 [label="1008: save_file_contents()" name="agent_application_makercopysystemupdate::save_file_contents" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_f53c94f2 [label="686: select_relevant_files()" name="agent_application_makercopysystemupdate::select_relevant_files" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_da067e65 [label="715: update_application_files()" name="agent_application_makercopysystemupdate::update_application_files" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_bc288d2d [label="645: update_application_plan()" name="agent_application_makercopysystemupdate::update_application_plan" shape="rect" style="rounded,filled" fillcolor="#cccccc" ];
+node_6e5bd214 [label="961: update_backup_folder()" name="agent_application_makercopysystemupdate::update_backup_folder" shape="rect" style="rounded,filled" fillcolor="#6db33f" ];
+node_b39e9a8e -> node_83c62f3b [color="#D55E00" penwidth="2"];
+node_71c1e7ec -> node_eeeef3f0 [color="#F0E442" penwidth="2"];
+node_71c1e7ec -> node_9f880610 [color="#F0E442" penwidth="2"];
+node_71c1e7ec -> node_9f880610 [color="#F0E442" penwidth="2"];
+node_71c1e7ec -> node_9f880610 [color="#F0E442" penwidth="2"];
+node_71c1e7ec -> node_6e5bd214 [color="#F0E442" penwidth="2"];
+node_c0f9c0b2 -> node_9c52ebb2 [color="#56B4E9" penwidth="2"];
+node_c0f9c0b2 -> node_9c52ebb2 [color="#56B4E9" penwidth="2"];
+node_c0f9c0b2 -> node_9f880610 [color="#56B4E9" penwidth="2"];
+node_c0f9c0b2 -> node_9f880610 [color="#56B4E9" penwidth="2"];
+node_83c62f3b -> node_943b3cf1 [color="#009E73" penwidth="2"];
+node_83c62f3b -> node_943b3cf1 [color="#009E73" penwidth="2"];
+node_83c62f3b -> node_2afca513 [color="#009E73" penwidth="2"];
+node_83c62f3b -> node_56da0c9d [color="#009E73" penwidth="2"];
+node_83c62f3b -> node_e66c4704 [color="#009E73" penwidth="2"];
+node_83c62f3b -> node_04abf854 [color="#009E73" penwidth="2"];
+node_83c62f3b -> node_da067e65 [color="#009E73" penwidth="2"];
+node_2afca513 -> node_71c1e7ec [color="#009E73" penwidth="2"];
+node_2afca513 -> node_943b3cf1 [color="#009E73" penwidth="2"];
+node_2afca513 -> node_9c52ebb2 [color="#009E73" penwidth="2"];
+node_2afca513 -> node_e66c4704 [color="#009E73" penwidth="2"];
+node_2afca513 -> node_b5fea8de [color="#009E73" penwidth="2"];
+node_2afca513 -> node_9e5f802c [color="#009E73" penwidth="2"];
+node_2afca513 -> node_3ac4ced6 [color="#009E73" penwidth="2"];
+node_2afca513 -> node_eeeef3f0 [color="#009E73" penwidth="2"];
+node_2afca513 -> node_3ccc1c63 [color="#009E73" penwidth="2"];
+node_375fc863 -> node_c5fad363 [color="#009E73" penwidth="2"];
+node_375fc863 -> node_f9b5d18b [color="#009E73" penwidth="2"];
+node_375fc863 -> node_eeeef3f0 [color="#009E73" penwidth="2"];
+node_375fc863 -> node_9f880610 [color="#009E73" penwidth="2"];
+node_56da0c9d -> node_9c52ebb2 [color="#0072B2" penwidth="2"];
+node_56da0c9d -> node_e66c4704 [color="#0072B2" penwidth="2"];
+node_56da0c9d -> node_c5fad363 [color="#0072B2" penwidth="2"];
+node_56da0c9d -> node_f9b5d18b [color="#0072B2" penwidth="2"];
+node_56da0c9d -> node_eeeef3f0 [color="#0072B2" penwidth="2"];
+node_56da0c9d -> node_36bf11db [color="#0072B2" penwidth="2"];
+node_56da0c9d -> node_9f880610 [color="#0072B2" penwidth="2"];
+node_56da0c9d -> node_9f880610 [color="#0072B2" penwidth="2"];
+node_56da0c9d -> node_6e5bd214 [color="#0072B2" penwidth="2"];
+node_c5fad363 -> node_9c52ebb2 [color="#009E73" penwidth="2"];
+node_3ac4ced6 -> node_46146759 [color="#D55E00" penwidth="2"];
+node_3ac4ced6 -> node_46146759 [color="#D55E00" penwidth="2"];
+node_3ac4ced6 -> node_eeeef3f0 [color="#D55E00" penwidth="2"];
+node_3ac4ced6 -> node_eeeef3f0 [color="#D55E00" penwidth="2"];
+node_3ac4ced6 -> node_9f880610 [color="#D55E00" penwidth="2"];
+node_3ac4ced6 -> node_9f880610 [color="#D55E00" penwidth="2"];
+node_3ac4ced6 -> node_9f880610 [color="#D55E00" penwidth="2"];
+node_3ac4ced6 -> node_9f880610 [color="#D55E00" penwidth="2"];
+node_36bf11db -> node_375fc863 [color="#009E73" penwidth="2"];
+node_36bf11db -> node_375fc863 [color="#009E73" penwidth="2"];
+node_36bf11db -> node_9c52ebb2 [color="#009E73" penwidth="2"];
+node_3ccc1c63 -> node_9f880610 [color="#009E73" penwidth="2"];
+node_f53c94f2 -> node_eeeef3f0 [color="#56B4E9" penwidth="2"];
+node_f53c94f2 -> node_9f880610 [color="#56B4E9" penwidth="2"];
+node_da067e65 -> node_c0f9c0b2 [color="#0072B2" penwidth="2"];
+node_da067e65 -> node_c5fad363 [color="#0072B2" penwidth="2"];
+node_da067e65 -> node_67c417bd [color="#0072B2" penwidth="2"];
+node_da067e65 -> node_67c417bd [color="#0072B2" penwidth="2"];
+node_da067e65 -> node_f9b5d18b [color="#0072B2" penwidth="2"];
+node_da067e65 -> node_eeeef3f0 [color="#0072B2" penwidth="2"];
+node_da067e65 -> node_9f880610 [color="#0072B2" penwidth="2"];
+node_da067e65 -> node_9f880610 [color="#0072B2" penwidth="2"];
+node_da067e65 -> node_f53c94f2 [color="#0072B2" penwidth="2"];
+node_da067e65 -> node_bc288d2d [color="#0072B2" penwidth="2"];
+node_da067e65 -> node_6e5bd214 [color="#0072B2" penwidth="2"];
+node_bc288d2d -> node_f9b5d18b [color="#0072B2" penwidth="2"];
+node_bc288d2d -> node_3ccc1c63 [color="#0072B2" penwidth="2"];
+subgraph cluster_746cd422 {
+    node_46146759 node_3ac4ced6 node_71c1e7ec node_2afca513 node_83c62f3b node_04abf854 node_56da0c9d node_375fc863 node_36bf11db node_e66c4704 node_bc288d2d node_f53c94f2 node_da067e65 node_c0f9c0b2 node_9e5f802c node_c5fad363 node_943b3cf1 node_67c417bd node_b5fea8de node_6e5bd214 node_f9b5d18b node_3ccc1c63 node_9f880610 node_9c52ebb2 node_eeeef3f0 node_b39e9a8e;
+    label="File: agent_application_makercopysystemupdate";
+    name="agent_application_makercopysystemupdate";
+    style="filled";
+    graph[style=dotted];
+};
+}

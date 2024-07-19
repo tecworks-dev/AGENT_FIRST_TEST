@@ -1,0 +1,143 @@
+Debugging Diagnostic Test Report
+Generated at: 2024-07-04 12:12:47.375300
+==================================================
+
+Testing GET /
+Status Code: 200
+Headers:
+  Server: Werkzeug/3.0.3 Python/3.10.6
+  Date: Thu, 04 Jul 2024 11:12:27 GMT
+  Content-Type: text/html; charset=utf-8
+  Content-Length: 3430
+  Connection: close
+--------------------------------------------------
+
+Testing POST /register
+Status Code: 400
+Unexpected Response:
+Content: {"error":"Registration failed: The current Flask app is not registered with this 'SQLAlchemy' instance. Did you forget to call 'init_app', or did you create multiple 'SQLAlchemy' instances?"}
+
+Headers:
+  Server: Werkzeug/3.0.3 Python/3.10.6
+  Date: Thu, 04 Jul 2024 11:12:29 GMT
+  Content-Type: application/json
+  Content-Length: 192
+  Connection: close
+--------------------------------------------------
+
+Testing POST /login
+Status Code: 401
+Unexpected Response:
+Content: {"error":"Login failed: The current Flask app is not registered with this 'SQLAlchemy' instance. Did you forget to call 'init_app', or did you create multiple 'SQLAlchemy' instances?"}
+
+Headers:
+  Server: Werkzeug/3.0.3 Python/3.10.6
+  Date: Thu, 04 Jul 2024 11:12:31 GMT
+  Content-Type: application/json
+  Content-Length: 185
+  Connection: close
+--------------------------------------------------
+
+Testing POST /messages
+Status Code: 500
+Unexpected Response:
+Content: {"error":"An unexpected error occurred"}
+
+Headers:
+  Server: Werkzeug/3.0.3 Python/3.10.6
+  Date: Thu, 04 Jul 2024 11:12:33 GMT
+  Content-Type: application/json
+  Content-Length: 41
+  Connection: close
+--------------------------------------------------
+
+Testing GET /messages/1
+Status Code: 500
+Unexpected Response:
+Content: {"error":"An unexpected error occurred"}
+
+Headers:
+  Server: Werkzeug/3.0.3 Python/3.10.6
+  Date: Thu, 04 Jul 2024 11:12:35 GMT
+  Content-Type: application/json
+  Content-Length: 41
+  Connection: close
+--------------------------------------------------
+
+Testing PUT /messages/1
+Status Code: 500
+Unexpected Response:
+Content: {"error":"An unexpected error occurred"}
+
+Headers:
+  Server: Werkzeug/3.0.3 Python/3.10.6
+  Date: Thu, 04 Jul 2024 11:12:37 GMT
+  Content-Type: application/json
+  Content-Length: 41
+  Connection: close
+--------------------------------------------------
+
+Testing DELETE /messages/1
+Status Code: 500
+Unexpected Response:
+Content: {"error":"An unexpected error occurred"}
+
+Headers:
+  Server: Werkzeug/3.0.3 Python/3.10.6
+  Date: Thu, 04 Jul 2024 11:12:39 GMT
+  Content-Type: application/json
+  Content-Length: 41
+  Connection: close
+--------------------------------------------------
+
+Testing POST /media
+Status Code: 400
+Unexpected Response:
+Content: {"error":"User ID is required"}
+
+Headers:
+  Server: Werkzeug/3.0.3 Python/3.10.6
+  Date: Thu, 04 Jul 2024 11:12:41 GMT
+  Content-Type: application/json
+  Content-Length: 32
+  Connection: close
+--------------------------------------------------
+
+Testing GET /media/1
+Status Code: 404
+Unexpected Response:
+Content: {"error":"Media not found"}
+
+Headers:
+  Server: Werkzeug/3.0.3 Python/3.10.6
+  Date: Thu, 04 Jul 2024 11:12:43 GMT
+  Content-Type: application/json
+  Content-Length: 28
+  Connection: close
+--------------------------------------------------
+
+Testing DELETE /media/1
+Status Code: 404
+Unexpected Response:
+Content: {"error":"Media not found or could not be deleted"}
+
+Headers:
+  Server: Werkzeug/3.0.3 Python/3.10.6
+  Date: Thu, 04 Jul 2024 11:12:45 GMT
+  Content-Type: application/json
+  Content-Length: 52
+  Connection: close
+--------------------------------------------------
+
+Testing GET /search?query=test
+Status Code: 400
+Unexpected Response:
+Content: {"error":"Missing or invalid user_id parameter"}
+
+Headers:
+  Server: Werkzeug/3.0.3 Python/3.10.6
+  Date: Thu, 04 Jul 2024 11:12:47 GMT
+  Content-Type: application/json
+  Content-Length: 49
+  Connection: close
+--------------------------------------------------

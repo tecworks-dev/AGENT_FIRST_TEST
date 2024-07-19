@@ -1,0 +1,71 @@
+
+<!-- app/templates/components/ai_model_selector.html -->
+<!-- Reusable component for selecting AI models -->
+
+<div class="ai-model-selector">
+    <label for="ai-model-select">Select AI Model:</label>
+    <select id="ai-model-select" name="ai_model">
+        <option value="">-- Select a model --</option>
+        <!-- Models will be dynamically loaded here -->
+    </select>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const modelSelect = document.getElementById('ai-model-select');
+    
+    // Function to load available AI models
+    async function loadAIModels() {
+        try {
+            const response = await fetch('/api/ai-models');
+            if (!response.ok) {
+                throw new Error('Failed to fetch AI models');
+            }
+            const models = await response.json();
+            
+            // Populate the select dropdown with available models
+            models.forEach(model => {
+                const option = document.createElement('option');
+                option.value = model.id;
+                option.textContent = model.name;
+                modelSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error loading AI models:', error);
+            // Display an error message to the user
+            const errorMsg = document.createElement('p');
+            errorMsg.textContent = 'Failed to load AI models. Please try again later.';
+            errorMsg.style.color = 'red';
+            modelSelect.parentNode.appendChild(errorMsg);
+        }
+    }
+
+    // Load models when the component is initialized
+    loadAIModels();
+
+    // Event listener for model selection
+    modelSelect.addEventListener('change', async function() {
+        const selectedModelId = this.value;
+        if (selectedModelId) {
+            try {
+                const response = await fetch(`/api/ai-models/${selectedModelId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch model details');
+                }
+                const modelDetails = await response.json();
+                
+                // Dispatch a custom event with the selected model details
+                const event = new CustomEvent('aiModelSelected', { 
+                    detail: modelDetails,
+                    bubbles: true 
+                });
+                this.dispatchEvent(event);
+            } catch (error) {
+                console.error('Error fetching model details:', error);
+                // Display an error message to the user
+                alert('Failed to load model details. Please try again.');
+            }
+        }
+    });
+});
+</script>

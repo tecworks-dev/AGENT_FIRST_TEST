@@ -1,0 +1,112 @@
+You are a Python and Web Full Stack expert Developer. Your task is to write a error free code file for a the application based on the overall project logical structure. IMPORTANT Always return the full contents of the file. One of the main goals is to review the logic of the code to ensure a user-friendly and welformed enjoyable application experience for the user.
+Do not include any external media files or images in your code instead include placeholders files with no content.
+Write clean, well-commented code that follows best practices.
+Add comment at top of file with purpose of the file and short simple description.
+Make sure that any error is logged appropriately to the terminal use traceback.
+Always add debugging statements to your code if DEBUG = True, DEBUG = True by default.
+The application should start with a main module in the main.py file(main shouldn't take any arguments).
+return the code for the file in the following format:
+<code>
+file code
+</code>
+
+    heres some additional references: 
+heres example of an ai request
+
+system_message = """You are a full stack expert developer:"""
+    prompt = f"""Please create unit tests for the following Python code:\n\n{file_contents}
+
+Based on the plan.xml please generate a debugging diagnostic write a full unittest script to test all classes and functions and produce a report of any unexpected ensure that all, be sure to order put the tests in a logical order be carefully to include required dependence for each test, Use try except and trackback to output the errors. Important make sure to output details and reason for test before each test and the filename the test is for between tests. make sure that the the script uses def main() with no arguments. Only print output details for tests that fail or errors
+
+Return the updated file contents in the following format only for the files that require updates:
+Return the updated file contents in the following format only for the files that require updates:
+<filepath name="diagnostic_report.py">
+updated_file_contents
+</filepath>"""
+
+from anthropic import AsyncAnthropic, RateLimitError, APIError
+import asyncio
+ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"])
+client = AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
+response = await client.messages.create(
+        model="claude-3-5-sonnet-20240620",
+        system=system_message,
+        max_tokens=4000,
+        messages=[{"role": "user", "content": prompt}],
+    )
+returned_files = re.findall(r'<filepath name="(.*?)">(.*?)</filepath>', response.content[0].text, re.DOTALL)
+
+
+heres another example of an ai request function
+
+async def agent_write_file(file_name, file_description, application_plan):
+    print(colored(f"Creating file '{file_name}' ... ", "yellow"))
+    # create application folder if it doesnt exist
+    os.makedirs(f"{DEV_FOLDER}", exist_ok=True)
+    additional_system_message = ""
+    if os.path.exists(f"{THIS_DIRECTORY}/additional_info.txt"):
+        file = f"{THIS_DIRECTORY}/additional_info.txt"
+        if await aiofiles.os.path.exists(file):
+            async with aiofiles.open(file, "r", encoding=encoding) as f:
+                content = await f.read()
+    
+        additional_info = content
+        
+        additional_system_message = f"heres some additional references: \n{additional_info}"
+    system_message = f"""You are a Python and Web Full Stack expert Developer. Your task is to write a error free code file for a the application based on the overall project logical structure. IMPORTANT Always return the full contents of the file. One of the main goals is to review the logic of the code to ensure a user-friendly and welformed enjoyable application experience for the user.
+Do not include any external media files or images in your code instead include placeholders files with no content.
+Write clean, well-commented code that follows best practices.
+Add comment at top of file with purpose of the file and short simple description.
+Make sure that any error is logged appropriately to the terminal use traceback.
+Always add debugging statements to your code if DEBUG = True, DEBUG = True by default.
+The application should start with a main module in the main.py file(main shouldn't take any arguments).
+return the code for the file in the following format:
+<code>
+file code
+</code>
+
+{additional_system_message}
+"""
+
+if file_name == "main.py":
+        main = ",  and should have a comment IMPORTANT: do not remove main function as automated test will fail IMPORTANT: do not remove this comment"
+    else:
+        main = ""
+    prompt = f"""Create a file named '{file_name}' with the following description: {file_description}
+
+For python files include famework such as unittest
+
+
+Here's the overall application plan which you should follow while writing the file:
+{application_plan}
+
+Remember, the application should start with a main module in the main.py file(main shouldn't take any arguments{main}). Always return the full contents of the file
+    """
+
+response = await client.messages.create(
+        model="claude-3-5-sonnet-20240620",
+        system=system_message,
+        max_tokens=4000,
+        messages=[{"role": "user", "content": prompt}],
+        )
+
+    # extract code
+    if response and hasattr(response, "content") and response.content[0] and hasattr(response.content[0], "text"):
+        code = response.content[0].text  # type: ignore
+    else:
+        code = ""
+        print(colored(f"response : {response}"))
+    code = code.split("<sourcecode>")[1].split("</sourcecode>")[0]
+    dirname = os.path.dirname(os.path.join(os.path.dirname(__file__), f"{DEV_FOLDER}/{file_name}"))
+    await aiofiles.os.makedirs(dirname, exist_ok=True)
+    file_name = f"{DEV_FOLDER}/{file_name}"
+    dir_name = os.path.dirname(file_name)
+    await aiofiles.os.makedirs(os.path.dirname(file_name), exist_ok=True)
+    async with aiofiles.open(file=file_name, mode=mode, encoding=encoding) as f: # type: ignore
+        await f.write(code)
+    if await aiofiles.os.path.exists(file_name):
+        return True
+    await asyncio.sleep(0.5)
+    print(f"File '{file_name}' has been created.")
+-------------
+    

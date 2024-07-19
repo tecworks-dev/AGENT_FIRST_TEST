@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Chat Application</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Secure Chat</h1>
+            <div class="user-info">
+                <span>Welcome, {{ current_user.username }}</span>
+                <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
+            </div>
+            <button id="darkModeToggle" class="btn btn-toggle">Toggle Dark Mode</button>
+        </header>
+        
+        <main>
+            <div class="chat-container">
+                <div class="user-list">
+                    <h2>Online Users</h2>
+                    <ul id="onlineUsers">
+                        <!-- Online users will be dynamically added here -->
+                    </ul>
+                </div>
+                
+                <div class="chat-window">
+                    <div id="chatMessages" class="chat-messages">
+                        <!-- Chat messages will be dynamically added here -->
+                    </div>
+                    
+                    <div class="chat-input">
+                        <form id="messageForm">
+                            <input type="text" id="messageInput" placeholder="Type your message..." required>
+                            <button type="submit" class="btn btn-send">Send</button>
+                        </form>
+                        <label for="fileInput" class="btn btn-file">
+                            <input type="file" id="fileInput" hidden>
+                            Attach File
+                        </label>
+                        <button id="emojiButton" class="btn btn-emoji">😊</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>&copy; 2023 Secure Chat Application. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <div id="emojiPicker" class="emoji-picker hidden">
+        <!-- Emoji picker will be dynamically populated -->
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+</body>
+</html>

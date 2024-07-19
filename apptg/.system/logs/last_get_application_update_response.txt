@@ -1,0 +1,211 @@
+Based on the user's feedback, I'll update the relevant files to address the comments. Here are the updated file contents:
+
+<file name="app/routes/auth.py">
+# Purpose: Authentication routes (login, register, logout)
+# Description: This file contains route handlers for user authentication,
+#              including registration, login, and logout.
+
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for
+from flask_login import login_user, logout_user, login_required, current_user
+from werkzeug.security import check_password_hash, generate_password_hash
+from app.models import User
+from app import db
+import traceback
+
+auth = Blueprint('auth', __name__)
+
+@auth.route('/register', methods=['POST'])
+def register():
+    """Registers a new user"""
+    if current_user.is_authenticated:
+        return jsonify({"message": "Already logged in"}), 400
+
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        email = data.get('email')
+        password = data.get('password')
+
+        if not username or not email or not password:
+            return jsonify({"message": "Username, email, and password are required"}), 400
+
+        if User.query.filter_by(username=username).first():
+            return jsonify({"message": "Username already exists"}), 400
+
+        if User.query.filter_by(email=email).first():
+            return jsonify({"message": "Email already exists"}), 400
+
+        new_user = User(username=username, email=email)
+        new_user.set_password(password)
+        db.session.add(new_user)
+        db.session.commit()
+
+        return jsonify({"message": "User registered successfully"}), 201
+    except Exception as e:
+        db.session.rollback()
+        traceback.print_exc()
+        return jsonify({"message": "An error occurred while registering the user"}), 500
+
+@auth.route('/login', methods=['POST'])
+def login():
+    """Logs in a user"""
+    if current_user.is_authenticated:
+        return jsonify({"message": "Already logged in"}), 400
+
+    try:
+        data = request.get_json()
+        email = data.get('email')
+        password = data.get('password')
+
+        if not email or not password:
+            return jsonify({"message": "Email and password are required"}), 400
+
+        user = User.query.filter_by(email=email).first()
+
+        if user and user.check_password(password):
+            if user.is_banned:
+                return jsonify({"message": "This account has been banned"}), 403
+            login_user(user)
+            return jsonify({"message": "Logged in successfully"}), 200
+        else:
+            return jsonify({"message": "Invalid email or password"}), 401
+    except Exception as e:
+        traceback.print_exc()
+        return jsonify({"message": "An error occurred during login"}), 500
+
+@auth.route('/logout')
+@login_required
+def logout():
+    """Logs out a user"""
+    logout_user()
+    return jsonify({"message": "Logged out successfully"}), 200
+</file>
+
+<file name="app/routes/admin.py">
+# Purpose: Admin panel routes
+# Description: This file contains routes for administrative functions such as retrieving users,
+#              banning users, and deleting groups or channels.
+
+import traceback
+from flask import Blueprint, request, jsonify, render_template, current_app, redirect, url_for
+from flask_login import login_required, current_user
+from app.models import User, Group, Channel
+from app import db
+
+admin = Blueprint('admin', __name__)
+
+DEBUG = True
+
+@admin.route('/')
+def admin_login():
+    """
+    Renders the admin login page.
+    """
+    if current_user.is_authenticated and current_user.is_admin:
+        return redirect(url_for('admin.admin_panel'))
+    return render_template('admin_login.html')
+
+@admin.route('/login', methods=['POST'])
+def admin_login_post():
+    """
+    Handles admin login POST request.
+    """
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    user = User.query.filter_by(email=email).first()
+
+    if user and user.check_password(password) and user.is_admin:
+        login_user(user)
+        return jsonify({"message": "Admin logged in successfully"}), 200
+    else:
+        return jsonify({"message": "Invalid email or password, or not an admin"}), 401
+
+@admin.route('/panel')
+@login_required
+def admin_panel():
+    """
+    Renders the admin panel interface.
+    """
+    if not current_user.is_admin:
+        return jsonify({"message": "Access denied. Admin privileges required."}), 403
+    return render_template('admin_interface.html')
+
+# ... (rest of the file remains unchanged)
+</file>
+
+Now, let's update the application plan to reflect these changes:
+
+<application_plan>
+    <overview>
+        A sophisticated web-based communication platform inspired by Telegram, offering secure messaging, group chats, file sharing, voice/video calls, and a robust API. Built with Flask, it prioritizes security, scalability, and user experience.
+    </overview>
+    
+    <mechanics>
+        - End-to-end encrypted messaging
+        - Group and channel management
+        - File sharing and media transfer
+        - Voice and video calling
+        - User status updates
+        - Admin panel for platform management
+        - RESTful API for third-party integrations
+        - WebSocket for real-time communications
+    </mechanics>
+    
+    <components>
+        - Flask web application
+        - SQLAlchemy ORM
+        - Flask-SocketIO for WebSocket support
+        - Encryption service
+        - File handling service
+        - Push notification service
+        - RESTful API
+        - Admin panel
+        - User authentication system
+    </components>
+    
+    <files>
+        <!-- ... (other files remain unchanged) ... -->
+        <file>
+            <name>app/routes/auth.py</name>
+            <description>
+                Authentication routes (login, register, logout).
+                Updated to return JSON responses for /register and /login routes.
+                Imports: from flask import Blueprint, request, jsonify; from flask_login import login_user, logout_user, login_required, current_user
+                Functions:
+                - register(): Handles user registration (POST /register)
+                - login(): Handles user login (POST /login)
+                - logout(): Handles user logout (GET /logout)
+            </description>
+        </file>
+        <file>
+            <name>app/routes/admin.py</name>
+            <description>
+                Admin panel routes.
+                Updated to include a separate route for admin login and to return the admin login template.
+                Imports: from flask import Blueprint, request, jsonify, render_template; from flask_login import login_required, current_user
+                Functions:
+                - admin_login(): Renders admin login page (GET /admin/)
+                - admin_login_post(): Handles admin login (POST /admin/login)
+                - admin_panel(): Renders admin panel (GET /admin/panel)
+            </description>
+        </file>
+        <!-- ... (other files remain unchanged) ... -->
+    </files>
+    
+    <logic>
+        1. User registration and authentication (now returning JSON responses)
+        2. Secure message sending and receiving
+        3. Group and channel creation and management
+        4. File upload, storage, and sharing
+        5. Real-time updates via WebSockets
+        6. Push notifications for offline users
+        7. Voice and video call initiation and management
+        8. Admin operations for platform management (now with separate login)
+        9. API endpoints for third-party integrations
+        10. End-to-end encryption for all communications
+    </logic>
+</application_plan>
+
+These changes address the user's feedback by ensuring that the /register and /login routes return JSON responses, and the /admin route now returns the admin login template. The admin panel is accessible via a separate route after successful admin login.

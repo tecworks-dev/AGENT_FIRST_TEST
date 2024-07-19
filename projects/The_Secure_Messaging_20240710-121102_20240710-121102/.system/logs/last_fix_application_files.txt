@@ -1,0 +1,863 @@
+An error occurred while running the python application project. Here's the error message:
+
+Runtime errors:
+
+Error running application: 'coroutine' object has no attribute 'strip'
+Traceback (most recent call last):
+  File "H:\git\AGENT_FIRST_TEST\makeappssubfolder\agent_application_makercopysystemupdate.py", line 382, in run_application
+    await asyncio.gather(
+  File "H:\git\AGENT_FIRST_TEST\makeappssubfolder\agent_application_makercopysystemupdate.py", line 375, in user_input
+    if await asyncio.to_thread(sys.stdin.readline).strip().lower() == 'q':
+AttributeError: 'coroutine' object has no attribute 'strip'
+
+
+
+Here is the output of diagnostics_report.py unittest:
+
+Runtime errors:
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+ModuleNotFoundError: No module named 'main'
+
+Process exited with return code 1
+
+
+Here are the contents of the files involved in the error:File: requirements.txt
+
+Flask
+backend
+celery
+cryptography
+flask_bcrypt
+flask_jwt_extended
+flask_migrate
+flask_redis
+flask_sqlalchemy
+flask_testing
+logging
+unittest2
+
+
+File: secure_messaging_platform/main.py
+
+
+"""
+main.py - Entry point of the Secure Messaging Platform application.
+
+This module initializes and runs the Flask application for the Secure Messaging Platform.
+It imports the necessary modules and defines the main function to start the application.
+"""
+
+import os
+import traceback
+from flask import Flask
+from backend import create_app
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Set DEBUG mode
+DEBUG = True
+
+def main():
+    """
+    Initialize and run the Flask application.
+
+    This function creates the Flask app instance, configures it,
+    and runs it in debug mode if DEBUG is set to True.
+    """
+    try:
+        app = create_app()
+        
+        if DEBUG:
+            logger.info("Starting the application in DEBUG mode")
+            app.config['DEBUG'] = True
+        
+        port = int(os.environ.get("PORT", 5000))
+        app.run(host='0.0.0.0', port=port)
+    except Exception as e:
+        logger.error(f"An error occurred while starting the application: {str(e)}")
+        if DEBUG:
+            logger.error(traceback.format_exc())
+
+if __name__ == "__main__":
+    main()
+
+# Test suite for main.py
+import unittest
+from unittest.mock import patch, MagicMock
+
+class TestMain(unittest.TestCase):
+
+    @patch('backend.create_app')
+    @patch('main.Flask')
+    def test_main_function(self, mock_flask, mock_create_app):
+        # Mock the create_app function
+        mock_app = MagicMock()
+        mock_create_app.return_value = mock_app
+
+        # Call the main function
+        main()
+
+        # Assert that create_app was called
+        mock_create_app.assert_called_once()
+
+        # Assert that app.run was called with the correct arguments
+        mock_app.run.assert_called_once_with(host='0.0.0.0', port=5000)
+
+    @patch('main.logger')
+    @patch('backend.create_app')
+    def test_main_function_exception_handling(self, mock_create_app, mock_logger):
+        # Mock create_app to raise an exception
+        mock_create_app.side_effect = Exception("Test exception")
+
+        # Call the main function
+        main()
+
+        # Assert that the logger.error was called
+        mock_logger.error.assert_called()
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+File: secure_messaging_platform/backend/config.py
+
+
+# Purpose: Define configuration settings for the Secure Messaging Platform application
+# Description: This file contains the Config class that stores configuration variables as class attributes.
+
+import os
+import traceback
+
+class Config:
+    # Secret key for session management and CSRF protection
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+
+    # Database configuration
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///app.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # JWT configuration
+    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY') or 'super-secret'
+    JWT_ACCESS_TOKEN_EXPIRES = 3600  # 1 hour
+
+    # Redis configuration
+    REDIS_URL = os.environ.get('REDIS_URL') or 'redis://localhost:6379/0'
+
+    # Celery configuration
+    CELERY_BROKER_URL = REDIS_URL
+    CELERY_RESULT_BACKEND = REDIS_URL
+
+    # File upload configuration
+    UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16 MB
+
+    # Encryption key (in a real-world scenario, this should be stored securely)
+    ENCRYPTION_KEY = os.environ.get('ENCRYPTION_KEY') or 'default-encryption-key'
+
+    # Debug mode
+    DEBUG = True
+
+    @classmethod
+    def init_app(cls, app):
+        """
+        Initialize the application with the configuration.
+
+        :param app: Flask application instance
+        """
+        try:
+            app.config.from_object(cls)
+            
+            # Ensure upload folder exists
+            os.makedirs(cls.UPLOAD_FOLDER, exist_ok=True)
+
+            if cls.DEBUG:
+                print(f"Initialized app with config: {cls.__name__}")
+                print(f"Database URI: {cls.SQLALCHEMY_DATABASE_URI}")
+                print(f"Redis URL: {cls.REDIS_URL}")
+                print(f"Upload folder: {cls.UPLOAD_FOLDER}")
+        except Exception as e:
+            print(f"Error initializing app config: {str(e)}")
+            print(traceback.format_exc())
+
+# Test configuration for unit tests
+class TestConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+    WTF_CSRF_ENABLED = False
+
+# Add more configuration classes if needed (e.g., ProductionConfig, DevelopmentConfig)
+
+import unittest
+
+class TestConfigTestCase(unittest.TestCase):
+    def test_config_values(self):
+        self.assertIsNotNone(Config.SECRET_KEY)
+        self.assertIsNotNone(Config.SQLALCHEMY_DATABASE_URI)
+        self.assertFalse(Config.SQLALCHEMY_TRACK_MODIFICATIONS)
+        self.assertIsNotNone(Config.JWT_SECRET_KEY)
+        self.assertEqual(Config.JWT_ACCESS_TOKEN_EXPIRES, 3600)
+        self.assertIsNotNone(Config.REDIS_URL)
+        self.assertIsNotNone(Config.CELERY_BROKER_URL)
+        self.assertIsNotNone(Config.CELERY_RESULT_BACKEND)
+        self.assertIsNotNone(Config.UPLOAD_FOLDER)
+        self.assertEqual(Config.MAX_CONTENT_LENGTH, 16 * 1024 * 1024)
+        self.assertIsNotNone(Config.ENCRYPTION_KEY)
+        self.assertTrue(Config.DEBUG)
+
+    def test_test_config(self):
+        self.assertTrue(TestConfig.TESTING)
+        self.assertEqual(TestConfig.SQLALCHEMY_DATABASE_URI, 'sqlite:///:memory:')
+        self.assertFalse(TestConfig.WTF_CSRF_ENABLED)
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+File: secure_messaging_platform/backend/extensions.py
+
+
+# Purpose: Initialize Flask extensions for the Secure Messaging Platform
+# Description: This file sets up and configures various Flask extensions used throughout the application
+
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_jwt_extended import JWTManager
+from flask_bcrypt import Bcrypt
+from flask_redis import FlaskRedis
+from celery import Celery
+import traceback
+
+# Initialize SQLAlchemy for database operations
+db = SQLAlchemy()
+
+# Initialize Flask-Migrate for database migrations
+migrate = Migrate()
+
+# Initialize Flask-JWT-Extended for JSON Web Token handling
+jwt = JWTManager()
+
+# Initialize Flask-Bcrypt for password hashing
+bcrypt = Bcrypt()
+
+# Initialize Flask-Redis for Redis operations
+redis_client = FlaskRedis()
+
+# Initialize Celery for background tasks
+celery = Celery()
+
+def init_extensions(app):
+    """
+    Initialize and configure all Flask extensions
+    :param app: Flask application instance
+    """
+    try:
+        db.init_app(app)
+        migrate.init_app(app, db)
+        jwt.init_app(app)
+        bcrypt.init_app(app)
+        redis_client.init_app(app)
+
+        celery.conf.update(app.config)
+
+        if app.config['DEBUG']:
+            print("Extensions initialized successfully")
+    except Exception as e:
+        print(f"Error initializing extensions: {str(e)}")
+        traceback.print_exc()
+
+# Unit tests
+import unittest
+from unittest.mock import MagicMock, patch
+
+class TestExtensions(unittest.TestCase):
+
+    @patch('flask_sqlalchemy.SQLAlchemy.init_app')
+    @patch('flask_migrate.Migrate.init_app')
+    @patch('flask_jwt_extended.JWTManager.init_app')
+    @patch('flask_bcrypt.Bcrypt.init_app')
+    @patch('flask_redis.FlaskRedis.init_app')
+    def test_init_extensions(self, mock_redis, mock_bcrypt, mock_jwt, mock_migrate, mock_db):
+        mock_app = MagicMock()
+        mock_app.config = {'DEBUG': True}
+
+        init_extensions(mock_app)
+
+        mock_db.assert_called_once_with(mock_app)
+        mock_migrate.assert_called_once_with(mock_app, db)
+        mock_jwt.assert_called_once_with(mock_app)
+        mock_bcrypt.assert_called_once_with(mock_app)
+        mock_redis.assert_called_once_with(mock_app)
+
+    @patch('traceback.print_exc')
+    def test_init_extensions_error(self, mock_traceback):
+        mock_app = MagicMock()
+        mock_app.config = {'DEBUG': True}
+
+        # Simulate an error during initialization
+        with patch('flask_sqlalchemy.SQLAlchemy.init_app', side_effect=Exception("Test error")):
+            init_extensions(mock_app)
+
+        mock_traceback.assert_called_once()
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+File: secure_messaging_platform/backend/__init__.py
+
+
+# Purpose: Initialize the Flask application and register blueprints
+# Description: This file creates and configures the Flask application instance,
+# registers blueprints, and sets up necessary extensions.
+
+import os
+import traceback
+from flask import Flask
+from .config import Config
+from .extensions import db, migrate, jwt, bcrypt, redis_client, celery
+from .api import auth, messages
+
+def create_app(config_class=Config):
+    """
+    Create and configure the Flask application instance.
+
+    Args:
+        config_class (object): Configuration class to use. Defaults to Config.
+
+    Returns:
+        Flask: Configured Flask application instance.
+    """
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+
+    # Initialize extensions
+    db.init_app(app)
+    migrate.init_app(app, db)
+    jwt.init_app(app)
+    bcrypt.init_app(app)
+    redis_client.init_app(app)
+    celery.init_app(app)
+
+    # Register blueprints
+    app.register_blueprint(auth.bp)
+    app.register_blueprint(messages.bp)
+
+    # Error handling
+    @app.errorhandler(Exception)
+    def handle_error(e):
+        if app.config['DEBUG']:
+            print(f"An error occurred: {str(e)}")
+            print(traceback.format_exc())
+        return {"error": "An unexpected error occurred"}, 500
+
+    # Debug mode logging
+    if app.config['DEBUG']:
+        @app.before_request
+        def log_request_info():
+            print(f"Request: {request.method} {request.url}")
+            print(f"Headers: {request.headers}")
+            print(f"Body: {request.get_data()}")
+
+        @app.after_request
+        def log_response_info(response):
+            print(f"Response: {response.status}")
+            print(f"Headers: {response.headers}")
+            print(f"Body: {response.get_data()}")
+            return response
+
+    return app
+
+if __name__ == "__main__":
+    app = create_app()
+    app.run(debug=True)
+
+# Test cases using unittest
+import unittest
+from flask_testing import TestCase
+
+class TestApp(TestCase):
+    def create_app(self):
+        app = create_app()
+        app.config['TESTING'] = True
+        return app
+
+    def test_app_creation(self):
+        self.assertIsNotNone(self.app)
+        self.assertTrue(self.app.config['TESTING'])
+
+    def test_error_handling(self):
+        @self.app.route('/test_error')
+        def test_error():
+            raise Exception("Test error")
+
+        response = self.client.get('/test_error')
+        self.assertEqual(response.status_code, 500)
+        self.assertIn("error", response.json)
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+File: secure_messaging_platform/backend/api/auth.py
+
+
+# Purpose: Handles user authentication and authorization
+# Description: This module provides endpoints for user registration, login, and logout
+
+import traceback
+from flask import Blueprint, request, jsonify
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from ..models.user import User
+from ..extensions import db, jwt, bcrypt
+
+auth = Blueprint('auth', __name__)
+
+@auth.route('/register', methods=['POST'])
+def register():
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        password = data.get('password')
+        email = data.get('email')
+
+        if not username or not password or not email:
+            return jsonify({"message": "Missing required fields"}), 400
+
+        if User.query.filter_by(username=username).first():
+            return jsonify({"message": "Username already exists"}), 400
+
+        if User.query.filter_by(email=email).first():
+            return jsonify({"message": "Email already exists"}), 400
+
+        new_user = User(username=username, email=email)
+        new_user.set_password(password)
+        db.session.add(new_user)
+        db.session.commit()
+
+        return jsonify({"message": "User registered successfully"}), 201
+    except Exception as e:
+        db.session.rollback()
+        if __debug__:
+            print(f"Error in register: {str(e)}")
+            traceback.print_exc()
+        return jsonify({"message": "An error occurred during registration"}), 500
+
+@auth.route('/login', methods=['POST'])
+def login():
+    try:
+        data = request.get_json()
+        username = data.get('username')
+        password = data.get('password')
+
+        if not username or not password:
+            return jsonify({"message": "Missing username or password"}), 400
+
+        user = User.query.filter_by(username=username).first()
+
+        if user and user.check_password(password):
+            access_token = create_access_token(identity=user.id)
+            return jsonify(access_token=access_token), 200
+        else:
+            return jsonify({"message": "Invalid username or password"}), 401
+    except Exception as e:
+        if __debug__:
+            print(f"Error in login: {str(e)}")
+            traceback.print_exc()
+        return jsonify({"message": "An error occurred during login"}), 500
+
+@auth.route('/logout', methods=['POST'])
+@jwt_required()
+def logout():
+    try:
+        # In a stateless JWT system, we don't need to do anything server-side for logout
+        # The client is responsible for discarding the token
+        return jsonify({"message": "Successfully logged out"}), 200
+    except Exception as e:
+        if __debug__:
+            print(f"Error in logout: {str(e)}")
+            traceback.print_exc()
+        return jsonify({"message": "An error occurred during logout"}), 500
+
+# For testing purposes
+if __name__ == '__main__':
+    import unittest
+
+    class TestAuth(unittest.TestCase):
+        def setUp(self):
+            # Set up test client and database
+            pass
+
+        def test_register(self):
+            # Test user registration
+            pass
+
+        def test_login(self):
+            # Test user login
+            pass
+
+        def test_logout(self):
+            # Test user logout
+            pass
+
+    unittest.main()
+
+
+File: secure_messaging_platform/backend/api/messages.py
+
+
+# Purpose: Handle message-related operations for the Secure Messaging Platform
+# Description: This module provides API endpoints for sending and receiving messages
+
+import traceback
+from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
+from ..models.message import Message
+from ..models.user import User
+from ..extensions import db
+from ..services.encryption import encrypt_message, decrypt_message
+
+messages = Blueprint('messages', __name__)
+
+@messages.route('/send', methods=['POST'])
+@jwt_required()
+def send_message():
+    """
+    Send a new message
+    """
+    try:
+        current_user_id = get_jwt_identity()
+        data = request.get_json()
+        
+        if not data or 'recipient_id' not in data or 'content' not in data:
+            return jsonify({'error': 'Invalid request data'}), 400
+        
+        recipient = User.query.get(data['recipient_id'])
+        if not recipient:
+            return jsonify({'error': 'Recipient not found'}), 404
+        
+        # Encrypt the message content
+        encrypted_content = encrypt_message(data['content'], recipient.encryption_key)
+        
+        new_message = Message(
+            sender_id=current_user_id,
+            recipient_id=data['recipient_id'],
+            content=encrypted_content
+        )
+        
+        db.session.add(new_message)
+        db.session.commit()
+        
+        return jsonify({'message': 'Message sent successfully'}), 201
+    
+    except Exception as e:
+        db.session.rollback()
+        if __debug__:
+            print(f"Error in send_message: {str(e)}")
+            traceback.print_exc()
+        return jsonify({'error': 'An error occurred while sending the message'}), 500
+
+@messages.route('/receive', methods=['GET'])
+@jwt_required()
+def receive_messages():
+    """
+    Receive messages for the current user
+    """
+    try:
+        current_user_id = get_jwt_identity()
+        current_user = User.query.get(current_user_id)
+        
+        if not current_user:
+            return jsonify({'error': 'User not found'}), 404
+        
+        # Fetch unread messages for the current user
+        unread_messages = Message.query.filter_by(recipient_id=current_user_id, is_read=False).all()
+        
+        messages_data = []
+        for message in unread_messages:
+            # Decrypt the message content
+            decrypted_content = decrypt_message(message.content, current_user.encryption_key)
+            messages_data.append({
+                'id': message.id,
+                'sender_id': message.sender_id,
+                'content': decrypted_content,
+                'timestamp': message.timestamp.isoformat()
+            })
+            
+            # Mark the message as read
+            message.is_read = True
+        
+        db.session.commit()
+        
+        return jsonify({'messages': messages_data}), 200
+    
+    except Exception as e:
+        db.session.rollback()
+        if __debug__:
+            print(f"Error in receive_messages: {str(e)}")
+            traceback.print_exc()
+        return jsonify({'error': 'An error occurred while fetching messages'}), 500
+
+# Debug route to test the messages functionality
+if __debug__:
+    @messages.route('/debug', methods=['GET'])
+    def debug_messages():
+        return jsonify({'status': 'Messages module is working'}), 200
+
+# Add unit tests
+import unittest
+from unittest.mock import patch, MagicMock
+
+class TestMessages(unittest.TestCase):
+    
+    @patch('flask_jwt_extended.get_jwt_identity')
+    @patch('secure_messaging_platform.backend.models.user.User.query')
+    @patch('secure_messaging_platform.backend.services.encryption.encrypt_message')
+    def test_send_message(self, mock_encrypt, mock_user_query, mock_get_jwt_identity):
+        # Set up mocks
+        mock_get_jwt_identity.return_value = 1
+        mock_user_query.get.return_value = MagicMock(encryption_key='test_key')
+        mock_encrypt.return_value = b'encrypted_content'
+        
+        # Test the send_message function
+        with messages.test_request_context('/send', method='POST', json={
+            'recipient_id': 2,
+            'content': 'Test message'
+        }):
+            response = send_message()
+            self.assertEqual(response[1], 201)
+    
+    @patch('flask_jwt_extended.get_jwt_identity')
+    @patch('secure_messaging_platform.backend.models.user.User.query')
+    @patch('secure_messaging_platform.backend.models.message.Message.query')
+    @patch('secure_messaging_platform.backend.services.encryption.decrypt_message')
+    def test_receive_messages(self, mock_decrypt, mock_message_query, mock_user_query, mock_get_jwt_identity):
+        # Set up mocks
+        mock_get_jwt_identity.return_value = 1
+        mock_user_query.get.return_value = MagicMock(encryption_key='test_key')
+        mock_message = MagicMock(id=1, sender_id=2, content=b'encrypted_content', timestamp='2023-05-01T12:00:00')
+        mock_message_query.filter_by.return_value.all.return_value = [mock_message]
+        mock_decrypt.return_value = 'decrypted_content'
+        
+        # Test the receive_messages function
+        with messages.test_request_context('/receive', method='GET'):
+            response = receive_messages()
+            self.assertEqual(response[1], 200)
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+File: secure_messaging_platform/backend/models/user.py
+
+
+# Purpose: Define the User model for the Secure Messaging Platform
+# Description: This file contains the User SQLAlchemy model with methods for password hashing and verification
+
+import traceback
+from ..extensions import db, bcrypt
+import unittest
+
+class User(db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
+    is_active = db.Column(db.Boolean, default=True)
+    is_admin = db.Column(db.Boolean, default=False)
+
+    def __init__(self, username, email, password):
+        self.username = username
+        self.email = email
+        self.set_password(password)
+
+    def set_password(self, password: str) -> None:
+        """
+        Set the hashed password for the user.
+
+        Args:
+            password (str): The plain text password to be hashed.
+
+        Returns:
+            None
+        """
+        try:
+            self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+        except Exception as e:
+            print(f"Error setting password: {str(e)}")
+            traceback.print_exc()
+
+    def check_password(self, password: str) -> bool:
+        """
+        Check if the provided password matches the stored hash.
+
+        Args:
+            password (str): The plain text password to be checked.
+
+        Returns:
+            bool: True if the password matches, False otherwise.
+        """
+        try:
+            return bcrypt.check_password_hash(self.password_hash, password)
+        except Exception as e:
+            print(f"Error checking password: {str(e)}")
+            traceback.print_exc()
+            return False
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+
+# Debug statements
+if __name__ == '__main__':
+    DEBUG = True
+    if DEBUG:
+        print("Debug mode is active for User model")
+        print(f"User model tablename: {User.__tablename__}")
+        print(f"User model columns: {User.__table__.columns.keys()}")
+
+# Unit tests for User model
+class TestUser(unittest.TestCase):
+    def setUp(self):
+        self.user = User(username="testuser", email="test@example.com", password="testpassword")
+
+    def test_password_hashing(self):
+        self.assertNotEqual(self.user.password_hash, "testpassword")
+        self.assertTrue(self.user.check_password("testpassword"))
+        self.assertFalse(self.user.check_password("wrongpassword"))
+
+    def test_user_representation(self):
+        self.assertEqual(repr(self.user), "<User testuser>")
+
+if __name__ == '__main__':
+    unittest.main()
+
+
+File: secure_messaging_platform/backend/services/encryption.py
+
+
+"""
+Purpose: Handles message encryption and decryption for the Secure Messaging Platform.
+
+This module provides functions for generating encryption keys, encrypting messages,
+and decrypting messages using the Fernet symmetric encryption scheme from the
+cryptography library.
+"""
+
+import traceback
+from cryptography.fernet import Fernet
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# Debug flag
+DEBUG = True
+
+def generate_key():
+    """
+    Generate a new encryption key.
+
+    Returns:
+        bytes: A new encryption key.
+    """
+    try:
+        key = Fernet.generate_key()
+        if DEBUG:
+            logger.debug(f"Generated new encryption key: {key}")
+        return key
+    except Exception as e:
+        logger.error(f"Error generating encryption key: {str(e)}")
+        if DEBUG:
+            logger.error(traceback.format_exc())
+        raise
+
+def encrypt_message(message: str, key: bytes) -> bytes:
+    """
+    Encrypt a message using the provided key.
+
+    Args:
+        message (str): The message to encrypt.
+        key (bytes): The encryption key.
+
+    Returns:
+        bytes: The encrypted message.
+    """
+    try:
+        f = Fernet(key)
+        encrypted_message = f.encrypt(message.encode())
+        if DEBUG:
+            logger.debug(f"Message encrypted: {message} -> {encrypted_message}")
+        return encrypted_message
+    except Exception as e:
+        logger.error(f"Error encrypting message: {str(e)}")
+        if DEBUG:
+            logger.error(traceback.format_exc())
+        raise
+
+def decrypt_message(encrypted_message: bytes, key: bytes) -> str:
+    """
+    Decrypt an encrypted message using the provided key.
+
+    Args:
+        encrypted_message (bytes): The encrypted message to decrypt.
+        key (bytes): The encryption key.
+
+    Returns:
+        str: The decrypted message.
+    """
+    try:
+        f = Fernet(key)
+        decrypted_message = f.decrypt(encrypted_message).decode()
+        if DEBUG:
+            logger.debug(f"Message decrypted: {encrypted_message} -> {decrypted_message}")
+        return decrypted_message
+    except Exception as e:
+        logger.error(f"Error decrypting message: {str(e)}")
+        if DEBUG:
+            logger.error(traceback.format_exc())
+        raise
+
+# Unit tests
+import unittest
+
+class TestEncryption(unittest.TestCase):
+    def test_encryption_decryption(self):
+        key = generate_key()
+        original_message = "Hello, World!"
+        encrypted = encrypt_message(original_message, key)
+        decrypted = decrypt_message(encrypted, key)
+        self.assertEqual(original_message, decrypted)
+
+    def test_different_keys(self):
+        key1 = generate_key()
+        key2 = generate_key()
+        message = "Test message"
+        encrypted = encrypt_message(message, key1)
+        with self.assertRaises(Exception):
+            decrypt_message(encrypted, key2)
+
+if __name__ == "__main__":
+    unittest.main()
+
+
+Here a reminder of the error:
+
+Runtime errors:
+
+Error running application: 'coroutine' object has no attribute 'strip'
+Traceback (most recent call last):
+  File "H:\git\AGENT_FIRST_TEST\makeappssubfolder\agent_application_makercopysystemupdate.py", line 382, in run_application
+    await asyncio.gather(
+  File "H:\git\AGENT_FIRST_TEST\makeappssubfolder\agent_application_makercopysystemupdate.py", line 375, in user_input
+    if await asyncio.to_thread(sys.stdin.readline).strip().lower() == 'q':
+AttributeError: 'coroutine' object has no attribute 'strip'
+
+
+
+Please analyze the error and provide corrected versions of the files to resolve the error. return the full content of the files Remember that the application should start with a main module in the main.py file(main shouldn't take any arguments).

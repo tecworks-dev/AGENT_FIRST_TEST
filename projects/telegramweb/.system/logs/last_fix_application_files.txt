@@ -1,0 +1,2172 @@
+An error occurred while running the python application project. Here's the error message:
+
+Runtime errors:
+
+Error running application: 'coroutine' object has no attribute 'strip'
+Traceback (most recent call last):
+  File "H:\git\AGENT_FIRST_TEST\makeappssubfolder\agent_application_makercopysystemupdate.py", line 382, in run_application
+    await asyncio.gather(
+  File "H:\git\AGENT_FIRST_TEST\makeappssubfolder\agent_application_makercopysystemupdate.py", line 375, in user_input
+    if await asyncio.to_thread(sys.stdin.readline).strip().lower() == 'q':
+AttributeError: 'coroutine' object has no attribute 'strip'
+
+
+
+Here is the output of diagnostics_report.py unittest:
+
+None
+
+Here are the contents of the files involved in the error:File: config.py
+
+# config.py
+# Purpose: Defines configuration settings for the messaging platform application.
+# Description: This file contains a Config class with various configuration variables
+#              used throughout the application, including database settings, secret keys,
+#              and other environment-specific configurations.
+
+import os
+import logging
+
+class Config:
+    # Secret key for Flask sessions and other security features
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
+
+    # Database configuration
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'sqlite:///' + os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app.db')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # File upload configuration
+    UPLOAD_FOLDER = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'uploads')
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16 MB max upload size
+
+    # SocketIO configuration
+    SOCKETIO_ASYNC_MODE = 'eventlet'
+
+    # Logging configuration
+    LOG_LEVEL = logging.DEBUG if os.environ.get('FLASK_ENV') == 'development' else logging.INFO
+    LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+
+    # Security settings
+    SESSION_COOKIE_SECURE = True
+    REMEMBER_COOKIE_SECURE = True
+    SESSION_COOKIE_HTTPONLY = True
+    REMEMBER_COOKIE_HTTPONLY = True
+
+    # CSRF protection
+    WTF_CSRF_ENABLED = True
+
+    # Debug mode (set to True for development)
+    DEBUG = True
+
+    @staticmethod
+    def init_app(app):
+        # You can perform any additional configuration here
+        pass
+
+    def __init__(self):
+        # Ensure upload folder exists
+        os.makedirs(self.UPLOAD_FOLDER, exist_ok=True)
+
+        if self.DEBUG:
+            print("Running in DEBUG mode")
+            print(f"Database URI: {self.SQLALCHEMY_DATABASE_URI}")
+            print(f"Upload folder: {self.UPLOAD_FOLDER}")
+
+File: diagnostic_report.py
+
+
+import unittest
+import traceback
+import sys
+import os
+from io import StringIO
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_socketio import SocketIO
+
+# Add the parent directory to sys.path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from config import Config
+from app import create_app
+from app.extensions import db, socketio
+from app.models.user import User
+from app.models.message import Message
+from app.models.media import Media
+from app.services.auth import AuthService
+from app.services.messages import MessageService
+from app.services.media import MediaService
+from app.services.search import SearchService
+from app.utils.encryption import generate_key, encrypt_message, decrypt_message, hash_password, verify_password
+from app.utils.storage import store_file, retrieve_file, delete_file
+
+class TestMessagingPlatform(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.app = create_app(Config)
+        cls.app_context = cls.app.app_context()
+        cls.app_context.push()
+        db.create_all()
+
+    @classmethod
+    def tearDownClass(cls):
+        db.session.remove()
+        db.drop_all()
+        cls.app_context.pop()
+
+    def setUp(self):
+        db.session.begin(subtransactions=True)
+
+    def tearDown(self):
+        db.session.rollback()
+
+    def test_config(self):
+        print("\nTesting Config (config.py)")
+        try:
+            self.assertTrue(self.app.config['SECRET_KEY'])
+            self.assertTrue(self.app.config['SQLALCHEMY_DATABASE_URI'])
+            self.assertFalse(self.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'])
+        except AssertionError as e:
+            print(f"Test failed: {str(e)}")
+            traceback.print_exc()
+
+    def test_create_app(self):
+        print("\nTesting create_app (app/__init__.py)")
+        try:
+            self.assertIsInstance(self.app, Flask)
+            self.assertIsInstance(self.app.extensions['sqlalchemy'].db, SQLAlchemy)
+            self.assertIsInstance(self.app.extensions['socketio'], SocketIO)
+        except AssertionError as e:
+            print(f"Test failed: {str(e)}")
+            traceback.print_exc()
+
+    def test_user_model(self):
+        print("\nTesting User model (app/models/user.py)")
+        try:
+            user = User(username="testuser", password_hash="testhash")
+            db.session.add(user)
+            db.session.commit()
+            self.assertIsNotNone(user.id)
+            self.assertEqual(user.username, "testuser")
+            self.assertEqual(user.password_hash, "testhash")
+        except Exception as e:
+            print(f"Test failed: {str(e)}")
+            traceback.print_exc()
+
+    def test_message_model(self):
+        print("\nTesting Message model (app/models/message.py)")
+        try:
+            sender = User(username="sender", password_hash="senderhash")
+            receiver = User(username="receiver", password_hash="receiverhash")
+            db.session.add_all([sender, receiver])
+            db.session.commit()
+
+            message = Message(sender_id=sender.id, receiver_id=receiver.id, content="Test message")
+            db.session.add(message)
+            db.session.commit()
+
+            self.assertIsNotNone(message.id)
+            self.assertEqual(message.sender_id, sender.id)
+            self.assertEqual(message.receiver_id, receiver.id)
+            self.assertEqual(message.content, "Test message")
+        except Exception as e:
+            print(f"Test failed: {str(e)}")
+            traceback.print_exc()
+
+    def test_media_model(self):
+        print("\nTesting Media model (app/models/media.py)")
+        try:
+            user = User(username="mediauser", password_hash="mediahash")
+            db.session.add(user)
+            db.session.commit()
+
+            media = Media(user_id=user.id, filename="test.jpg", file_type="image/jpeg")
+            db.session.add(media)
+            db.session.commit()
+
+            self.assertIsNotNone(media.id)
+            self.assertEqual(media.user_id, user.id)
+            self.assertEqual(media.filename, "test.jpg")
+            self.assertEqual(media.file_type, "image/jpeg")
+        except Exception as e:
+            print(f"Test failed: {str(e)}")
+            traceback.print_exc()
+
+    def test_auth_service(self):
+        print("\nTesting AuthService (app/services/auth.py)")
+        try:
+            auth_service = AuthService()
+            result = auth_service.register("testuser", "testpass")
+            self.assertEqual(result['status'], "success")
+
+            login_result = auth_service.login("testuser", "testpass")
+            self.assertTrue(login_result['success'])
+
+            logout_result = auth_service.logout(login_result['user'].id)
+            self.assertTrue(logout_result)
+        except Exception as e:
+            print(f"Test failed: {str(e)}")
+            traceback.print_exc()
+
+    def test_message_service(self):
+        print("\nTesting MessageService (app/services/messages.py)")
+        try:
+            sender = User(username="sender", password_hash="senderhash")
+            receiver = User(username="receiver", password_hash="receiverhash")
+            db.session.add_all([sender, receiver])
+            db.session.commit()
+
+            message_service = MessageService()
+            message = message_service.send_message(sender.id, receiver.id, "Test message")
+            self.assertIsNotNone(message['id'])
+
+            retrieved_message = message_service.get_message(message['id'])
+            self.assertEqual(retrieved_message['content'], "Test message")
+
+            updated_message = message_service.update_message(message['id'], "Updated message")
+            self.assertEqual(updated_message['content'], "Updated message")
+
+            delete_result = message_service.delete_message(message['id'])
+            self.assertTrue(delete_result)
+        except Exception as e:
+            print(f"Test failed: {str(e)}")
+            traceback.print_exc()
+
+    def test_media_service(self):
+        print("\nTesting MediaService (app/services/media.py)")
+        try:
+            user = User(username="mediauser", password_hash="mediahash")
+            db.session.add(user)
+            db.session.commit()
+
+            media_service = MediaService()
+            
+            # Create a mock file object
+            mock_file = StringIO("Mock file content")
+            mock_file.filename = "test.txt"
+
+            media = media_service.upload_media(user.id, mock_file)
+            self.assertIsNotNone(media['id'])
+
+            retrieved_media = media_service.get_media(media['id'])
+            self.assertEqual(retrieved_media['filename'], "test.txt")
+
+            delete_result = media_service.delete_media(media['id'])
+            self.assertTrue(delete_result)
+        except Exception as e:
+            print(f"Test failed: {str(e)}")
+            traceback.print_exc()
+
+    def test_search_service(self):
+        print("\nTesting SearchService (app/services/search.py)")
+        try:
+            user = User(username="searchuser", password_hash="searchhash")
+            db.session.add(user)
+            db.session.commit()
+
+            message = Message(sender_id=user.id, receiver_id=user.id, content="Test search message")
+            db.session.add(message)
+            db.session.commit()
+
+            media = Media(user_id=user.id, filename="searchtest.jpg", file_type="image/jpeg")
+            db.session.add(media)
+            db.session.commit()
+
+            search_service = SearchService()
+            message_results = search_service.search_messages(user.id, "search")
+            self.assertEqual(len(message_results), 1)
+
+            media_results = search_service.search_media(user.id, "search")
+            self.assertEqual(len(media_results), 1)
+        except Exception as e:
+            print(f"Test failed: {str(e)}")
+            traceback.print_exc()
+
+    def test_encryption_utils(self):
+        print("\nTesting encryption utils (app/utils/encryption.py)")
+        try:
+            key = generate_key()
+            self.assertIsInstance(key, bytes)
+
+            message = "Test message"
+            encrypted = encrypt_message(message, key)
+            decrypted = decrypt_message(encrypted, key)
+            self.assertEqual(message, decrypted)
+
+            password = "testpassword"
+            hashed = hash_password(password)
+            self.assertTrue(verify_password(hashed, password))
+        except Exception as e:
+            print(f"Test failed: {str(e)}")
+            traceback.print_exc()
+
+    def test_storage_utils(self):
+        print("\nTesting storage utils (app/utils/storage.py)")
+        try:
+            # Create a mock file object
+            mock_file = StringIO("Mock file content")
+            mock_file.filename = "test.txt"
+
+            stored_path = store_file(mock_file, "test.txt")
+            self.assertTrue(os.path.exists(stored_path))
+
+            retrieved_file = retrieve_file("test.txt")
+            self.assertIsNotNone(retrieved_file)
+
+            delete_result = delete_file("test.txt")
+            self.assertTrue(delete_result)
+            self.assertFalse(os.path.exists(stored_path))
+        except Exception as e:
+            print(f"Test failed: {str(e)}")
+            traceback.print_exc()
+
+def main():
+    unittest.main(verbosity=2)
+
+if __name__ == "__main__":
+    main()
+
+
+File: main.py
+
+
+import asyncio
+import logging
+from flask import Flask
+from flask_socketio import SocketIO
+from app import create_app
+
+# IMPORTANT: do not remove main function as automated test will fail
+# IMPORTANT: do not remove this comment
+def main():
+    app = create_app()
+    
+    # Configure logging
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
+    
+    socketio = SocketIO(app, async_mode='asyncio')
+
+    async def run_app():
+        try:
+            logger.info("Starting the application...")
+            await socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+        except Exception as e:
+            logger.error(f"An error occurred while running the application: {str(e)}")
+        finally:
+            logger.info("Application stopped.")
+
+    asyncio.run(run_app())
+
+if __name__ == '__main__':
+    main()
+
+
+File: requirements.txt
+
+Flask
+SQLAlchemy
+app
+asyncio
+config
+cryptography
+datetime
+flask_login
+flask_socketio
+flask_sqlalchemy
+io
+logging
+unittest2
+werkzeug
+
+
+File: app/extensions.py
+
+from flask_sqlalchemy import SQLAlchemy
+from flask_socketio import SocketIO
+
+db = SQLAlchemy()
+socketio = SocketIO()
+
+File: app/main.py
+
+
+import asyncio
+import logging
+from flask import Flask
+from flask_socketio import SocketIO
+from app import create_app
+
+# IMPORTANT: do not remove main function as automated test will fail
+# IMPORTANT: do not remove this comment
+def main():
+    app = create_app()
+    
+    # Configure logging
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
+    
+    socketio = SocketIO(app, async_mode='asyncio')
+
+    async def run_app():
+        try:
+            logger.info("Starting the application...")
+            await socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+        except Exception as e:
+            logger.error(f"An error occurred while running the application: {str(e)}")
+        finally:
+            logger.info("Application stopped.")
+
+    async def user_input():
+        while True:
+            user_in = await asyncio.to_thread(input, "Enter 'q' to quit: ")
+            if user_in.strip().lower() == 'q':
+                logger.info("User requested to quit.")
+                socketio.stop()
+                break
+
+    async def main_async():
+        await asyncio.gather(run_app(), user_input())
+
+    asyncio.run(main_async())
+
+if __name__ == '__main__':
+    main()
+
+
+File: app/__init__.py
+
+from flask import Flask
+from flask_socketio import SocketIO
+from flask_login import LoginManager
+from config import Config
+from app.extensions import db, socketio
+
+def create_app(config_class=Config):
+    app = Flask(__name__)
+    app.config.from_object(config_class)
+
+    # Initialize Flask extensions
+    db.init_app(app)
+    socketio.init_app(app)
+
+    # Initialize Flask-Login
+    login_manager = LoginManager()
+    login_manager.init_app(app)
+    login_manager.login_view = 'auth.login'
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        from app.models.user import User
+        return User.query.get(int(user_id))
+
+    # Register blueprints
+    from app.routes.auth import auth_bp
+    from app.routes.messages import messages_bp
+    from app.routes.media import media_bp
+    from app.routes.search import search_bp
+    from app.routes.main import main_bp
+    from app.routes.users import users_bp
+
+
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(messages_bp)
+    app.register_blueprint(media_bp)
+    app.register_blueprint(search_bp)
+    app.register_blueprint(main_bp)
+    app.register_blueprint(users_bp)
+
+    return app
+
+File: app/models/media.py
+
+# app/models/media.py
+# Defines the Media model for storing information about uploaded media files
+
+from app.extensions import db
+from datetime import datetime
+import traceback
+
+class Media(db.Model):
+    """
+    Media model for storing information about uploaded media files.
+
+    Attributes:
+    - id: Unique identifier for the media file
+    - user_id: ID of the user who uploaded the file
+    - filename: Name of the uploaded file
+    - file_type: Type of the uploaded file (e.g., 'image', 'video', 'audio')
+    - timestamp: Date and time when the file was uploaded
+    """
+
+    __tablename__ = 'media'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)  # Changed 'user.id' to 'users.id'
+    filename = db.Column(db.String(255), nullable=False)
+    file_type = db.Column(db.String(50), nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __init__(self, user_id, filename, file_type):
+        self.user_id = user_id
+        self.filename = filename
+        self.file_type = file_type
+
+    def __repr__(self):
+        return f'<Media {self.id}: {self.filename}>'
+
+    def to_dict(self):
+        """
+        Convert the Media object to a dictionary for easy serialization.
+        """
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'filename': self.filename,
+            'file_type': self.file_type,
+            'timestamp': self.timestamp.isoformat()
+        }
+
+    @staticmethod
+    def from_dict(data):
+        """
+        Create a Media object from a dictionary.
+        """
+        try:
+            return Media(
+                user_id=data['user_id'],
+                filename=data['filename'],
+                file_type=data['file_type']
+            )
+        except KeyError as e:
+            print(f"Error creating Media object from dictionary: {str(e)}")
+            traceback.print_exc()
+            return None
+
+# Debugging statements
+if __name__ == '__main__':
+    print("Debugging Media model...")
+    test_media = Media(user_id=1, filename='test.jpg', file_type='image')
+    print(f"Test Media object: {test_media}")
+    print(f"Test Media dict: {test_media.to_dict()}")
+    test_dict = {'user_id': 2, 'filename': 'test2.mp4', 'file_type': 'video'}
+    test_media2 = Media.from_dict(test_dict)
+    print(f"Test Media object from dict: {test_media2}")
+
+File: app/models/message.py
+
+
+# app/models/message.py
+
+"""
+Defines the Message model for the messaging platform.
+
+This module contains the Message class, which represents a message in the system.
+It includes attributes such as sender_id, receiver_id, content, and timestamp.
+"""
+
+from app.extensions import db
+from datetime import datetime
+import traceback
+
+class Message(db.Model):
+    """
+    Message model representing a message in the system.
+
+    Attributes:
+        id (int): The unique identifier for the message.
+        sender_id (int): The ID of the user who sent the message.
+        receiver_id (int): The ID of the user who received the message.
+        content (str): The content of the message.
+        timestamp (datetime): The date and time when the message was sent.
+    """
+
+    __tablename__ = 'messages'
+
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    receiver_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+
+    def __init__(self, sender_id, receiver_id, content):
+        """
+        Initialize a new Message instance.
+
+        Args:
+            sender_id (int): The ID of the user sending the message.
+            receiver_id (int): The ID of the user receiving the message.
+            content (str): The content of the message.
+        """
+        self.sender_id = sender_id
+        self.receiver_id = receiver_id
+        self.content = content
+
+    def __repr__(self):
+        """
+        Return a string representation of the Message instance.
+
+        Returns:
+            str: A string representation of the Message.
+        """
+        return f'<Message {self.id}: from {self.sender_id} to {self.receiver_id}>'
+
+    def to_dict(self):
+        """
+        Convert the Message instance to a dictionary.
+
+        Returns:
+            dict: A dictionary representation of the Message.
+        """
+        return {
+            'id': self.id,
+            'sender_id': self.sender_id,
+            'receiver_id': self.receiver_id,
+            'content': self.content,
+            'timestamp': self.timestamp.isoformat()
+        }
+
+    @staticmethod
+    def from_dict(data):
+        """
+        Create a new Message instance from a dictionary.
+
+        Args:
+            data (dict): A dictionary containing message data.
+
+        Returns:
+            Message: A new Message instance.
+        """
+        return Message(
+            sender_id=data['sender_id'],
+            receiver_id=data['receiver_id'],
+            content=data['content']
+        )
+
+    @staticmethod
+    def get_messages_between_users(user1_id, user2_id, limit=50):
+        """
+        Retrieve messages between two users.
+
+        Args:
+            user1_id (int): The ID of the first user.
+            user2_id (int): The ID of the second user.
+            limit (int): The maximum number of messages to retrieve (default: 50).
+
+        Returns:
+            list: A list of Message instances.
+        """
+        try:
+            messages = Message.query.filter(
+                ((Message.sender_id == user1_id) & (Message.receiver_id == user2_id)) |
+                ((Message.sender_id == user2_id) & (Message.receiver_id == user1_id))
+            ).order_by(Message.timestamp.desc()).limit(limit).all()
+            return messages
+        except Exception as e:
+            print(f"Error retrieving messages: {str(e)}")
+            traceback.print_exc()
+            return []
+
+# Add debugging statements
+if __name__ == '__main__':
+    DEBUG = True
+    if DEBUG:
+        print("Message model loaded successfully")
+        print("Available attributes:", Message.__dict__.keys())
+
+
+File: app/models/user.py
+
+from app.extensions import db
+from flask_login import UserMixin
+
+class User(db.Model, UserMixin):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), unique=True, nullable=False, index=True)
+    password_hash = db.Column(db.String(128), nullable=False)
+
+    def __init__(self, username, password_hash):
+        self.username = username
+        self.password_hash = password_hash
+
+    def __repr__(self):
+        return f'<User {self.id}: {self.username}>'
+
+    @classmethod
+    def create_user(cls, username, password_hash):
+        try:
+            new_user = cls(username=username, password_hash=password_hash)
+            db.session.add(new_user)
+            db.session.commit()
+            return new_user
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error creating user: {str(e)}")
+            return None
+
+    @classmethod
+    def get_user_by_username(cls, username):
+        return cls.query.filter_by(username=username).first()
+
+    @classmethod
+    def get_user_by_id(cls, user_id):
+        return cls.query.get(user_id)
+
+File: app/routes/auth.py
+
+from flask import Blueprint, request, jsonify, current_app, url_for, redirect, render_template
+from app.services.auth import AuthService
+from app.extensions import db
+from flask_login import login_user, logout_user, login_required
+import traceback
+
+auth_bp = Blueprint('auth', __name__)
+
+@auth_bp.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    
+    try:
+        data = request.form.to_dict() if request.form else request.get_json()
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+
+        username = data.get('username')
+        password = data.get('password')
+
+        if not username or not password:
+            return jsonify({'error': 'Username and password are required'}), 400
+
+        auth_service = AuthService()
+        result = auth_service.login(username, password)
+
+        if result.get('success'):
+            user = result.get('user')
+            login_user(user)
+            next_page = request.args.get('next')
+            if not next_page or not next_page.startswith('/'):
+                next_page = url_for('main.index')
+            return jsonify({'success': True, 'redirect': next_page}), 200
+        else:
+            return jsonify({'error': result.get('message')}), 401
+
+    except Exception as e:
+        current_app.logger.error(f"Login error: {str(e)}")
+        traceback.print_exc()
+        return jsonify({'error': 'An unexpected error occurred'}), 500
+
+@auth_bp.route('/register', methods=['POST'])
+def register():
+    try:
+        data = request.form.to_dict() if request.form else request.get_json()
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+
+        username = data.get('username')
+        password = data.get('password')
+
+        if not username or not password:
+            return jsonify({'error': 'Username and password are required'}), 400
+
+        auth_service = AuthService()
+        result = auth_service.register(username, password)
+
+        if result.get('status') == 'success':
+            return jsonify(result), 201
+        else:
+            return jsonify({'error': result.get('message')}), 400
+
+    except Exception as e:
+        current_app.logger.error(f"Registration error: {str(e)}")
+        traceback.print_exc()
+        return jsonify({'error': f'An unexpected error occurred: {str(e)}'}), 500
+
+@auth_bp.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('main.index'))
+
+File: app/routes/main.py
+
+from flask import Blueprint, render_template
+
+main_bp = Blueprint('main', __name__)
+
+@main_bp.route('/')
+def index():
+    return render_template('index.html')
+
+File: app/routes/media.py
+
+
+# Purpose: Handle media sharing routes for the messaging platform
+# Description: This file contains route definitions for media uploading, retrieval, and deletion
+
+from flask import Blueprint, request, jsonify
+from app.services.media import MediaService
+import traceback
+
+media_bp = Blueprint('media', __name__)
+
+@media_bp.route('/media', methods=['POST'])
+def upload_media():
+    """
+    Handle media upload
+    """
+    try:
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file part in the request'}), 400
+
+        file = request.files['file']
+        if file.filename == '':
+            return jsonify({'error': 'No file selected for uploading'}), 400
+
+        user_id = request.form.get('user_id')
+        if not user_id:
+            return jsonify({'error': 'User ID is required'}), 400
+
+        result = MediaService.upload_media(int(user_id), file)
+        return jsonify(result), 201
+
+    except Exception as e:
+        if __debug__:
+            print(f"Error in upload_media: {str(e)}")
+            traceback.print_exc()
+        return jsonify({'error': 'An error occurred while uploading the media'}), 500
+
+@media_bp.route('/media/<int:media_id>', methods=['GET'])
+def get_media(media_id):
+    """
+    Retrieve media by ID
+    """
+    try:
+        result = MediaService.get_media(media_id)
+        if result:
+            return jsonify(result), 200
+        else:
+            return jsonify({'error': 'Media not found'}), 404
+
+    except Exception as e:
+        if __debug__:
+            print(f"Error in get_media: {str(e)}")
+            traceback.print_exc()
+        return jsonify({'error': 'An error occurred while retrieving the media'}), 500
+
+@media_bp.route('/media/<int:media_id>', methods=['DELETE'])
+def delete_media(media_id):
+    """
+    Delete media by ID
+    """
+    try:
+        result = MediaService.delete_media(media_id)
+        if result:
+            return jsonify({'message': 'Media deleted successfully'}), 200
+        else:
+            return jsonify({'error': 'Media not found or could not be deleted'}), 404
+
+    except Exception as e:
+        if __debug__:
+            print(f"Error in delete_media: {str(e)}")
+            traceback.print_exc()
+        return jsonify({'error': 'An error occurred while deleting the media'}), 500
+
+if __debug__:
+    print("Media routes loaded")
+
+
+File: app/routes/messages.py
+
+from flask import Blueprint, request, jsonify
+from app.services.messages import MessageService
+from flask_login import current_user, login_required
+
+messages_bp = Blueprint('messages', __name__)
+
+@messages_bp.route('/messages', methods=['GET', 'POST'])
+@login_required
+def messages():
+    if request.method == 'POST':
+        data = request.json
+        if not data:
+            return jsonify({"error": "No data provided"}), 400
+        
+        sender_id = current_user.id
+        receiver_id = data.get('receiver_id')
+        content = data.get('content')
+        
+        if not all([receiver_id, content]):
+            missing_fields = []
+            if not receiver_id:
+                missing_fields.append('receiver_id')
+            if not content:
+                missing_fields.append('content')
+            return jsonify({"error": f"Missing required fields: {', '.join(missing_fields)}"}), 400
+        
+        message = MessageService.send_message(sender_id, receiver_id, content)
+        return jsonify(message), 201
+    else:
+        # GET request logic (unchanged)
+        pass
+
+@messages_bp.route('/messages/<int:message_id>', methods=['GET', 'PUT', 'DELETE'])
+@login_required
+def message(message_id):
+    # Existing logic for GET, PUT, DELETE (unchanged)
+    pass
+
+File: app/routes/search.py
+
+from flask import Blueprint, request, jsonify
+from app.services.search import SearchService
+from flask_login import current_user, login_required
+
+search_bp = Blueprint('search', __name__)
+
+@search_bp.route('/search', methods=['GET'])
+@login_required
+def search():
+    """
+    Handle GET requests for search functionality
+    """
+    try:
+        query = request.args.get('query', '')
+        user_id = current_user.id
+
+        if not query:
+            return jsonify({'error': 'Missing query parameter'}), 400
+
+        search_service = SearchService()
+        
+        # Search for messages
+        messages = search_service.search_messages(user_id, query)
+        
+        # Search for media
+        media = search_service.search_media(user_id, query)
+
+        results = {
+            'messages': messages,
+            'media': media
+        }
+
+        return jsonify(results), 200
+
+    except Exception as e:
+        error_message = f"An error occurred during search: {str(e)}"
+        print(error_message)
+        return jsonify({'error': error_message}), 500
+
+File: app/routes/users.py
+
+from flask import Blueprint, jsonify
+from app.services.users import UserService
+
+users_bp = Blueprint('users', __name__)
+
+@users_bp.route('/users', methods=['GET'])
+def get_users():
+    users = UserService.get_all_users()
+    return jsonify(users)
+
+File: app/routes/__init__.py
+
+from .auth import auth_bp
+from .messages import messages_bp
+from .media import media_bp
+from .search import search_bp
+from .users import users_bp
+
+def register_routes(app):
+    app.register_blueprint(auth_bp)
+    app.register_blueprint(messages_bp)
+    app.register_blueprint(media_bp)
+    app.register_blueprint(search_bp)
+    app.register_blueprint(users_bp)
+
+File: app/services/auth.py
+
+from app.models.user import User
+from app.utils.encryption import hash_password, verify_password
+from app.extensions import db
+from flask import current_app
+import traceback
+
+class AuthService:
+    @staticmethod
+    def register(username: str, password: str) -> dict:
+        try:
+            existing_user = User.query.filter_by(username=username).first()
+            if existing_user:
+                return {"status": "error", "message": "Username already exists"}
+
+            hashed_password = hash_password(password)
+            new_user = User.create_user(username=username, password_hash=hashed_password)
+
+            if new_user:
+                return {"status": "success", "user_id": new_user.id, "username": username}
+            else:
+                return {"status": "error", "message": "Failed to create user"}
+        except Exception as e:
+            current_app.logger.error(f"Error in user registration: {str(e)}")
+            traceback.print_exc()
+            return {"status": "error", "message": f"Registration failed: {str(e)}"}
+
+    @staticmethod
+    def login(username: str, password: str) -> dict:
+        try:
+            user = User.query.filter_by(username=username).first()
+            if user and verify_password(user.password_hash, password):
+                return {"success": True, "user": user}
+            else:
+                return {"success": False, "message": "Invalid username or password"}
+        except Exception as e:
+            current_app.logger.error(f"Error in user login: {str(e)}")
+            traceback.print_exc()
+            return {"success": False, "message": f"Login failed: {str(e)}"}
+
+    @staticmethod
+    def logout(user_id: int) -> bool:
+        try:
+            # In a real application, you might want to invalidate the user's session
+            # or perform other logout-related tasks here.
+            return True
+        except Exception as e:
+            current_app.logger.error(f"Error in user logout: {str(e)}")
+            traceback.print_exc()
+            return False
+
+File: app/services/media.py
+
+
+# Purpose: Implements media handling logic for the messaging platform.
+# Description: This file contains the MediaService class which provides methods for uploading,
+#              retrieving, and deleting media files associated with user messages.
+
+import traceback
+from app.models.media import Media
+from app.utils.storage import store_file, retrieve_file, delete_file
+from app.extensions import db
+
+class MediaService:
+    @staticmethod
+    def upload_media(user_id: int, file) -> dict:
+        """
+        Upload a media file for a user.
+
+        Args:
+            user_id (int): The ID of the user uploading the file.
+            file: The file object to be uploaded.
+
+        Returns:
+            dict: A dictionary containing the media information.
+        """
+        try:
+            filename = store_file(file, str(user_id))
+            media = Media(user_id=user_id, filename=filename, file_type=file.content_type)
+            db.session.add(media)
+            db.session.commit()
+
+            if __debug__:
+                print(f"DEBUG: Media uploaded successfully. Media ID: {media.id}")
+
+            return {
+                'id': media.id,
+                'filename': media.filename,
+                'file_type': media.file_type,
+                'timestamp': media.timestamp.isoformat()
+            }
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error uploading media: {str(e)}")
+            traceback.print_exc()
+            return None
+
+    @staticmethod
+    def get_media(media_id: int) -> dict:
+        """
+        Retrieve media information and file by media ID.
+
+        Args:
+            media_id (int): The ID of the media to retrieve.
+
+        Returns:
+            dict: A dictionary containing the media information and file.
+        """
+        try:
+            media = Media.query.get(media_id)
+            if not media:
+                if __debug__:
+                    print(f"DEBUG: Media not found. Media ID: {media_id}")
+                return None
+
+            file = retrieve_file(media.filename)
+            if not file:
+                if __debug__:
+                    print(f"DEBUG: Media file not found. Filename: {media.filename}")
+                return None
+
+            if __debug__:
+                print(f"DEBUG: Media retrieved successfully. Media ID: {media_id}")
+
+            return {
+                'id': media.id,
+                'filename': media.filename,
+                'file_type': media.file_type,
+                'timestamp': media.timestamp.isoformat(),
+                'file': file
+            }
+        except Exception as e:
+            print(f"Error retrieving media: {str(e)}")
+            traceback.print_exc()
+            return None
+
+    @staticmethod
+    def delete_media(media_id: int) -> bool:
+        """
+        Delete a media file and its associated database record.
+
+        Args:
+            media_id (int): The ID of the media to delete.
+
+        Returns:
+            bool: True if the media was successfully deleted, False otherwise.
+        """
+        try:
+            media = Media.query.get(media_id)
+            if not media:
+                if __debug__:
+                    print(f"DEBUG: Media not found for deletion. Media ID: {media_id}")
+                return False
+
+            if delete_file(media.filename):
+                db.session.delete(media)
+                db.session.commit()
+                if __debug__:
+                    print(f"DEBUG: Media deleted successfully. Media ID: {media_id}")
+                return True
+            else:
+                if __debug__:
+                    print(f"DEBUG: Failed to delete media file. Media ID: {media_id}")
+                return False
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error deleting media: {str(e)}")
+            traceback.print_exc()
+            return False
+
+
+File: app/services/messages.py
+
+# app/services/messages.py
+
+"""
+Implements messaging logic.
+
+This module provides functionality for sending, retrieving, updating, and deleting messages.
+It also handles message encryption and decryption for secure communication.
+"""
+
+import traceback
+from app.models.message import Message
+from app.utils.encryption import encrypt_message, decrypt_message
+from app.extensions import db
+from datetime import datetime
+
+class MessageService:
+    @staticmethod
+    def send_message(sender_id: int, receiver_id: int, content: str) -> dict:
+        """
+        Send a new message.
+
+        Args:
+            sender_id (int): ID of the message sender
+            receiver_id (int): ID of the message receiver
+            content (str): Content of the message
+
+        Returns:
+            dict: Dictionary containing message details
+        """
+        try:
+            encrypted_content = encrypt_message(content, db.app.config['SECRET_KEY'].encode())
+            new_message = Message(
+                sender_id=sender_id,
+                receiver_id=receiver_id,
+                content=encrypted_content,
+                timestamp=datetime.utcnow()
+            )
+            db.session.add(new_message)
+            db.session.commit()
+
+            return {
+                'id': new_message.id,
+                'sender_id': new_message.sender_id,
+                'receiver_id': new_message.receiver_id,
+                'content': content,
+                'timestamp': new_message.timestamp.isoformat()
+            }
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error sending message: {str(e)}")
+            traceback.print_exc()
+            raise
+
+    @staticmethod
+    def get_message(message_id: int) -> dict:
+        """
+        Retrieve a message by its ID.
+
+        Args:
+            message_id (int): ID of the message to retrieve
+
+        Returns:
+            dict: Dictionary containing message details
+        """
+        try:
+            message = Message.query.get(message_id)
+            if message:
+                decrypted_content = decrypt_message(message.content, db.app.config['SECRET_KEY'].encode())
+                return {
+                    'id': message.id,
+                    'sender_id': message.sender_id,
+                    'receiver_id': message.receiver_id,
+                    'content': decrypted_content,
+                    'timestamp': message.timestamp.isoformat()
+                }
+            else:
+                return None
+        except Exception as e:
+            print(f"Error retrieving message: {str(e)}")
+            traceback.print_exc()
+            raise
+
+    @staticmethod
+    def update_message(message_id: int, content: str) -> dict:
+        """
+        Update the content of an existing message.
+
+        Args:
+            message_id (int): ID of the message to update
+            content (str): New content for the message
+
+        Returns:
+            dict: Dictionary containing updated message details
+        """
+        try:
+            message = Message.query.get(message_id)
+            if message:
+                encrypted_content = encrypt_message(content, db.app.config['SECRET_KEY'].encode())
+                message.content = encrypted_content
+                db.session.commit()
+
+                return {
+                    'id': message.id,
+                    'sender_id': message.sender_id,
+                    'receiver_id': message.receiver_id,
+                    'content': content,
+                    'timestamp': message.timestamp.isoformat()
+                }
+            else:
+                return None
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error updating message: {str(e)}")
+            traceback.print_exc()
+            raise
+
+    @staticmethod
+    def delete_message(message_id: int) -> bool:
+        """
+        Delete a message by its ID.
+
+        Args:
+            message_id (int): ID of the message to delete
+
+        Returns:
+            bool: True if the message was successfully deleted, False otherwise
+        """
+        try:
+            message = Message.query.get(message_id)
+            if message:
+                db.session.delete(message)
+                db.session.commit()
+                return True
+            else:
+                return False
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error deleting message: {str(e)}")
+            traceback.print_exc()
+            raise
+
+    @staticmethod
+    def get_messages(user_id: int) -> list:
+        """
+        Retrieve all messages for a user.
+
+        Args:
+            user_id (int): ID of the user
+
+        Returns:
+            list: List of dictionaries containing message details
+        """
+        try:
+            messages = Message.query.filter((Message.sender_id == user_id) | (Message.receiver_id == user_id)).all()
+            return [
+                {
+                    'id': message.id,
+                    'sender_id': message.sender_id,
+                    'receiver_id': message.receiver_id,
+                    'content': decrypt_message(message.content, db.app.config['SECRET_KEY'].encode()),
+                    'timestamp': message.timestamp.isoformat()
+                }
+                for message in messages
+            ]
+        except Exception as e:
+            print(f"Error retrieving messages: {str(e)}")
+            traceback.print_exc()
+            raise
+
+File: app/services/search.py
+
+
+# app/services/search.py
+"""
+This module implements search functionality for messages and media.
+It provides methods to search through messages and media based on user input.
+"""
+
+import traceback
+from app.models.message import Message
+from app.models.media import Media
+from app.extensions import db
+from sqlalchemy import or_
+
+class SearchService:
+    @staticmethod
+    def search_messages(user_id: int, query: str) -> list:
+        """
+        Search for messages related to the user based on the given query.
+
+        Args:
+            user_id (int): The ID of the user performing the search.
+            query (str): The search query string.
+
+        Returns:
+            list: A list of dictionaries containing message information.
+        """
+        try:
+            messages = Message.query.filter(
+                or_(
+                    Message.sender_id == user_id,
+                    Message.receiver_id == user_id
+                )
+            ).filter(
+                Message.content.ilike(f'%{query}%')
+            ).all()
+
+            results = [
+                {
+                    'id': message.id,
+                    'sender_id': message.sender_id,
+                    'receiver_id': message.receiver_id,
+                    'content': message.content,
+                    'timestamp': message.timestamp.isoformat()
+                }
+                for message in messages
+            ]
+
+            if __debug__:
+                print(f"DEBUG: Found {len(results)} messages matching query '{query}' for user {user_id}")
+
+            return results
+        except Exception as e:
+            print(f"Error in search_messages: {str(e)}")
+            traceback.print_exc()
+            return []
+
+    @staticmethod
+    def search_media(user_id: int, query: str) -> list:
+        """
+        Search for media files related to the user based on the given query.
+
+        Args:
+            user_id (int): The ID of the user performing the search.
+            query (str): The search query string.
+
+        Returns:
+            list: A list of dictionaries containing media information.
+        """
+        try:
+            media_files = Media.query.filter(
+                Media.user_id == user_id
+            ).filter(
+                or_(
+                    Media.filename.ilike(f'%{query}%'),
+                    Media.file_type.ilike(f'%{query}%')
+                )
+            ).all()
+
+            results = [
+                {
+                    'id': media.id,
+                    'user_id': media.user_id,
+                    'filename': media.filename,
+                    'file_type': media.file_type,
+                    'timestamp': media.timestamp.isoformat()
+                }
+                for media in media_files
+            ]
+
+            if __debug__:
+                print(f"DEBUG: Found {len(results)} media files matching query '{query}' for user {user_id}")
+
+            return results
+        except Exception as e:
+            print(f"Error in search_media: {str(e)}")
+            traceback.print_exc()
+            return []
+
+
+File: app/services/users.py
+
+from app.models.user import User
+
+class UserService:
+    @staticmethod
+    def get_all_users():
+        users = User.query.all()
+        return [{'id': user.id, 'username': user.username} for user in users]
+
+File: app/static/css/styles.css
+
+
+/* 
+ * Main CSS file for styling the application.
+ * This file contains styles for the messaging platform inspired by Telegram.
+ */
+
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    background-color: #0088cc;
+    color: #fff;
+    padding: 1rem;
+}
+
+header h1 {
+    margin-bottom: 0;
+}
+
+/* Navigation */
+nav {
+    background-color: #006699;
+    padding: 0.5rem;
+}
+
+nav ul {
+    list-style-type: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-right: 1rem;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Main content area */
+main {
+    display: flex;
+    margin-top: 20px;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #fff;
+    padding: 1rem;
+    border-right: 1px solid #ddd;
+}
+
+/* Chat list */
+.chat-list {
+    list-style-type: none;
+}
+
+.chat-list li {
+    padding: 0.5rem;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+}
+
+.chat-list li:hover {
+    background-color: #f9f9f9;
+}
+
+/* Chat area */
+.chat-area {
+    flex-grow: 1;
+    background-color: #fff;
+    padding: 1rem;
+}
+
+/* Message styles */
+.message {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+}
+
+.message.sent {
+    background-color: #dcf8c6;
+    align-self: flex-end;
+}
+
+.message.received {
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+/* Input area */
+.input-area {
+    display: flex;
+    margin-top: 1rem;
+}
+
+.input-area input[type="text"] {
+    flex-grow: 1;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px;
+}
+
+.input-area button {
+    padding: 0.5rem 1rem;
+    background-color: #0088cc;
+    color: #fff;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+/* Media upload */
+.media-upload {
+    margin-top: 1rem;
+}
+
+.media-upload input[type="file"] {
+    display: none;
+}
+
+.media-upload label {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #0088cc;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Search */
+.search-bar {
+    margin-bottom: 1rem;
+}
+
+.search-bar input[type="text"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* Debug styles */
+.debug-info {
+    background-color: #ffff99;
+    padding: 10px;
+    margin-top: 20px;
+    border: 1px solid #ffcc00;
+    border-radius: 5px;
+}
+
+#user-list-container {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+#user-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#user-list li {
+    margin-bottom: 5px;
+    padding: 5px;
+    background-color: #ffffff;
+    border-radius: 3px;
+}
+
+
+File: app/static/js/main.js
+
+// Main JavaScript file for frontend functionality
+
+document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const messageForm = document.getElementById('message-form');
+    const mediaUploadForm = document.getElementById('media-upload-form');
+    const searchForm = document.getElementById('search-form');
+
+    if (loginForm) loginForm.addEventListener('submit', handleLogin);
+    if (registerForm) registerForm.addEventListener('submit', handleRegister);
+    if (messageForm) messageForm.addEventListener('submit', handleSendMessage);
+    if (mediaUploadForm) mediaUploadForm.addEventListener('submit', handleMediaUpload);
+    if (searchForm) searchForm.addEventListener('submit', handleSearch);
+});
+
+async function handleLogin(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            body: formData
+        });
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Login successful:', data);
+            // Redirect or update UI as needed
+            window.location.reload(); // Reload the page to update UI
+        } else {
+            console.error('Login failed:', data.error);
+            // Show error message to user
+            alert('Login failed: ' + data.error);
+        }
+    } catch (error) {
+        console.error('Error during login:', error);
+        alert('An error occurred during login. Please try again.');
+    }
+}
+
+async function handleRegister(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    try {
+        const response = await fetch('/register', {
+            method: 'POST',
+            body: formData
+        });
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Registration successful:', data);
+            // Redirect to login or update UI as needed
+            alert('Registration successful. Please log in.');
+            window.location.reload(); // Reload the page to show login form
+        } else {
+            console.error('Registration failed:', data.error);
+            // Show error message to user
+            alert('Registration failed: ' + data.error);
+        }
+    } catch (error) {
+        console.error('Error during registration:', error);
+        alert('An error occurred during registration. Please try again.');
+    }
+}
+
+async function handleSendMessage(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const messageData = {
+        receiver_id: parseInt(formData.get('receiver_id')),
+        content: formData.get('content')
+    };
+    try {
+        const response = await fetch('/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(messageData)
+        });
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Message sent:', data);
+            // Clear input field and update message list
+            event.target.reset();
+            // You might want to add a function to update the message list here
+            updateMessageList(data);
+        } else {
+            console.error('Failed to send message:', data.error);
+            // Show error message to user
+            alert('Failed to send message: ' + data.error);
+        }
+    } catch (error) {
+        console.error('Error sending message:', error);
+        alert('An error occurred while sending the message. Please try again.');
+    }
+}
+
+async function handleMediaUpload(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    try {
+        const response = await fetch('/media', {
+            method: 'POST',
+            body: formData
+        });
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Media uploaded:', data);
+            // Update UI to show uploaded media
+            alert('Media uploaded successfully!');
+        } else {
+            console.error('Failed to upload media:', data.error);
+            // Show error message to user
+            alert('Failed to upload media: ' + data.error);
+        }
+    } catch (error) {
+        console.error('Error uploading media:', error);
+        alert('An error occurred while uploading media. Please try again.');
+    }
+}
+
+async function handleSearch(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const query = formData.get('query');
+    try {
+        const response = await fetch(`/search?query=${encodeURIComponent(query)}`, {
+            method: 'GET'
+        });
+        const data = await response.json();
+        if (response.ok) {
+            console.log('Search results:', data);
+            // Display search results in UI
+            displaySearchResults(data);
+        } else {
+            console.error('Search failed:', data.error);
+            // Show error message to user
+            alert('Search failed: ' + data.error);
+        }
+    } catch (error) {
+        console.error('Error during search:', error);
+        alert('An error occurred during search. Please try again.');
+    }
+}
+
+function loadUsers() {
+    fetch('/users')
+        .then(response => response.json())
+        .then(users => {
+            const userList = document.getElementById('user-list');
+            userList.innerHTML = '';
+            users.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = user.username;
+                li.dataset.userId = user.id;
+                li.addEventListener('click', () => selectUser(user.id, user.username));
+                userList.appendChild(li);
+            });
+        })
+        .catch(error => console.error('Error loading users:', error));
+}
+
+function selectUser(userId, username) {
+    const receiverIdInput = document.getElementById('receiver-id');
+    receiverIdInput.value = userId;
+    alert(`Selected user: ${username}`);
+}
+
+function updateMessageList(message) {
+    const messageList = document.getElementById('message-list');
+    const messageElement = document.createElement('div');
+    messageElement.textContent = `${message.content} (Sent to: ${message.receiver_id})`;
+    messageList.appendChild(messageElement);
+}
+
+function displaySearchResults(results) {
+    const searchResults = document.getElementById('search-results');
+    searchResults.innerHTML = '';
+    results.forEach(result => {
+        const resultElement = document.createElement('div');
+        resultElement.textContent = result.content;
+        searchResults.appendChild(resultElement);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', loadUsers);
+
+File: app/templates/index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram-Inspired Messaging Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>Secure Messaging Platform</h1>
+            <nav id="main-nav">
+                <!-- Navigation items will be dynamically populated -->
+            </nav>
+        </header>
+
+        <main>
+            <section id="auth-section">
+                <div id="login-container">
+                    <h2>Login</h2>
+                    <form id="login-form">
+                        <input type="text" id="login-username" name="username" placeholder="Username" required>
+                        <input type="password" id="login-password" name="password" placeholder="Password" required>
+                        <button type="submit">Login</button>
+                    </form>
+                </div>
+                <div id="register-container">
+                    <h2>Register</h2>
+                    <form id="register-form">
+                        <input type="text" id="register-username" name="username" placeholder="Username" required>
+                        <input type="password" id="register-password" name="password" placeholder="Password" required>
+                        <button type="submit">Register</button>
+                    </form>
+                </div>
+            </section>
+
+            <section id="chat-section" class="hidden">
+                <div id="user-list-container">
+                    <h2>User List</h2>
+                    <ul id="user-list"></ul>
+                </div>
+                <div id="message-area">
+                    <div id="message-list">
+                        <!-- Messages will be displayed here -->
+                    </div>
+                    <div id="message-input">
+                        <form id="message-form">
+                            <input type="hidden" id="receiver-id" name="receiver_id">
+                            <input type="text" id="message-content" name="content" placeholder="Type your message..." required>
+                            <button type="submit">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <section id="media-section" class="hidden">
+                <form id="media-upload-form">
+                    <input type="file" id="media-file" name="file" required>
+                    <button type="submit">Upload Media</button>
+                </form>
+            </section>
+
+            <section id="search-section" class="hidden">
+                <form id="search-form">
+                    <input type="text" id="search-query" name="query" placeholder="Search..." required>
+                    <button type="submit">Search</button>
+                </form>
+                <div id="search-results">
+                    <!-- Search results will be displayed here -->
+                </div>
+            </section>
+        </main>
+       
+        <footer>
+            <p>&copy; 2023 Secure Messaging Platform. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
+
+File: app/utils/encryption.py
+
+
+# app/utils/encryption.py
+
+"""
+This module implements encryption and decryption functions for secure messaging.
+It provides functions for generating encryption keys, encrypting and decrypting messages,
+as well as hashing and verifying passwords.
+"""
+
+import traceback
+from cryptography.fernet import Fernet
+from werkzeug.security import generate_password_hash, check_password_hash
+
+# Set DEBUG to True for development, False for production
+DEBUG = True
+
+def generate_key() -> bytes:
+    """
+    Generate a new encryption key.
+
+    Returns:
+        bytes: A new encryption key.
+    """
+    try:
+        return Fernet.generate_key()
+    except Exception as e:
+        if DEBUG:
+            print(f"Error generating key: {str(e)}")
+            print(traceback.format_exc())
+        raise
+
+def encrypt_message(message: str, key: bytes) -> bytes:
+    """
+    Encrypt a message using the provided key.
+
+    Args:
+        message (str): The message to encrypt.
+        key (bytes): The encryption key.
+
+    Returns:
+        bytes: The encrypted message.
+    """
+    try:
+        f = Fernet(key)
+        return f.encrypt(message.encode())
+    except Exception as e:
+        if DEBUG:
+            print(f"Error encrypting message: {str(e)}")
+            print(traceback.format_exc())
+        raise
+
+def decrypt_message(encrypted_message: bytes, key: bytes) -> str:
+    """
+    Decrypt an encrypted message using the provided key.
+
+    Args:
+        encrypted_message (bytes): The encrypted message.
+        key (bytes): The decryption key.
+
+    Returns:
+        str: The decrypted message.
+    """
+    try:
+        f = Fernet(key)
+        return f.decrypt(encrypted_message).decode()
+    except Exception as e:
+        if DEBUG:
+            print(f"Error decrypting message: {str(e)}")
+            print(traceback.format_exc())
+        raise
+
+def hash_password(password: str) -> str:
+    """
+    Hash a password for secure storage.
+
+    Args:
+        password (str): The password to hash.
+
+    Returns:
+        str: The hashed password.
+    """
+    try:
+        return generate_password_hash(password)
+    except Exception as e:
+        if DEBUG:
+            print(f"Error hashing password: {str(e)}")
+            print(traceback.format_exc())
+        raise
+
+def verify_password(stored_password: str, provided_password: str) -> bool:
+    """
+    Verify a provided password against a stored hashed password.
+
+    Args:
+        stored_password (str): The stored hashed password.
+        provided_password (str): The password to verify.
+
+    Returns:
+        bool: True if the password is correct, False otherwise.
+    """
+    try:
+        return check_password_hash(stored_password, provided_password)
+    except Exception as e:
+        if DEBUG:
+            print(f"Error verifying password: {str(e)}")
+            print(traceback.format_exc())
+        raise
+
+if DEBUG:
+    print("Encryption module loaded successfully.")
+
+
+File: app/utils/storage.py
+
+
+"""
+File: app/utils/storage.py
+Purpose: Implements file storage functions for secure file handling.
+
+This module provides utility functions for storing, retrieving, and deleting files
+in a secure manner. It uses werkzeug's secure_filename function to ensure filenames
+are safe for storage.
+"""
+
+import os
+import traceback
+from werkzeug.utils import secure_filename
+from flask import current_app
+
+# Set the upload folder path
+UPLOAD_FOLDER = 'uploads'
+
+def store_file(file, filename: str) -> str:
+    """
+    Stores a file securely with a given filename.
+
+    Args:
+        file: The file object to be stored.
+        filename (str): The name of the file.
+
+    Returns:
+        str: The path where the file is stored.
+
+    Raises:
+        IOError: If there's an error in storing the file.
+    """
+    try:
+        if not os.path.exists(UPLOAD_FOLDER):
+            os.makedirs(UPLOAD_FOLDER)
+        
+        secure_name = secure_filename(filename)
+        file_path = os.path.join(UPLOAD_FOLDER, secure_name)
+        file.save(file_path)
+        
+        if current_app.config['DEBUG']:
+            print(f"DEBUG: File stored successfully at {file_path}")
+        
+        return file_path
+    except Exception as e:
+        if current_app.config['DEBUG']:
+            print(f"DEBUG: Error storing file: {str(e)}")
+            traceback.print_exc()
+        raise IOError(f"Error storing file: {str(e)}")
+
+def retrieve_file(filename: str):
+    """
+    Retrieves a file with the given filename.
+
+    Args:
+        filename (str): The name of the file to retrieve.
+
+    Returns:
+        File: The retrieved file object.
+
+    Raises:
+        FileNotFoundError: If the file is not found.
+    """
+    try:
+        file_path = os.path.join(UPLOAD_FOLDER, secure_filename(filename))
+        if os.path.exists(file_path):
+            if current_app.config['DEBUG']:
+                print(f"DEBUG: File retrieved successfully from {file_path}")
+            return open(file_path, 'rb')
+        else:
+            raise FileNotFoundError(f"File not found: {filename}")
+    except Exception as e:
+        if current_app.config['DEBUG']:
+            print(f"DEBUG: Error retrieving file: {str(e)}")
+            traceback.print_exc()
+        raise
+
+def delete_file(filename: str) -> bool:
+    """
+    Deletes a file with the given filename.
+
+    Args:
+        filename (str): The name of the file to delete.
+
+    Returns:
+        bool: True if the file was successfully deleted, False otherwise.
+    """
+    try:
+        file_path = os.path.join(UPLOAD_FOLDER, secure_filename(filename))
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            if current_app.config['DEBUG']:
+                print(f"DEBUG: File deleted successfully: {file_path}")
+            return True
+        else:
+            if current_app.config['DEBUG']:
+                print(f"DEBUG: File not found for deletion: {file_path}")
+            return False
+    except Exception as e:
+        if current_app.config['DEBUG']:
+            print(f"DEBUG: Error deleting file: {str(e)}")
+            traceback.print_exc()
+        return False
+
+
+Here a reminder of the error:
+
+Runtime errors:
+
+Error running application: 'coroutine' object has no attribute 'strip'
+Traceback (most recent call last):
+  File "H:\git\AGENT_FIRST_TEST\makeappssubfolder\agent_application_makercopysystemupdate.py", line 382, in run_application
+    await asyncio.gather(
+  File "H:\git\AGENT_FIRST_TEST\makeappssubfolder\agent_application_makercopysystemupdate.py", line 375, in user_input
+    if await asyncio.to_thread(sys.stdin.readline).strip().lower() == 'q':
+AttributeError: 'coroutine' object has no attribute 'strip'
+
+
+
+Please analyze the error and provide corrected versions of the files to resolve the error. return the full content of the files Remember that the application should start with a main module in the main.py file(main shouldn't take any arguments).

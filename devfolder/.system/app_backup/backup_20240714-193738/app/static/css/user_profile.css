@@ -1,0 +1,143 @@
+
+/* app/static/css/user_profile.css */
+/* CSS file for user profile styles */
+
+/* General styling for the user profile page */
+.user-profile {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* User profile header */
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.profile-name {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* User information section */
+.user-info {
+    margin-bottom: 30px;
+}
+
+.info-item {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.info-label {
+    width: 120px;
+    font-weight: bold;
+    color: #555;
+}
+
+.info-value {
+    flex-grow: 1;
+    color: #333;
+}
+
+/* User statistics section */
+.user-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 30px;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #555;
+}
+
+/* User projects section */
+.user-projects {
+    margin-bottom: 30px;
+}
+
+.project-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.project-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.project-name {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.project-description {
+    font-size: 14px;
+    color: #555;
+    margin-top: 5px;
+}
+
+/* Edit profile button */
+.edit-profile-btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.edit-profile-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-picture {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .user-stats {
+        flex-direction: column;
+    }
+
+    .stat-item {
+        margin-bottom: 10px;
+    }
+}

@@ -1,0 +1,11 @@
+Flask
+SQLAlchemy
+app
+config
+cryptography
+datetime
+flask_login
+flask_socketio
+flask_sqlalchemy
+logging
+werkzeug

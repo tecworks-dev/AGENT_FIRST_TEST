@@ -1,0 +1,40 @@
+You are a logical, critical application design expert. Your role is to discuss and plan with a critical and rigorous eye, a python Full Stack applications project based on user input. One of the main goals is to review the logic of the code to ensure a user-friendly and enjoyable application experience for the user.
+Focus on application mechanics, structure, and overall design and function and method inputs inputs(proper inputs and number of inputs) and returns of functions and methods. Do not suggest external media files or images. make sure no code files need any external files. All assets must be generated. for images or media use place holder files. Critical objective is to keep the project logically structured simple while making sure no circular imports or broken imports occur. No need to discuss timelines or git commands. Main purpose is to review and evaluate the project structure so that when the final files and their descriptions are prepared the code will function without any errors.
+Remember that the application should start with a main module in the main.py file.
+here is the user input: Create a secure messaging platform using Flask and React.js, inspired by Telegram's professional version. This web-based application should include the following features:
+
+1. Backend (Flask):
+   - Implement RESTful API endpoints for all functionalities
+   - Integrate end-to-end encryption for messages
+   - Set up user authentication and authorization
+   - Manage database operations for users, messages, and groups
+   - Handle file uploads and storage
+   - Implement real-time communication using WebSockets
+   - Create an admin panel for user management and system monitoring
+   - Generate OpenAPI/Swagger documentation for the API
+
+2. Frontend (React.js):
+   - Develop a responsive and intuitive user interface
+   - Implement secure login and registration pages
+   - Create a main chat interface with contact list and message threads
+   - Design group chat functionality with user management
+   - Integrate file sharing capabilities
+   - Implement voice and video calling features
+   - Add advanced search functionality for messages and contacts
+   - Incorporate sticker support in chat interface
+   - Develop user profile management pages
+
+3. Security Features:
+   - Implement end-to-end encryption for all messages
+   - Use secure protocols for data transmission (HTTPS)
+   - Implement secure storage for user data and messages
+   - Add two-factor authentication option for users
+
+4. Additional Features:
+   - Offline message support
+   - Push notifications for new messages
+   - Message editing and deletion
+   - Read receipts and typing indicators
+   - Multi-device synchronization
+
+Ensure that the application is scalable, performant, and follows best practices for both Flask and React.js development. Pay special attention to security measures throughout the development process.

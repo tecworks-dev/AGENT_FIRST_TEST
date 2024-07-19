@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - Messaging Platform</title>
+</head>
+<body>
+    <h1>Welcome to the Chat Room, {{ username }}!</h1>
+    <div id="chat-messages">
+        <!-- Chat messages will be displayed here -->
+    </div>
+    <form id="message-form">
+        <input type="text" id="message-input" placeholder="Type your message...">
+        <button type="submit">Send</button>
+    </form>
+    <script>
+        // Basic JavaScript for handling chat functionality
+        // In a real application, you'd use WebSockets or Server-Sent Events for real-time communication
+        document.getElementById('message-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var messageInput = document.getElementById('message-input');
+            var message = messageInput.value;
+            if (message) {
+                var chatMessages = document.getElementById('chat-messages');
+                chatMessages.innerHTML += '<p><strong>You:</strong> ' + message + '</p>';
+                messageInput.value = '';
+            }
+        });
+    </script>
+</body>
+</html>

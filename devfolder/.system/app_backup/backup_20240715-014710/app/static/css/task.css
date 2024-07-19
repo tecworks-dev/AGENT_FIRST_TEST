@@ -1,0 +1,175 @@
+
+/* app/static/css/task.css */
+/* Purpose: Provide task-specific styles for the AI Software Factory application */
+/* Description: This CSS file contains styles specific to task-related elements and components */
+
+/* Task list styles */
+.task-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-item {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    padding: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.task-item:hover {
+    background-color: #f0f0f0;
+}
+
+.task-title {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.task-description {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.task-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8em;
+    color: #888;
+}
+
+/* Task status styles */
+.task-status {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-pending {
+    background-color: #ffeeba;
+    color: #856404;
+}
+
+.status-in-progress {
+    background-color: #b8daff;
+    color: #004085;
+}
+
+.status-completed {
+    background-color: #c3e6cb;
+    color: #155724;
+}
+
+/* Task form styles */
+.task-form {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.task-form input[type="text"],
+.task-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.task-form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.task-form button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.task-form button:hover {
+    background-color: #0056b3;
+}
+
+/* Task details page styles */
+.task-details {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.task-details h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.task-actions {
+    margin-top: 20px;
+}
+
+.task-actions button {
+    margin-right: 10px;
+}
+
+/* Task comments section */
+.task-comments {
+    margin-top: 30px;
+}
+
+.comment-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.comment-item {
+    background-color: #f9f9f9;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.comment-author {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.comment-content {
+    font-size: 0.9em;
+}
+
+.comment-form textarea {
+    width: 100%;
+    height: 80px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .task-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .task-status {
+        margin-top: 5px;
+    }
+}

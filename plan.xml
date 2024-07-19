@@ -1,0 +1,1363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application_plan>
+  <components>- Flask web application (backend)&#xD;
+        - Flask web application (frontend)&#xD;
+        - Asynchronous capabilities using asyncio&#xD;
+        - AI interaction through the Anthropic API&#xD;
+        - Comprehensive error handling and recovery&#xD;
+        - Interactive user feedback processing&#xD;
+        - Automated unit test generation and execution&#xD;
+        - Modular design for scalability and maintainability&#xD;
+        - WebSocket support for real-time communications&#xD;
+        - SQLAlchemy ORM for database interactions&#xD;
+        - User authentication and management&#xD;
+        - Encryption service for secure data handling&#xD;
+        - File handling and backup services&#xD;
+        - Push notification service&#xD;
+        - Web browsing and research agent&#xD;
+        - State monitoring and project tracking system&#xD;
+        - Version control system integration&#xD;
+        - Dependency management system&#xD;
+        - Code review interface&#xD;
+        - Deployment automation&#xD;
+        - Documentation generator&#xD;
+        - Performance monitoring and analysis tools</components>
+  <files>
+    <file>
+      <description>Analyzes code complexity using various metrics.&#xD;
+        Classes:&#xD;
+        - CodeComplexityAnalyzer:&#xD;
+            Methods:&#xD;
+            - calculate_cyclomatic_complexity(self, code: str) -&gt; int&#xD;
+            - calculate_cognitive_complexity(self, code: str) -&gt; int&#xD;
+            - generate_complexity_report(self, project_path: str) -&gt; Dict[str, Any]</description>
+      <name>app/utils/code_complexity_analyzer.py</name>
+    </file>
+    <file>
+      <description>Analyzes project structure and provides insights.&#xD;
+        Classes:&#xD;
+        - ProjectAnalyzer:&#xD;
+            Methods:&#xD;
+            - analyze_project_structure(self, project_path: str) -&gt; Dict[str, Any]&#xD;
+            - identify_code_smells(self, project_path: str) -&gt; List[Dict[str, str]]&#xD;
+            - suggest_refactoring(self, project_path: str) -&gt; List[Dict[str, str]]</description>
+      <name>app/utils/project_analyzer.py</name>
+    </file>
+    <file>
+      <description>Base HTML layout template for the web UI.&#xD;
+                Contents:&#xD;
+                - HTML structure with placeholders for dynamic content&#xD;
+                - Links to CSS and JavaScript files&#xD;
+                - Meta tags and other common HTML elements</description>
+      <name>app/templates/layout.html</name>
+    </file>
+    <file>
+      <description>CSS file for project-specific styles</description>
+      <name>app/static/css/project.css</name>
+    </file>
+    <file>
+      <description>CSS file for task-specific styles</description>
+      <name>app/static/css/task.css</name>
+    </file>
+    <file>
+      <description>CSS file for user profile styles</description>
+      <name>app/static/css/user_profile.css</name>
+    </file>
+    <file>
+      <description>CSS for layout and responsive design.&#xD;
+        Contents:&#xD;
+        - Grid system&#xD;
+        - Responsive breakpoints&#xD;
+        - Layout utilities</description>
+      <name>app/static/css/layout.css</name>
+    </file>
+    <file>
+      <description>CSS for reusable UI components.&#xD;
+        Contents:&#xD;
+        - Styles for buttons, forms, modals, etc.</description>
+      <name>app/static/css/components.css</name>
+    </file>
+    <file>
+      <description>Centralizes API calls to the backend.&#xD;
+        Contents:&#xD;
+        - Functions for making AJAX requests to various API endpoints&#xD;
+        - Error handling for API calls</description>
+      <name>app/static/js/api.js</name>
+    </file>
+    <file>
+      <description>Centralizes error handling for the application.&#xD;
+        Functions:&#xD;
+        - handle_error(error: Exception) -&gt; Tuple[str, int]&#xD;
+        - log_error(error: Exception, context: Dict[str, Any]) -&gt; None</description>
+      <name>app/utils/error_handler.py</name>
+    </file>
+    <file>
+      <description>Checks for code similarity to detect potential plagiarism or code duplication.&#xD;
+        Classes:&#xD;
+        - CodeSimilarityChecker:&#xD;
+            Methods:&#xD;
+            - check_similarity(self, code1: str, code2: str) -&gt; float&#xD;
+            - find_similar_code_blocks(self, project_id: int) -&gt; List[Dict[str, Any]]</description>
+      <name>app/utils/code_similarity_checker.py</name>
+    </file>
+    <file>
+      <description>Configuration file for Alembic (database migration tool).&#xD;
+        Contents:&#xD;
+        - Alembic settings&#xD;
+        - Migration script locations</description>
+      <name>migrations/alembic.ini</name>
+    </file>
+    <file>
+      <description>Configuration settings for the application.&#xD;
+                Imports: os&#xD;
+                Classes:&#xD;
+                - Config:&#xD;
+                    Attributes:&#xD;
+                    - SECRET_KEY: str&#xD;
+                    - SQLALCHEMY_DATABASE_URI: str&#xD;
+                    - ANTHROPIC_API_KEY: str&#xD;
+                    - MAX_TOKENS: int&#xD;
+                    - TEMPERATURE: float&#xD;
+                - DevelopmentConfig(Config):&#xD;
+                    Additional development-specific settings&#xD;
+                - ProductionConfig(Config):&#xD;
+                    Additional production-specific settings&#xD;
+                Functions:&#xD;
+                - get_config() -&gt; Config: Returns the appropriate configuration based on the environment</description>
+      <name>config.py</name>
+    </file>
+    <file>
+      <description>Contains integration tests for the application.&#xD;
+        Contents:&#xD;
+        - End-to-end test cases&#xD;
+        - API integration tests&#xD;
+        - Database integration tests</description>
+      <name>tests/test_integration.py</name>
+    </file>
+    <file>
+      <description>Contains tests for the application routes.&#xD;
+        Contents:&#xD;
+        - Test cases for different HTTP endpoints&#xD;
+        - Authentication tests&#xD;
+        - Response validation tests</description>
+      <name>tests/test_routes.py</name>
+    </file>
+    <file>
+      <description>Contains unit tests for database models.&#xD;
+        Contents:&#xD;
+        - Test cases for User, Project, Task, and File models&#xD;
+        - Relationship tests&#xD;
+        - Model method tests</description>
+      <name>tests/test_models.py</name>
+    </file>
+    <file>
+      <description>Contains unit tests for the AI model service.&#xD;
+        Contents:&#xD;
+        - Test cases for model loading&#xD;
+        - Test cases for response generation&#xD;
+        - Test cases for model fine-tuning</description>
+      <name>tests/test_ai_model_service.py</name>
+    </file>
+    <file>
+      <description>Contains unit tests for the AI service.&#xD;
+        Contents:&#xD;
+        - Test cases for various AI service methods&#xD;
+        - Mock API responses&#xD;
+        - Edge case handling tests</description>
+      <name>tests/test_ai_service.py</name>
+    </file>
+    <file>
+      <description>Contains unit tests for the caching service.&#xD;
+        Contents:&#xD;
+        - Test cases for caching operations&#xD;
+        - Cache expiration tests&#xD;
+        - Edge case handling</description>
+      <name>tests/test_caching_service.py</name>
+    </file>
+    <file>
+      <description>Contains unit tests for the code generation service.&#xD;
+        Contents:&#xD;
+        - Test cases for code generation&#xD;
+        - Test cases for code refactoring</description>
+      <name>tests/test_code_generation_service.py</name>
+    </file>
+    <file>
+      <description>Contains unit tests for the data persistence service.&#xD;
+        Contents:&#xD;
+        - Test cases for saving and loading project states&#xD;
+        - Test cases for project backup functionality</description>
+      <name>tests/test_data_persistence_service.py</name>
+    </file>
+    <file>
+      <description>Contains unit tests for the project planning service.&#xD;
+        Contents:&#xD;
+        - Test cases for project plan generation&#xD;
+        - Test cases for plan updates</description>
+      <name>tests/test_project_planning_service.py</name>
+    </file>
+    <file>
+      <description>Contains unit tests for the user management service.&#xD;
+        Contents:&#xD;
+        - Test cases for user creation, update, and deletion&#xD;
+        - Test cases for retrieving user projects</description>
+      <name>tests/test_user_management_service.py</name>
+    </file>
+    <file>
+      <description>Defines custom exceptions for the application.&#xD;
+        Classes:&#xD;
+        - AIServiceException(Exception)&#xD;
+        - DatabaseConnectionError(Exception)&#xD;
+        - InvalidInputError(Exception)&#xD;
+        - AuthenticationError(Exception)</description>
+      <name>app/utils/custom_exceptions.py</name>
+    </file>
+    <file>
+      <description>Defines fixtures and configuration for pytest.&#xD;
+        Contents:&#xD;
+        - Test database setup&#xD;
+        - Application context creation&#xD;
+        - Mock object definitions</description>
+      <name>tests/conftest.py</name>
+    </file>
+    <file>
+      <description>Defines various Flask routes for the application.&#xD;
+                Imports: flask, flask_login, app.models, app.services&#xD;
+                Functions:&#xD;
+                - index() -&gt; str: Home page route&#xD;
+                - user_profile(user_id: int) -&gt; str: User profile page&#xD;
+                - create_project() -&gt; str: Creates a new project&#xD;
+                - update_task(task_id: int, status: str) -&gt; str: Updates task status&#xD;
+                - browse_web(query: str) -&gt; str: Initiates web browsing for research</description>
+      <name>app/routes/__init__.py</name>
+    </file>
+    <file>
+      <description>Detects the programming language of a given code snippet.&#xD;
+        Classes:&#xD;
+        - LanguageDetector:&#xD;
+            Methods:&#xD;
+            - detect_language(self, code: str) -&gt; str</description>
+      <name>app/utils/language_detector.py</name>
+    </file>
+    <file>
+      <description>Email template for password reset.&#xD;
+        Contents:&#xD;
+        - HTML structure for password reset email&#xD;
+        - Reset link placeholder</description>
+      <name>app/templates/email/reset_password.html</name>
+    </file>
+    <file>
+      <description>Enforces coding style guidelines for different programming languages.&#xD;
+        Classes:&#xD;
+        - CodeStyleEnforcer:&#xD;
+            Methods:&#xD;
+            - enforce_style(self, code: str, language: str, style_guide: str) -&gt; str&#xD;
+            - check_style_violations(self, code: str, language: str, style_guide: str) -&gt; List[Dict[str, Any]]</description>
+      <name>app/utils/code_style_enforcer.py</name>
+    </file>
+    <file>
+      <description>Entry point for the application. Orchestrates the entire process from planning to feedback incorporation.&#xD;
+                Imports: asyncio, flask, config&#xD;
+                Functions:&#xD;
+                - main() -&gt; None: Initializes and runs the application.&#xD;
+                Classes:&#xD;
+                - AISoftwareFactory:&#xD;
+                    Methods:&#xD;
+                    - __init__(self, config: Config) -&gt; None&#xD;
+                    - run(self) -&gt; None&#xD;
+                    - plan_project(self, requirements: str) -&gt; Dict[str, Any]&#xD;
+                    - generate_code(self, plan: Dict[str, Any]) -&gt; List[File]&#xD;
+                    - fix_errors(self, files: List[File]) -&gt; List[File]&#xD;
+                    - incorporate_feedback(self, feedback: str, files: List[File]) -&gt; List[File]&#xD;
+                    - create_tests(self, files: List[File]) -&gt; List[File]</description>
+      <name>main.py</name>
+    </file>
+    <file>
+      <description>Example environment variable file.&#xD;
+        Contents:&#xD;
+        - Placeholder values for configuration settings&#xD;
+        - Instructions for setting up the actual .env file</description>
+      <name>.env.example</name>
+    </file>
+    <file>
+      <description>Favicon for the application.</description>
+      <name>app/static/img/favicon.ico</name>
+    </file>
+    <file>
+      <description>Formats code according to specified style guidelines.&#xD;
+        Classes:&#xD;
+        - CodeFormatter:&#xD;
+            Methods:&#xD;
+            - format_code(self, code: str, language: str, style_guide: str) -&gt; str&#xD;
+            - detect_style_violations(self, code: str, language: str, style_guide: str) -&gt; List[Dict[str, Any]]</description>
+      <name>app/utils/code_formatter.py</name>
+    </file>
+    <file>
+      <description>Generates AI prompts for various tasks.&#xD;
+        Classes:&#xD;
+        - AIPromptGenerator:&#xD;
+            Methods:&#xD;
+            - generate_code_prompt(self, task: str) -&gt; str&#xD;
+            - generate_test_prompt(self, code: str) -&gt; str&#xD;
+            - generate_refactor_prompt(self, code: str, issue: str) -&gt; str</description>
+      <name>app/utils/ai_prompt_generator.py</name>
+    </file>
+    <file>
+      <description>Generates API documentation for the project.&#xD;
+        Classes:&#xD;
+        - APIDocumentationService:&#xD;
+            Methods:&#xD;
+            - generate_api_docs(self, project_id: int) -&gt; str&#xD;
+            - update_api_docs(self, project_id: int, changes: List[Dict[str, Any]]) -&gt; bool</description>
+      <name>app/services/api_documentation_service.py</name>
+    </file>
+    <file>
+      <description>Generates visualizations for project data and metrics.&#xD;
+        Classes:&#xD;
+        - DataVisualizationService:&#xD;
+            Methods:&#xD;
+            - generate_project_progress_chart(self, project_id: int) -&gt; bytes&#xD;
+            - generate_code_quality_heatmap(self, project_id: int) -&gt; bytes&#xD;
+            - generate_performance_trend_graph(self, project_id: int) -&gt; bytes</description>
+      <name>app/services/data_visualization_service.py</name>
+    </file>
+    <file>
+      <description>Handles AI-driven code generation tasks.&#xD;
+        Classes:&#xD;
+        - CodeGenerationService:&#xD;
+            Methods:&#xD;
+            - generate_code(self, specifications: Dict[str, Any]) -&gt; List[Tuple[str, str]]&#xD;
+            - refactor_code(self, code: str, refactor_instructions: str) -&gt; str</description>
+      <name>app/services/code_generation_service.py</name>
+    </file>
+    <file>
+      <description>Handles AI-driven project planning tasks.&#xD;
+        Classes:&#xD;
+        - ProjectPlanningService:&#xD;
+            Methods:&#xD;
+            - generate_project_plan(self, requirements: str) -&gt; Dict[str, Any]&#xD;
+            - update_project_plan(self, current_plan: Dict[str, Any], new_requirements: str) -&gt; Dict[str, Any]</description>
+      <name>app/services/project_planning_service.py</name>
+    </file>
+    <file>
+      <description>Handles AI-driven test generation and execution.&#xD;
+        Classes:&#xD;
+        - TestingService:&#xD;
+            Methods:&#xD;
+            - generate_tests(self, code: str) -&gt; str&#xD;
+            - run_tests(self, code: str, tests: str) -&gt; Dict[str, Any]</description>
+      <name>app/services/testing_service.py</name>
+    </file>
+    <file>
+      <description>Handles WebSocket connections and real-time updates.&#xD;
+        Contents:&#xD;
+        - WebSocket connection setup&#xD;
+        - Message handling functions&#xD;
+        - Real-time update handlers</description>
+      <name>app/static/js/websocket.js</name>
+    </file>
+    <file>
+      <description>Handles application state monitoring and project progress tracking.&#xD;
+        Classes:&#xD;
+        - StateMonitoringService:&#xD;
+            Methods:&#xD;
+            - get_current_state(self, project_id: int) -&gt; Dict[str, Any]&#xD;
+            - update_state(self, project_id: int, new_state: Dict[str, Any]) -&gt; bool&#xD;
+            - track_progress(self, project_id: int) -&gt; float</description>
+      <name>app/services/state_monitoring_service.py</name>
+    </file>
+    <file>
+      <description>Handles code generation tasks.&#xD;
+        Classes:&#xD;
+        - CodeGenerationService:&#xD;
+            Methods:&#xD;
+            - generate_code(self, specifications: Dict[str, Any]) -&gt; List[Tuple[str, str]]&#xD;
+            - refactor_code(self, code: str, refactor_instructions: str) -&gt; str</description>
+      <name>app/services/code_generation_service.py</name>
+    </file>
+    <file>
+      <description>Handles code migration between different programming languages.&#xD;
+        Classes:&#xD;
+        - CodeMigrationService:&#xD;
+            Methods:&#xD;
+            - migrate_code(self, code: str, source_language: str, target_language: str) -&gt; str&#xD;
+            - analyze_migration_feasibility(self, code: str, source_language: str, target_language: str) -&gt; Dict[str, Any]</description>
+      <name>app/services/code_migration_service.py</name>
+    </file>
+    <file>
+      <description>Handles code optimization tasks.&#xD;
+        Classes:&#xD;
+        - CodeOptimizationService:&#xD;
+            Methods:&#xD;
+            - optimize_code(self, code: str, language: str) -&gt; str&#xD;
+            - profile_code(self, code: str, language: str) -&gt; Dict[str, Any]&#xD;
+            - suggest_optimizations(self, profiling_result: Dict[str, Any]) -&gt; List[str]</description>
+      <name>app/services/code_optimization_service.py</name>
+    </file>
+    <file>
+      <description>Handles code quality checks and improvements.&#xD;
+        Classes:&#xD;
+        - CodeQualityService:&#xD;
+            Methods:&#xD;
+            - analyze_code_quality(self, code: str, language: str) -&gt; Dict[str, Any]&#xD;
+            - suggest_improvements(self, analysis_result: Dict[str, Any]) -&gt; List[str]&#xD;
+            - apply_improvements(self, code: str, improvements: List[str]) -&gt; str</description>
+      <name>app/services/code_quality_service.py</name>
+    </file>
+    <file>
+      <description>Handles code review processes.&#xD;
+                Classes:&#xD;
+                - CodeReviewService:&#xD;
+                    Methods:&#xD;
+                    - review_code(self, code: str, language: str) -&gt; List[Dict[str, Any]]&#xD;
+                    - apply_suggestion(self, code: str, suggestion: Dict[str, Any]) -&gt; str</description>
+      <name>app/services/code_review_service.py</name>
+    </file>
+    <file>
+      <description>Handles collaboration features for team projects.&#xD;
+        Classes:&#xD;
+        - CollaborationService:&#xD;
+            Methods:&#xD;
+            - invite_user(self, project_id: int, user_email: str) -&gt; bool&#xD;
+            - assign_task(self, task_id: int, user_id: int) -&gt; bool&#xD;
+            - get_project_activity(self, project_id: int) -&gt; List[Dict[str, Any]]</description>
+      <name>app/services/collaboration_service.py</name>
+    </file>
+    <file>
+      <description>Handles continuous integration tasks.&#xD;
+        Classes:&#xD;
+        - ContinuousIntegrationService:&#xD;
+            Methods:&#xD;
+            - run_ci_pipeline(self, project_id: int) -&gt; Dict[str, Any]&#xD;
+            - analyze_ci_results(self, ci_results: Dict[str, Any]) -&gt; List[str]</description>
+      <name>app/services/continuous_integration_service.py</name>
+    </file>
+    <file>
+      <description>Handles data persistence operations.&#xD;
+        Classes:&#xD;
+        - DataPersistenceService:&#xD;
+            Methods:&#xD;
+            - save_project_state(self, project_id: int, state: Dict[str, Any]) -&gt; bool&#xD;
+            - load_project_state(self, project_id: int) -&gt; Dict[str, Any]&#xD;
+            - backup_project(self, project_id: int) -&gt; str</description>
+      <name>app/services/data_persistence_service.py</name>
+    </file>
+    <file>
+      <description>Handles data preprocessing for AI models.&#xD;
+        Classes:&#xD;
+        - DataPreprocessingService:&#xD;
+            Methods:&#xD;
+            - clean_text(self, text: str) -&gt; str&#xD;
+            - tokenize(self, text: str) -&gt; List[str]&#xD;
+            - encode_data(self, data: List[str]) -&gt; List[List[int]]</description>
+      <name>app/services/data_preprocessing_service.py</name>
+    </file>
+    <file>
+      <description>Handles dependency management tasks.&#xD;
+                Classes:&#xD;
+                - DependencyManagementService:&#xD;
+                    Methods:&#xD;
+                    - analyze_dependencies(self, project_path: str) -&gt; Dict[str, str]&#xD;
+                    - update_dependencies(self, project_path: str) -&gt; Dict[str, str]&#xD;
+                    - resolve_conflicts(self, project_path: str, conflicts: List[str]) -&gt; bool</description>
+      <name>app/services/dependency_management_service.py</name>
+    </file>
+    <file>
+      <description>Handles deployment tasks.&#xD;
+                Classes:&#xD;
+                - DeploymentService:&#xD;
+                    Methods:&#xD;
+                    - deploy_to_environment(self, project_path: str, environment: str) -&gt; bool&#xD;
+                    - rollback_deployment(self, project_path: str, environment: str, version: str) -&gt; bool</description>
+      <name>app/services/deployment_service.py</name>
+    </file>
+    <file>
+      <description>Handles documentation generation tasks.&#xD;
+                Classes:&#xD;
+                - DocumentationService:&#xD;
+                    Methods:&#xD;
+                    - generate_documentation(self, project_path: str) -&gt; str&#xD;
+                    - update_readme(self, project_path: str, changes: List[str]) -&gt; bool</description>
+      <name>app/services/documentation_service.py</name>
+    </file>
+    <file>
+      <description>Handles error detection and fixing.&#xD;
+        Classes:&#xD;
+        - ErrorFixingService:&#xD;
+            Methods:&#xD;
+            - analyze_and_fix_errors(self, code: str, error_message: str) -&gt; str&#xD;
+            - suggest_fixes(self, code: str, error_type: str) -&gt; List[str]</description>
+      <name>app/services/error_fixing_service.py</name>
+    </file>
+    <file>
+      <description>Handles fine-tuning and training of AI models.&#xD;
+        Classes:&#xD;
+        - AITrainingService:&#xD;
+            Methods:&#xD;
+            - prepare_training_data(self, data: List[Dict[str, str]]) -&gt; List[Dict[str, str]]&#xD;
+            - fine_tune_model(self, model_name: str, training_data: List[Dict[str, str]]) -&gt; str&#xD;
+            - evaluate_model_performance(self, model_name: str, test_data: List[Dict[str, str]]) -&gt; Dict[str, float]</description>
+      <name>app/services/ai_training_service.py</name>
+    </file>
+    <file>
+      <description>Handles interactions with AI models.&#xD;
+        Classes:&#xD;
+        - AIModelService:&#xD;
+            Methods:&#xD;
+            - load_model(self, model_name: str) -&gt; Any&#xD;
+            - generate_response(self, prompt: str, model: Any) -&gt; str&#xD;
+            - fine_tune_model(self, model: Any, training_data: List[Dict[str, str]]) -&gt; Any</description>
+      <name>app/services/ai_model_service.py</name>
+    </file>
+    <file>
+      <description>Handles natural language processing tasks.&#xD;
+        Classes:&#xD;
+        - NLPService:&#xD;
+            Methods:&#xD;
+            - extract_keywords(self, text: str) -&gt; List[str]&#xD;
+            - sentiment_analysis(self, text: str) -&gt; Dict[str, float]&#xD;
+            - summarize_text(self, text: str, max_length: int) -&gt; str</description>
+      <name>app/services/natural_language_processing.py</name>
+    </file>
+    <file>
+      <description>Handles performance monitoring and optimization tasks.&#xD;
+                Classes:&#xD;
+                - PerformanceMonitoringService:&#xD;
+                    Methods:&#xD;
+                    - analyze_performance(self, project_path: str) -&gt; Dict[str, Any]&#xD;
+                    - suggest_optimizations(self, performance_data: Dict[str, Any]) -&gt; List[str]</description>
+      <name>app/services/performance_monitoring_service.py</name>
+    </file>
+    <file>
+      <description>Handles project export and import functionality.&#xD;
+        Classes:&#xD;
+        - ProjectExportService:&#xD;
+            Methods:&#xD;
+            - export_project(self, project_id: int) -&gt; bytes&#xD;
+            - import_project(self, project_data: bytes) -&gt; int</description>
+      <name>app/services/project_export_service.py</name>
+    </file>
+    <file>
+      <description>Handles test generation tasks.&#xD;
+        Classes:&#xD;
+        - TestGenerationService:&#xD;
+            Methods:&#xD;
+            - generate_unit_tests(self, code: str, function_name: str) -&gt; str&#xD;
+            - generate_integration_tests(self, project_structure: Dict[str, Any]) -&gt; str</description>
+      <name>app/services/test_generation_service.py</name>
+    </file>
+    <file>
+      <description>Handles user feedback processing and incorporation.&#xD;
+        Classes:&#xD;
+        - FeedbackService:&#xD;
+            Methods:&#xD;
+            - process_feedback(self, feedback: str, project_id: int) -&gt; Dict[str, Any]&#xD;
+            - incorporate_feedback(self, processed_feedback: Dict[str, Any], project_id: int) -&gt; bool</description>
+      <name>app/services/feedback_service.py</name>
+    </file>
+    <file>
+      <description>Handles user-related operations.&#xD;
+        Classes:&#xD;
+        - UserManagementService:&#xD;
+            Methods:&#xD;
+            - create_user(self, username: str, email: str, password: str) -&gt; User&#xD;
+            - update_user(self, user_id: int, **kwargs) -&gt; User&#xD;
+            - delete_user(self, user_id: int) -&gt; bool&#xD;
+            - get_user_projects(self, user_id: int) -&gt; List[Project]</description>
+      <name>app/services/user_management_service.py</name>
+    </file>
+    <file>
+      <description>Handles version control operations.&#xD;
+                Classes:&#xD;
+                - VersionControlService:&#xD;
+                    Methods:&#xD;
+                    - init_repository(self, project_path: str) -&gt; bool&#xD;
+                    - commit_changes(self, project_path: str, commit_message: str) -&gt; bool&#xD;
+                    - create_branch(self, project_path: str, branch_name: str) -&gt; bool</description>
+      <name>app/services/version_control_service.py</name>
+    </file>
+    <file>
+      <description>Home page template for the web UI.&#xD;
+                Contents:&#xD;
+                - Extends layout.html&#xD;
+                - Contains the root element for the application&#xD;
+                - Includes any server-side rendered content</description>
+      <name>app/templates/index.html</name>
+    </file>
+    <file>
+      <description>Implements AI-driven software development tasks.&#xD;
+                Classes:&#xD;
+                - AIService:&#xD;
+                    Methods:&#xD;
+                    - generate_project_plan(self, project_requirements: str) -&gt; Dict[str, Any]&#xD;
+                    - incorporate_feedback(self, feedback: str, current_state: Dict[str, Any]) -&gt; Dict[str, Any]&#xD;
+                    - generate_code(self, specifications: Dict[str, Any]) -&gt; List[Tuple[str, str]]&#xD;
+                    - analyze_and_fix_errors(self, code: str, error_message: str) -&gt; str&#xD;
+                    - generate_unit_tests(self, code: str, function_name: str) -&gt; str&#xD;
+                    - system_1_thinking(self, context: str) -&gt; str&#xD;
+                    - system_2_thinking(self, context: str, options: List[str]) -&gt; str&#xD;
+                    - system_3_thinking(self, context: str, options: List[str], constraints: List[str]) -&gt; str</description>
+      <name>app/services/ai_service.py</name>
+    </file>
+    <file>
+      <description>Implements API rate limiting functionality.&#xD;
+                Classes:&#xD;
+                - APIRateLimiter:&#xD;
+                    Methods:&#xD;
+                    - limit(self, func: Callable) -&gt; Callable</description>
+      <name>app/utils/api_rate_limiter.py</name>
+    </file>
+    <file>
+      <description>Implements authentication-related functionality.&#xD;
+        Contents:&#xD;
+        - Login and logout routes&#xD;
+        - User registration&#xD;
+        - Password reset functionality</description>
+      <name>app/auth/__init__.py</name>
+    </file>
+    <file>
+      <description>Implements caching mechanisms for improved performance.&#xD;
+        Classes:&#xD;
+        - CachingService:&#xD;
+            Methods:&#xD;
+            - get(self, key: str) -&gt; Any&#xD;
+            - set(self, key: str, value: Any, expiration: int) -&gt; None&#xD;
+            - delete(self, key: str) -&gt; None</description>
+      <name>app/services/caching_service.py</name>
+    </file>
+    <file>
+      <description>Implements centralized logging for the application.&#xD;
+        Classes:&#xD;
+        - LoggingService:&#xD;
+            Methods:&#xD;
+            - log_info(self, message: str) -&gt; None&#xD;
+            - log_error(self, message: str, exception: Exception) -&gt; None&#xD;
+            - log_debug(self, message: str) -&gt; None</description>
+      <name>app/services/logging_service.py</name>
+    </file>
+    <file>
+      <description>Implements code difference analysis functionality.&#xD;
+        Classes:&#xD;
+        - CodeDiff:&#xD;
+            Methods:&#xD;
+            - generate_diff(self, old_code: str, new_code: str) -&gt; str&#xD;
+            - apply_patch(self, original_code: str, patch: str) -&gt; str</description>
+      <name>app/utils/code_diff.py</name>
+    </file>
+    <file>
+      <description>Implements code linting functionality.&#xD;
+        Classes:&#xD;
+        - CodeLinter:&#xD;
+            Methods:&#xD;
+            - lint_code(self, code: str, language: str) -&gt; List[Dict[str, Any]]&#xD;
+            - apply_auto_fixes(self, code: str, lint_results: List[Dict[str, Any]]) -&gt; str</description>
+      <name>app/utils/code_linter.py</name>
+    </file>
+    <file>
+      <description>Implements code obfuscation functionality for security purposes.&#xD;
+        Classes:&#xD;
+        - CodeObfuscator:&#xD;
+            Methods:&#xD;
+            - obfuscate_code(self, code: str, language: str) -&gt; str&#xD;
+            - deobfuscate_code(self, obfuscated_code: str, language: str) -&gt; str</description>
+      <name>app/utils/code_obfuscator.py</name>
+    </file>
+    <file>
+      <description>Implements code parsing functionality.&#xD;
+                Classes:&#xD;
+                - CodeParser:&#xD;
+                    Methods:&#xD;
+                    - parse_code(self, code: str, language: str) -&gt; Dict[str, Any]</description>
+      <name>app/utils/code_parser.py</name>
+    </file>
+    <file>
+      <description>Implements code quality metrics calculation.&#xD;
+                Classes:&#xD;
+                - CodeMetrics:&#xD;
+                    Methods:&#xD;
+                    - calculate_metrics(self, code: str, language: str) -&gt; Dict[str, Any]</description>
+      <name>app/utils/code_metrics.py</name>
+    </file>
+    <file>
+      <description>Implements code translation between programming languages.&#xD;
+        Classes:&#xD;
+        - LanguageTranslator:&#xD;
+            Methods:&#xD;
+            - translate_code(self, code: str, from_language: str, to_language: str) -&gt; str&#xD;
+            - detect_language(self, code: str) -&gt; str</description>
+      <name>app/utils/language_translator.py</name>
+    </file>
+    <file>
+      <description>Implements custom Flask CLI commands.&#xD;
+        Contents:&#xD;
+        - Database initialization command&#xD;
+        - Test data population command&#xD;
+        - Other utility commands</description>
+      <name>app/cli.py</name>
+    </file>
+    <file>
+      <description>Implements dependency graph functionality.&#xD;
+                Classes:&#xD;
+                - DependencyGraph:&#xD;
+                    Methods:&#xD;
+                    - generate_graph(self, project_id: int) -&gt; networkx.Graph</description>
+      <name>app/utils/dependency_graph.py</name>
+    </file>
+    <file>
+      <description>Implements security scanning functionality.&#xD;
+                Classes:&#xD;
+                - SecurityScanner:&#xD;
+                    Methods:&#xD;
+                    - scan_code(self, code: str, language: str) -&gt; List[Dict[str, Any]]</description>
+      <name>app/utils/security_scanner.py</name>
+    </file>
+    <file>
+      <description>Implements system thinking processes for AI decision-making.&#xD;
+        Classes:&#xD;
+        - SystemThinkingService:&#xD;
+            Methods:&#xD;
+            - system_1_thinking(self, context: str) -&gt; str&#xD;
+            - system_2_thinking(self, context: str, options: List[str]) -&gt; str&#xD;
+            - system_3_thinking(self, context: str, options: List[str], constraints: List[str]) -&gt; str</description>
+      <name>app/services/system_thinking_service.py</name>
+    </file>
+    <file>
+      <description>Implements test coverage analysis functionality.&#xD;
+                Classes:&#xD;
+                - TestCoverageAnalyzer:&#xD;
+                    Methods:&#xD;
+                    - analyze_coverage(self, project_id: int) -&gt; Dict[str, Any]</description>
+      <name>app/utils/test_coverage_analyzer.py</name>
+    </file>
+    <file>
+      <description>Implements web browsing functionality for research.&#xD;
+        Classes:&#xD;
+        - WebBrowsingService:&#xD;
+            Methods:&#xD;
+            - search(self, query: str) -&gt; List[Dict[str, str]]&#xD;
+            - extract_content(self, url: str) -&gt; str&#xD;
+            - summarize(self, content: str) -&gt; str</description>
+      <name>app/services/web_browsing_service.py</name>
+    </file>
+    <file>
+      <description>Initializes error handling for the application.&#xD;
+        Contents:&#xD;
+        - Custom error classes&#xD;
+        - Error handlers for different HTTP status codes</description>
+      <name>app/errors/__init__.py</name>
+    </file>
+    <file>
+      <description>Initializes the Flask application and its extensions.&#xD;
+                Imports: flask, flask_sqlalchemy, flask_migrate, flask_login, flask_socketio&#xD;
+                Functions:&#xD;
+                - create_app(config_class=Config) -&gt; Flask: Returns initialized Flask app&#xD;
+                - init_db() -&gt; None: Initializes the database&#xD;
+                Variables:&#xD;
+                - db: SQLAlchemy&#xD;
+                - migrate: Migrate&#xD;
+                - login_manager: LoginManager&#xD;
+                - socketio: SocketIO</description>
+      <name>app/__init__.py</name>
+    </file>
+    <file>
+      <description>Initializes the models for the application.&#xD;
+                Imports: flask_sqlalchemy&#xD;
+                Classes:&#xD;
+                - User(db.Model, UserMixin):&#xD;
+                    Attributes: id, username, email, password_hash&#xD;
+                    Methods:&#xD;
+                    - set_password(self, password: str) -&gt; None&#xD;
+                    - check_password(self, password: str) -&gt; bool&#xD;
+                    - to_dict(self) -&gt; Dict[str, Any]&#xD;
+                - Project(db.Model):&#xD;
+                    Attributes: id, name, description, user_id&#xD;
+                    Methods:&#xD;
+                    - to_dict(self) -&gt; Dict[str, Any]&#xD;
+                - Task(db.Model):&#xD;
+                    Attributes: id, title, description, status, project_id&#xD;
+                    Methods:&#xD;
+                    - to_dict(self) -&gt; Dict[str, Any]&#xD;
+                - File(db.Model):&#xD;
+                    Attributes: id, name, content, project_id&#xD;
+                    Methods:&#xD;
+                    - to_dict(self) -&gt; Dict[str, Any]</description>
+      <name>app/models/__init__.py</name>
+    </file>
+    <file>
+      <description>Initializes the services for the application.&#xD;
+                Imports: anthropic, app.utils.api_utils&#xD;
+                Classes:&#xD;
+                - AIService:&#xD;
+                    Methods:&#xD;
+                    - generate_text(self, prompt: str, max_tokens: int) -&gt; str&#xD;
+                    - analyze_code(self, code: str) -&gt; Dict[str, Any]&#xD;
+                - ProjectManager:&#xD;
+                    Methods:&#xD;
+                    - create_project(self, name: str, description: str, user_id: int) -&gt; Project&#xD;
+                    - update_project(self, project_id: int, **kwargs) -&gt; Project&#xD;
+                - TaskManager:&#xD;
+                    Methods:&#xD;
+                    - create_task(self, title: str, description: str, project_id: int) -&gt; Task&#xD;
+                    - update_task(self, task_id: int, **kwargs) -&gt; Task&#xD;
+                - FileManager:&#xD;
+                    Methods:&#xD;
+                    - create_file(self, name: str, content: str, project_id: int) -&gt; File&#xD;
+                    - update_file(self, file_id: int, content: str) -&gt; File</description>
+      <name>app/services/__init__.py</name>
+    </file>
+    <file>
+      <description>JavaScript file for project-specific functionality</description>
+      <name>app/static/js/project.js</name>
+    </file>
+    <file>
+      <description>JavaScript file for task-specific functionality</description>
+      <name>app/static/js/task.js</name>
+    </file>
+    <file>
+      <description>JavaScript file for user profile functionality</description>
+      <name>app/static/js/user_profile.js</name>
+    </file>
+    <file>
+      <description>JavaScript for client-side error handling and reporting.&#xD;
+        Contents:&#xD;
+        - Error catching and logging functions&#xD;
+        - User-friendly error messages&#xD;
+        - Error reporting to backend</description>
+      <name>app/static/js/error_handling.js</name>
+    </file>
+    <file>
+      <description>JavaScript for generating charts and graphs.&#xD;
+        Contents:&#xD;
+        - Functions to create various types of charts (line, bar, pie, etc.)&#xD;
+        - Data processing for chart inputs&#xD;
+        - Chart update and animation functions</description>
+      <name>app/static/js/charts.js</name>
+    </file>
+    <file>
+      <description>JavaScript for the AI chat functionality.&#xD;
+        Contents:&#xD;
+        - WebSocket connection for real-time chat&#xD;
+        - Functions to send and receive messages&#xD;
+        - UI updates for chat interface</description>
+      <name>app/static/js/ai_chat.js</name>
+    </file>
+    <file>
+      <description>JavaScript for the code editor functionality.&#xD;
+        Contents:&#xD;
+        - Code editor initialization&#xD;
+        - Syntax highlighting&#xD;
+        - Auto-completion features</description>
+      <name>app/static/js/code_editor.js</name>
+    </file>
+    <file>
+      <description>Logo image file for the application.</description>
+      <name>app/static/img/logo.svg</name>
+    </file>
+    <file>
+      <description>Main CSS file for styling the frontend.&#xD;
+                Contents:&#xD;
+                - Global styles&#xD;
+                - Component-specific styles&#xD;
+                - Responsive design rules</description>
+      <name>app/static/css/style.css</name>
+    </file>
+    <file>
+      <description>Main JavaScript file for the frontend.&#xD;
+                Contents:&#xD;
+                - Flask components for the UI&#xD;
+                - WebSocket connection setup&#xD;
+                - API calls to the backend&#xD;
+                - State management</description>
+      <name>app/static/js/main.js</name>
+    </file>
+    <file>
+      <description>Manages different AI models and their versions.&#xD;
+        Classes:&#xD;
+        - AIModelManager:&#xD;
+            Methods:&#xD;
+            - load_model(self, model_name: str, version: str) -&gt; Any&#xD;
+            - update_model(self, model_name: str, new_version: str) -&gt; bool&#xD;
+            - list_available_models(self) -&gt; List[Dict[str, str]]</description>
+      <name>app/services/ai_model_manager.py</name>
+    </file>
+    <file>
+      <description>Manages different AI models used in the application.&#xD;
+        Classes:&#xD;
+        - AIModelRegistry:&#xD;
+            Methods:&#xD;
+            - register_model(self, model_name: str, model_path: str) -&gt; bool&#xD;
+            - get_model(self, model_name: str) -&gt; Any&#xD;
+            - list_models(self) -&gt; List[str]</description>
+      <name>app/services/ai_model_registry.py</name>
+    </file>
+    <file>
+      <description>Manages integrations with external APIs.&#xD;
+        Classes:&#xD;
+        - APIIntegrationService:&#xD;
+            Methods:&#xD;
+            - add_api_integration(self, project_id: int, api_name: str, api_key: str) -&gt; bool&#xD;
+            - remove_api_integration(self, project_id: int, api_name: str) -&gt; bool&#xD;
+            - list_project_integrations(self, project_id: int) -&gt; List[Dict[str, str]]</description>
+      <name>app/services/api_integration_service.py</name>
+    </file>
+    <file>
+      <description>Manages user notifications and alerts.&#xD;
+        Classes:&#xD;
+        - NotificationService:&#xD;
+            Methods:&#xD;
+            - send_notification(self, user_id: int, message: str) -&gt; bool&#xD;
+            - get_user_notifications(self, user_id: int) -&gt; List[Dict[str, Any]]</description>
+      <name>app/services/notification_service.py</name>
+    </file>
+    <file>
+      <description>NPM package configuration for frontend dependencies</description>
+      <name>package.json</name>
+    </file>
+    <file>
+      <description>Plain text email template for password reset.&#xD;
+        Contents:&#xD;
+        - Text version of password reset email&#xD;
+        - Reset link placeholder</description>
+      <name>app/templates/email/reset_password.txt</name>
+    </file>
+    <file>
+      <description>Processes natural language requirements and converts them into structured project tasks.&#xD;
+        Classes:&#xD;
+        - NaturalLanguageRequirementsService:&#xD;
+            Methods:&#xD;
+            - process_requirements(self, requirements_text: str) -&gt; List[Dict[str, Any]]&#xD;
+            - generate_user_stories(self, requirements_text: str) -&gt; List[str]</description>
+      <name>app/services/natural_language_requirements_service.py</name>
+    </file>
+    <file>
+      <description>Project documentation and setup instructions.&#xD;
+        Contents:&#xD;
+        - Project overview&#xD;
+        - Installation instructions&#xD;
+        - Usage guide&#xD;
+        - Contributing guidelines</description>
+      <name>README.md</name>
+    </file>
+    <file>
+      <description>Provides AI-generated explanations for code and concepts.&#xD;
+        Classes:&#xD;
+        - AIExplanationService:&#xD;
+            Methods:&#xD;
+            - explain_code(self, code: str, language: str) -&gt; str&#xD;
+            - explain_concept(self, concept: str, context: str) -&gt; str&#xD;
+            - generate_code_comments(self, code: str, language: str) -&gt; str</description>
+      <name>app/services/ai_explanation_service.py</name>
+    </file>
+    <file>
+      <description>Provides analytics and insights for projects.&#xD;
+        Classes:&#xD;
+        - ProjectAnalyticsService:&#xD;
+            Methods:&#xD;
+            - calculate_project_metrics(self, project_id: int) -&gt; Dict[str, Any]&#xD;
+            - generate_project_report(self, project_id: int) -&gt; str&#xD;
+            - predict_project_completion(self, project_id: int) -&gt; datetime</description>
+      <name>app/services/project_analytics_service.py</name>
+    </file>
+    <file>
+      <description>Provides code analysis utilities.&#xD;
+        Classes:&#xD;
+        - CodeAnalyzer:&#xD;
+            Methods:&#xD;
+            - analyze_complexity(self, code: str) -&gt; Dict[str, Any]&#xD;
+            - detect_code_smells(self, code: str) -&gt; List[Dict[str, Any]]&#xD;
+            - suggest_improvements(self, analysis_result: Dict[str, Any]) -&gt; List[str]</description>
+      <name>app/utils/code_analyzer.py</name>
+    </file>
+    <file>
+      <description>Provides data validation utilities.&#xD;
+        Classes:&#xD;
+        - DataValidator:&#xD;
+            Methods:&#xD;
+            - validate_user_input(self, data: Dict[str, Any], schema: Dict[str, Any]) -&gt; Tuple[bool, List[str]]&#xD;
+            - sanitize_input(self, input_string: str) -&gt; str</description>
+      <name>app/utils/data_validator.py</name>
+    </file>
+    <file>
+      <description>Provides encryption and decryption utilities for sensitive data.&#xD;
+        Classes:&#xD;
+        - EncryptionService:&#xD;
+            Methods:&#xD;
+            - encrypt(self, data: str) -&gt; str&#xD;
+            - decrypt(self, encrypted_data: str) -&gt; str</description>
+      <name>app/utils/encryption_service.py</name>
+    </file>
+    <file>
+      <description>Provides explanations for complex code snippets.&#xD;
+        Classes:&#xD;
+        - CodeExplanationService:&#xD;
+            Methods:&#xD;
+            - explain_code(self, code: str, language: str) -&gt; str&#xD;
+            - generate_code_summary(self, code: str, language: str) -&gt; str</description>
+      <name>app/services/code_explanation_service.py</name>
+    </file>
+    <file>
+      <description>Provides project estimation features based on project requirements and historical data.&#xD;
+        Classes:&#xD;
+        - ProjectEstimationService:&#xD;
+            Methods:&#xD;
+            - estimate_project_duration(self, project_requirements: List[Dict[str, Any]]) -&gt; int&#xD;
+            - estimate_project_cost(self, project_requirements: List[Dict[str, Any]]) -&gt; float&#xD;
+            - analyze_risk_factors(self, project_requirements: List[Dict[str, Any]]) -&gt; List[Dict[str, Any]]</description>
+      <name>app/services/project_estimation_service.py</name>
+    </file>
+    <file>
+      <description>Reusable component for AI chat interface.&#xD;
+        Contents:&#xD;
+        - HTML structure for AI chat interface&#xD;
+        - Placeholders for chat messages and input</description>
+      <name>app/templates/components/ai_chat.html</name>
+    </file>
+    <file>
+      <description>Reusable component for displaying a list of tasks.&#xD;
+        Contents:&#xD;
+        - HTML structure for task list&#xD;
+        - Placeholders for task details and actions</description>
+      <name>app/templates/components/task_list.html</name>
+    </file>
+    <file>
+      <description>Reusable component for displaying project dashboard.&#xD;
+        Contents:&#xD;
+        - HTML structure for project overview&#xD;
+        - Task summary and progress indicators&#xD;
+        - Recent activity feed</description>
+      <name>app/templates/components/project_dashboard.html</name>
+    </file>
+    <file>
+      <description>Reusable component for displaying project information.&#xD;
+        Contents:&#xD;
+        - HTML structure for project card&#xD;
+        - Placeholders for project details and actions</description>
+      <name>app/templates/components/project_card.html</name>
+    </file>
+    <file>
+      <description>Reusable component for in-browser code editing.&#xD;
+        Contents:&#xD;
+        - HTML structure for code editor&#xD;
+        - Integration with a JavaScript-based code editor library</description>
+      <name>app/templates/components/code_editor.html</name>
+    </file>
+    <file>
+      <description>Reusable component for selecting AI models.&#xD;
+        Contents:&#xD;
+        - HTML structure for model selection dropdown&#xD;
+        - JavaScript for dynamic model loading</description>
+      <name>app/templates/components/ai_model_selector.html</name>
+    </file>
+    <file>
+      <description>Reusable footer component.&#xD;
+        Contents:&#xD;
+        - HTML structure for the footer&#xD;
+        - Copyright information, links, etc.</description>
+      <name>app/templates/components/footer.html</name>
+    </file>
+    <file>
+      <description>Reusable navigation bar component.&#xD;
+        Contents:&#xD;
+        - HTML structure for the navigation bar&#xD;
+        - Links to main sections of the application</description>
+      <name>app/templates/components/navbar.html</name>
+    </file>
+    <file>
+      <description>Script to initialize the database with default data.&#xD;
+        Contents:&#xD;
+        - Database connection setup&#xD;
+        - Default data insertion queries&#xD;
+        - Error handling and logging</description>
+      <name>scripts/db_init.py</name>
+    </file>
+    <file>
+      <description>Shell script for setting up the development environment.&#xD;
+        Contents:&#xD;
+        - Virtual environment creation&#xD;
+        - Dependency installation&#xD;
+        - Initial database setup</description>
+      <name>scripts/setup.sh</name>
+    </file>
+    <file>
+      <description>Shell script to run all tests for the application.&#xD;
+        Contents:&#xD;
+        - Commands to set up test environment&#xD;
+        - Execution of unit and integration tests&#xD;
+        - Test result reporting</description>
+      <name>scripts/run_tests.sh</name>
+    </file>
+    <file>
+      <description>Stores and manages templates for AI prompts.&#xD;
+        Classes:&#xD;
+        - AIPromptTemplates:&#xD;
+            Methods:&#xD;
+            - get_code_generation_prompt(self, task_description: str) -&gt; str&#xD;
+            - get_code_review_prompt(self, code: str) -&gt; str&#xD;
+            - get_error_fixing_prompt(self, error_message: str, code_snippet: str) -&gt; str</description>
+      <name>app/utils/ai_prompt_templates.py</name>
+    </file>
+    <file>
+      <description>Stores templates for AI prompts used across the application.&#xD;
+        Classes:&#xD;
+        - AIPromptTemplates:&#xD;
+            Methods:&#xD;
+            - get_code_generation_prompt(self, task_description: str) -&gt; str&#xD;
+            - get_code_review_prompt(self, code: str) -&gt; str&#xD;
+            - get_error_fixing_prompt(self, error_message: str, code_snippet: str) -&gt; str</description>
+      <name>app/utils/ai_prompt_templates.py</name>
+    </file>
+    <file>
+      <description>Template for 403 Forbidden error page.&#xD;
+        Contents:&#xD;
+        - Custom 403 error message and layout</description>
+      <name>app/templates/errors/403.html</name>
+    </file>
+    <file>
+      <description>Template for 404 Not Found error page.&#xD;
+        Contents:&#xD;
+        - Custom 404 error message and layout</description>
+      <name>app/templates/errors/404.html</name>
+    </file>
+    <file>
+      <description>Template for 500 Internal Server Error page.&#xD;
+        Contents:&#xD;
+        - Custom 500 error message and layout</description>
+      <name>app/templates/errors/500.html</name>
+    </file>
+    <file>
+      <description>Template for displaying and managing individual projects</description>
+      <name>app/templates/project.html</name>
+    </file>
+    <file>
+      <description>Template for displaying and managing individual tasks</description>
+      <name>app/templates/task.html</name>
+    </file>
+    <file>
+      <description>Template for user login page</description>
+      <name>app/templates/login.html</name>
+    </file>
+    <file>
+      <description>Template for user profile page</description>
+      <name>app/templates/user_profile.html</name>
+    </file>
+    <file>
+      <description>Template for user registration page</description>
+      <name>app/templates/register.html</name>
+    </file>
+    <file>
+      <description>Utility for generating code snippets and boilerplate.&#xD;
+        Classes:&#xD;
+        - CodeGenerator:&#xD;
+            Methods:&#xD;
+            - generate_class_template(self, class_name: str, attributes: List[str], methods: List[str]) -&gt; str&#xD;
+            - generate_function_template(self, func_name: str, params: List[str], return_type: str) -&gt; str</description>
+      <name>app/utils/code_generator.py</name>
+    </file>
+    <file>
+      <description>Utility functions for API interactions.&#xD;
+                Imports: time, asyncio, collections (deque), anthropic&#xD;
+                Functions:&#xD;
+                - rate_limited_request(func: Callable, *args, **kwargs) -&gt; Any:&#xD;
+                    Decorator for rate-limiting API requests&#xD;
+                Classes:&#xD;
+                - APIRateLimiter:&#xD;
+                    Methods:&#xD;
+                    - __init__(self, rate_limit: int, time_window: int)&#xD;
+                    - wait(self) -&gt; None</description>
+      <name>app/utils/api_utils.py</name>
+    </file>
+    <file>
+      <description>Utility functions for the frontend.&#xD;
+        Contents:&#xD;
+        - Helper functions for common tasks&#xD;
+        - Date formatting&#xD;
+        - Input validation</description>
+      <name>app/static/js/utils.js</name>
+    </file>
+    <file>
+      <description>Webpack configuration for bundling frontend assets</description>
+      <name>webpack.config.js</name>
+    </file>
+  </files>
+  <logicsteps>1. Initialize the application environment and load the configuration.&#xD;
+        2. Set up the Flask application with all necessary extensions.&#xD;
+        3. Initialize the database and create tables if they don't exist.&#xD;
+        4. Start the WebSocket server for real-time communications.&#xD;
+        5. Load the initial application plan or create a new one if not exists.&#xD;
+        6. Use AI to generate a detailed project plan based on user input or existing plan.&#xD;
+        7. Generate initial code files according to the project plan.&#xD;
+        8. Create and run unit tests to ensure functionality.&#xD;
+        9. Detect and fix errors in the generated code using AI assistance.&#xD;
+        10. Run tests again and validate fixes.&#xD;
+        11. Start the web server and render the frontend.&#xD;
+        12. Handle user interactions through the web interface.&#xD;
+        13. Manage tasks and update the to-do list with AI completions.&#xD;
+        14. Implement the web browsing agent for research when requested.&#xD;
+        15. Continuously monitor the state of the application and track project progress.&#xD;
+        16. Gather user feedback and update the application accordingly.&#xD;
+        17. Repeat the feedback loop for continuous improvement.&#xD;
+        18. Manage file operations including reading, writing, and backups.&#xD;
+        19. Handle API rate limiting to ensure compliance with request quotas.&#xD;
+        20. Provide real-time updates to users through WebSocket connections.&#xD;
+        21. Implement system 1, 2, and 3 thinking for AI decision-making processes.&#xD;
+        22. Regularly update the project state and persist changes to the database.&#xD;
+        23. Handle user authentication and authorization for secure access.&#xD;
+        24. Provide mechanisms for exporting and importing projects.&#xD;
+        25. Offer documentation and help features within the application.&#xD;
+        26. Integrate version control operations for code management.&#xD;
+        27. Analyze and manage project dependencies.&#xD;
+        28. Facilitate code review processes with AI assistance.&#xD;
+        29. Automate deployment to various environments.&#xD;
+        30. Generate and update project documentation.&#xD;
+        31. Monitor application performance and suggest optimizations.&#xD;
+        32. Conduct security scans on generated code.&#xD;
+        33. Calculate and report code quality metrics.&#xD;
+        34. Analyze test coverage and suggest improvements.&#xD;
+        35. Parse and analyze code structure for various programming languages.</logicsteps>
+  <mechanics>- AI-assisted project planning and structuring&#xD;
+        - Automated code generation and modification&#xD;
+        - Error detection and automatic fixing&#xD;
+        - User feedback loop for continuous improvement&#xD;
+        - Unit testing and test-driven development&#xD;
+        - Comprehensive file management and backup&#xD;
+        - API rate limiting to manage request quotas&#xD;
+        - Interactive web UI for task management and user interaction&#xD;
+        - Web browsing agent for research&#xD;
+        - Editable to-do list with AI completions&#xD;
+        - State monitoring for tracking project progress&#xD;
+        - System 1, 2, and 3 thinking implementation for AI decision-making&#xD;
+        - Version control integration&#xD;
+        - Dependency management&#xD;
+        - Code review process&#xD;
+        - Automated deployment&#xD;
+        - Documentation generation&#xD;
+        - Performance monitoring and optimization</mechanics>
+  <overview>The AI Software Factory is an advanced, Flask-based web application that leverages AI to assist in the entire software development lifecycle. It includes project planning, code generation, error fixing, testing, and continuous improvement based on user feedback. The system supports web browsing for research, task management with AI completions, and implements system 1, 2, and 3 thinking for decision-making processes. Additionally, it incorporates version control, dependency management, code review, deployment, documentation generation, and performance monitoring.</overview>
+  <sql>-- Create Users table&#xD;
+CREATE TABLE users (&#xD;
+    id INTEGER PRIMARY KEY AUTOINCREMENT,&#xD;
+    username VARCHAR(64) UNIQUE NOT NULL,&#xD;
+    email VARCHAR(120) UNIQUE NOT NULL,&#xD;
+    password_hash VARCHAR(128) NOT NULL,&#xD;
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP&#xD;
+);&#xD;
+&#xD;
+-- Create Projects table&#xD;
+CREATE TABLE projects (&#xD;
+    id INTEGER PRIMARY KEY AUTOINCREMENT,&#xD;
+    name VARCHAR(64) NOT NULL,&#xD;
+    description TEXT,&#xD;
+    user_id INTEGER NOT NULL,&#xD;
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,&#xD;
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,&#xD;
+    FOREIGN KEY (user_id) REFERENCES users (id)&#xD;
+);&#xD;
+&#xD;
+-- Create Tasks table&#xD;
+CREATE TABLE tasks (&#xD;
+    id INTEGER PRIMARY KEY AUTOINCREMENT,&#xD;
+    title VARCHAR(128) NOT NULL,&#xD;
+    description TEXT,&#xD;
+    status VARCHAR(20) DEFAULT 'pending',&#xD;
+    project_id INTEGER NOT NULL,&#xD;
+    assigned_to INTEGER,&#xD;
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,&#xD;
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,&#xD;
+    FOREIGN KEY (project_id) REFERENCES projects (id),&#xD;
+    FOREIGN KEY (assigned_to) REFERENCES users (id)&#xD;
+);&#xD;
+&#xD;
+-- Create Files table&#xD;
+CREATE TABLE files (&#xD;
+    id INTEGER PRIMARY KEY AUTOINCREMENT,&#xD;
+    name VARCHAR(128) NOT NULL,&#xD;
+    content TEXT,&#xD;
+    project_id INTEGER NOT NULL,&#xD;
+    version INTEGER DEFAULT 1,&#xD;
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,&#xD;
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,&#xD;
+    FOREIGN KEY (project_id) REFERENCES projects (id)&#xD;
+);&#xD;
+&#xD;
+-- Create CodeReviews table&#xD;
+CREATE TABLE code_reviews (&#xD;
+    id INTEGER PRIMARY KEY AUTOINCREMENT,&#xD;
+    file_id INTEGER NOT NULL,&#xD;
+    reviewer_id INTEGER NOT NULL,&#xD;
+    comments TEXT,&#xD;
+    status VARCHAR(20) DEFAULT 'pending',&#xD;
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,&#xD;
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,&#xD;
+    FOREIGN KEY (file_id) REFERENCES files (id),&#xD;
+    FOREIGN KEY (reviewer_id) REFERENCES users (id)&#xD;
+);&#xD;
+&#xD;
+-- Create Deployments table&#xD;
+CREATE TABLE deployments (&#xD;
+    id INTEGER PRIMARY KEY AUTOINCREMENT,&#xD;
+    project_id INTEGER NOT NULL,&#xD;
+    environment VARCHAR(20) NOT NULL,&#xD;
+    version VARCHAR(40) NOT NULL,&#xD;
+    status VARCHAR(20) DEFAULT 'pending',&#xD;
+    deployed_by INTEGER NOT NULL,&#xD;
+    deployed_at DATETIME DEFAULT CURRENT_TIMESTAMP,&#xD;
+    FOREIGN KEY (project_id) REFERENCES projects (id),&#xD;
+    FOREIGN KEY (deployed_by) REFERENCES users (id)&#xD;
+);&#xD;
+&#xD;
+-- Create Dependencies table&#xD;
+CREATE TABLE dependencies (&#xD;
+    id INTEGER PRIMARY KEY AUTOINCREMENT,&#xD;
+    project_id INTEGER NOT NULL,&#xD;
+    name VARCHAR(64) NOT NULL,&#xD;
+    version VARCHAR(20) NOT NULL,&#xD;
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,&#xD;
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,&#xD;
+    FOREIGN KEY (project_id) REFERENCES projects (id)&#xD;
+);&#xD;
+&#xD;
+-- Create PerformanceMetrics table&#xD;
+CREATE TABLE performance_metrics (&#xD;
+    id INTEGER PRIMARY KEY AUTOINCREMENT,&#xD;
+    project_id INTEGER NOT NULL,&#xD;
+    metric_name VARCHAR(64) NOT NULL,&#xD;
+    metric_value FLOAT NOT NULL,&#xD;
+    recorded_at DATETIME DEFAULT CURRENT_TIMESTAMP,&#xD;
+    FOREIGN KEY (project_id) REFERENCES projects (id)&#xD;
+);&#xD;
+&#xD;
+-- Create AIAssistance table&#xD;
+CREATE TABLE ai_assistance (&#xD;
+    id INTEGER PRIMARY KEY AUTOINCREMENT,&#xD;
+    user_id INTEGER NOT NULL,&#xD;
+    project_id INTEGER NOT NULL,&#xD;
+    query TEXT NOT NULL,&#xD;
+    response TEXT NOT NULL,&#xD;
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,&#xD;
+    FOREIGN KEY (user_id) REFERENCES users (id),&#xD;
+    FOREIGN KEY (project_id) REFERENCES projects (id)&#xD;
+);&#xD;
+&#xD;
+-- Create WebBrowsingHistory table&#xD;
+CREATE TABLE web_browsing_history (&#xD;
+    id INTEGER PRIMARY KEY AUTOINCREMENT,&#xD;
+    user_id INTEGER NOT NULL,&#xD;
+    project_id INTEGER NOT NULL,&#xD;
+    query TEXT NOT NULL,&#xD;
+    url VARCHAR(255) NOT NULL,&#xD;
+    summary TEXT,&#xD;
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,&#xD;
+    FOREIGN KEY (user_id) REFERENCES users (id),&#xD;
+    FOREIGN KEY (project_id) REFERENCES projects (id)&#xD;
+);&#xD;
+&#xD;
+-- Create SystemThinking table&#xD;
+CREATE TABLE system_thinking (&#xD;
+    id INTEGER PRIMARY KEY AUTOINCREMENT,&#xD;
+    project_id INTEGER NOT NULL,&#xD;
+    thinking_type VARCHAR(20) NOT NULL,&#xD;
+    context TEXT NOT NULL,&#xD;
+    decision TEXT NOT NULL,&#xD;
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,&#xD;
+    FOREIGN KEY (project_id) REFERENCES projects (id)&#xD;
+);</sql>
+</application_plan>

@@ -1,0 +1,1744 @@
+Runtime errors:
+DEBUG:asyncio:Using proactor: IocpProactor
+DEBUG:app:Application starting in DEBUG mode
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.201.45:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+Traceback (most recent call last):
+  File "app/main.py", line 54, in main
+    await asyncio.gather(
+  File "app/main.py", line 21, in run_app
+    return await asyncio.to_thread(app.run, host='0.0.0.0', port=port, debug=DEBUG)
+  File "venv/lib/asyncio/threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+  File "venv/lib/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "venv/lib/site-packages/flask/app.py", line 625, in run
+    run_simple(t.cast(str, host), port, self, **options)
+  File "venv/lib/site-packages/werkzeug/serving.py", line 1106, in run_simple
+    run_with_reloader(
+  File "venv/lib/site-packages/werkzeug/_reloader.py", line 441, in run_with_reloader
+    signal.signal(signal.SIGTERM, lambda *args: sys.exit(0))
+  File "venv/lib/signal.py", line 56, in signal
+    handler = _signal.signal(_enum_to_int(signalnum), _enum_to_int(handler))
+ValueError: signal only works in main thread of the main interpreter
+
+Process exited with return code 1
+Runtime errors:
+DEBUG:asyncio:Using proactor: IocpProactor
+DEBUG:app:Application starting in DEBUG mode
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.201.45:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+Traceback (most recent call last):
+  File "app/main.py", line 54, in main
+    await asyncio.gather(
+  File "app/main.py", line 21, in run_app
+    return await asyncio.to_thread(app.run, host='0.0.0.0', port=port, debug=DEBUG)
+  File "venv/lib/asyncio/threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+  File "venv/lib/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "venv/lib/site-packages/flask/app.py", line 625, in run
+    run_simple(t.cast(str, host), port, self, **options)
+  File "venv/lib/site-packages/werkzeug/serving.py", line 1106, in run_simple
+    run_with_reloader(
+  File "venv/lib/site-packages/werkzeug/_reloader.py", line 441, in run_with_reloader
+    signal.signal(signal.SIGTERM, lambda *args: sys.exit(0))
+  File "venv/lib/signal.py", line 56, in signal
+    handler = _signal.signal(_enum_to_int(signalnum), _enum_to_int(handler))
+ValueError: signal only works in main thread of the main interpreter
+
+Process exited with return code 1
+Runtime errors:
+DEBUG:asyncio:Using proactor: IocpProactor
+DEBUG:app:Application starting in DEBUG mode
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.201.45:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+Traceback (most recent call last):
+  File "app/main.py", line 54, in main
+    await asyncio.gather(
+  File "app/main.py", line 21, in run_app
+    return await asyncio.to_thread(app.run, host='0.0.0.0', port=port, debug=DEBUG)
+  File "venv/lib/asyncio/threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+  File "venv/lib/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "venv/lib/site-packages/flask/app.py", line 625, in run
+    run_simple(t.cast(str, host), port, self, **options)
+  File "venv/lib/site-packages/werkzeug/serving.py", line 1106, in run_simple
+    run_with_reloader(
+  File "venv/lib/site-packages/werkzeug/_reloader.py", line 441, in run_with_reloader
+    signal.signal(signal.SIGTERM, lambda *args: sys.exit(0))
+  File "venv/lib/signal.py", line 56, in signal
+    handler = _signal.signal(_enum_to_int(signalnum), _enum_to_int(handler))
+ValueError: signal only works in main thread of the main interpreter
+
+Process exited with return code 1
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "app/main.py", line 87, in <module>
+    main()
+  File "app/main.py", line 58, in main
+    db.create_all()
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 900, in create_all
+    self._call_for_binds(bind_key, "create_all")
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 881, in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 5871, in create_all
+    bind._run_ddl_visitor(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 3251, in _run_ddl_visitor
+    conn._run_ddl_visitor(visitorcallable, element, **kwargs)
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2457, in _run_ddl_visitor
+    visitorcallable(self.dialect, self, **kwargs).traverse_single(element)
+  File "venv/lib/site-packages/sqlalchemy/sql/visitors.py", line 664, in traverse_single
+    return meth(obj, **kw)
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 896, in visit_metadata
+    collection = sort_tables_and_constraints(
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 1328, in sort_tables_and_constraints
+    dependent_on = fkc.referred_table
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 4756, in referred_table
+    return self.elements[0].column.table
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1141, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3173, in column
+    return self._resolve_column()
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3196, in _resolve_column
+    raise exc.NoReferencedTableError(
+sqlalchemy.exc.NoReferencedTableError: Foreign key associated with column 'message.channel_id' could not find table 'channel' with which to generate a foreign key to target column 'id'
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: Foreign key associated with column 'message.channel_id' could not find table 'channel' with which to generate a foreign key to target column 'id'
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "app/main.py", line 88, in <module>
+    main()
+  File "app/main.py", line 59, in main
+    db.create_all()
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 900, in create_all
+    self._call_for_binds(bind_key, "create_all")
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 881, in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 5871, in create_all
+    bind._run_ddl_visitor(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 3251, in _run_ddl_visitor
+    conn._run_ddl_visitor(visitorcallable, element, **kwargs)
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2457, in _run_ddl_visitor
+    visitorcallable(self.dialect, self, **kwargs).traverse_single(element)
+  File "venv/lib/site-packages/sqlalchemy/sql/visitors.py", line 664, in traverse_single
+    return meth(obj, **kw)
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 896, in visit_metadata
+    collection = sort_tables_and_constraints(
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 1328, in sort_tables_and_constraints
+    dependent_on = fkc.referred_table
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 4756, in referred_table
+    return self.elements[0].column.table
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1141, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3173, in column
+    return self._resolve_column()
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3196, in _resolve_column
+    raise exc.NoReferencedTableError(
+sqlalchemy.exc.NoReferencedTableError: Foreign key associated with column 'groups.creator_id' could not find table 'user' with which to generate a foreign key to target column 'id'
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: Foreign key associated with column 'groups.creator_id' could not find table 'user' with which to generate a foreign key to target column 'id'
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "app/main.py", line 88, in <module>
+    main()
+  File "app/main.py", line 59, in main
+    db.create_all()
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 900, in create_all
+    self._call_for_binds(bind_key, "create_all")
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 881, in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 5871, in create_all
+    bind._run_ddl_visitor(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 3251, in _run_ddl_visitor
+    conn._run_ddl_visitor(visitorcallable, element, **kwargs)
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2457, in _run_ddl_visitor
+    visitorcallable(self.dialect, self, **kwargs).traverse_single(element)
+  File "venv/lib/site-packages/sqlalchemy/sql/visitors.py", line 664, in traverse_single
+    return meth(obj, **kw)
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 896, in visit_metadata
+    collection = sort_tables_and_constraints(
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 1328, in sort_tables_and_constraints
+    dependent_on = fkc.referred_table
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 4756, in referred_table
+    return self.elements[0].column.table
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1141, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3173, in column
+    return self._resolve_column()
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3196, in _resolve_column
+    raise exc.NoReferencedTableError(
+sqlalchemy.exc.NoReferencedTableError: Foreign key associated with column 'message.sender_id' could not find table 'users' with which to generate a foreign key to target column 'id'
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: Foreign key associated with column 'message.sender_id' could not find table 'users' with which to generate a foreign key to target column 'id'
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "app/main.py", line 88, in <module>
+    main()
+  File "app/main.py", line 59, in main
+    db.create_all()
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 900, in create_all
+    self._call_for_binds(bind_key, "create_all")
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 881, in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 5871, in create_all
+    bind._run_ddl_visitor(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 3251, in _run_ddl_visitor
+    conn._run_ddl_visitor(visitorcallable, element, **kwargs)
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2457, in _run_ddl_visitor
+    visitorcallable(self.dialect, self, **kwargs).traverse_single(element)
+  File "venv/lib/site-packages/sqlalchemy/sql/visitors.py", line 664, in traverse_single
+    return meth(obj, **kw)
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 896, in visit_metadata
+    collection = sort_tables_and_constraints(
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 1328, in sort_tables_and_constraints
+    dependent_on = fkc.referred_table
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 4756, in referred_table
+    return self.elements[0].column.table
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1141, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3173, in column
+    return self._resolve_column()
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3196, in _resolve_column
+    raise exc.NoReferencedTableError(
+sqlalchemy.exc.NoReferencedTableError: Foreign key associated with column 'groups.creator_id' could not find table 'user' with which to generate a foreign key to target column 'id'
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: Foreign key associated with column 'groups.creator_id' could not find table 'user' with which to generate a foreign key to target column 'id'
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "app/main.py", line 88, in <module>
+    main()
+  File "app/main.py", line 59, in main
+    db.create_all()
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 900, in create_all
+    self._call_for_binds(bind_key, "create_all")
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 881, in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 5871, in create_all
+    bind._run_ddl_visitor(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 3251, in _run_ddl_visitor
+    conn._run_ddl_visitor(visitorcallable, element, **kwargs)
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2457, in _run_ddl_visitor
+    visitorcallable(self.dialect, self, **kwargs).traverse_single(element)
+  File "venv/lib/site-packages/sqlalchemy/sql/visitors.py", line 664, in traverse_single
+    return meth(obj, **kw)
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 896, in visit_metadata
+    collection = sort_tables_and_constraints(
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 1328, in sort_tables_and_constraints
+    dependent_on = fkc.referred_table
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 4756, in referred_table
+    return self.elements[0].column.table
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1141, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3173, in column
+    return self._resolve_column()
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3196, in _resolve_column
+    raise exc.NoReferencedTableError(
+sqlalchemy.exc.NoReferencedTableError: Foreign key associated with column 'file.uploader_id' could not find table 'user' with which to generate a foreign key to target column 'id'
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: Foreign key associated with column 'file.uploader_id' could not find table 'user' with which to generate a foreign key to target column 'id'
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "app/main.py", line 88, in <module>
+    main()
+  File "app/main.py", line 59, in main
+    db.create_all()
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 900, in create_all
+    self._call_for_binds(bind_key, "create_all")
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 881, in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 5871, in create_all
+    bind._run_ddl_visitor(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 3251, in _run_ddl_visitor
+    conn._run_ddl_visitor(visitorcallable, element, **kwargs)
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2457, in _run_ddl_visitor
+    visitorcallable(self.dialect, self, **kwargs).traverse_single(element)
+  File "venv/lib/site-packages/sqlalchemy/sql/visitors.py", line 664, in traverse_single
+    return meth(obj, **kw)
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 896, in visit_metadata
+    collection = sort_tables_and_constraints(
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 1328, in sort_tables_and_constraints
+    dependent_on = fkc.referred_table
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 4756, in referred_table
+    return self.elements[0].column.table
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1141, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3173, in column
+    return self._resolve_column()
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3196, in _resolve_column
+    raise exc.NoReferencedTableError(
+sqlalchemy.exc.NoReferencedTableError: Foreign key associated with column 'message.recipient_id' could not find table 'users' with which to generate a foreign key to target column 'id'
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: Foreign key associated with column 'message.recipient_id' could not find table 'users' with which to generate a foreign key to target column 'id'
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "app/main.py", line 88, in <module>
+    main()
+  File "app/main.py", line 59, in main
+    db.create_all()
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 900, in create_all
+    self._call_for_binds(bind_key, "create_all")
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 881, in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 5871, in create_all
+    bind._run_ddl_visitor(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 3251, in _run_ddl_visitor
+    conn._run_ddl_visitor(visitorcallable, element, **kwargs)
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2457, in _run_ddl_visitor
+    visitorcallable(self.dialect, self, **kwargs).traverse_single(element)
+  File "venv/lib/site-packages/sqlalchemy/sql/visitors.py", line 664, in traverse_single
+    return meth(obj, **kw)
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 896, in visit_metadata
+    collection = sort_tables_and_constraints(
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 1328, in sort_tables_and_constraints
+    dependent_on = fkc.referred_table
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 4756, in referred_table
+    return self.elements[0].column.table
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1141, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3173, in column
+    return self._resolve_column()
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3196, in _resolve_column
+    raise exc.NoReferencedTableError(
+sqlalchemy.exc.NoReferencedTableError: Foreign key associated with column 'groups.creator_id' could not find table 'users' with which to generate a foreign key to target column 'id'
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: Foreign key associated with column 'groups.creator_id' could not find table 'users' with which to generate a foreign key to target column 'id'
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "app/main.py", line 88, in <module>
+    main()
+  File "app/main.py", line 59, in main
+    db.create_all()
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 900, in create_all
+    self._call_for_binds(bind_key, "create_all")
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 881, in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 5871, in create_all
+    bind._run_ddl_visitor(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 3251, in _run_ddl_visitor
+    conn._run_ddl_visitor(visitorcallable, element, **kwargs)
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2457, in _run_ddl_visitor
+    visitorcallable(self.dialect, self, **kwargs).traverse_single(element)
+  File "venv/lib/site-packages/sqlalchemy/sql/visitors.py", line 664, in traverse_single
+    return meth(obj, **kw)
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 896, in visit_metadata
+    collection = sort_tables_and_constraints(
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 1328, in sort_tables_and_constraints
+    dependent_on = fkc.referred_table
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 4756, in referred_table
+    return self.elements[0].column.table
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1141, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3173, in column
+    return self._resolve_column()
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3196, in _resolve_column
+    raise exc.NoReferencedTableError(
+sqlalchemy.exc.NoReferencedTableError: Foreign key associated with column 'message.sender_id' could not find table 'user' with which to generate a foreign key to target column 'id'
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: Foreign key associated with column 'message.sender_id' could not find table 'user' with which to generate a foreign key to target column 'id'
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "app/main.py", line 88, in <module>
+    main()
+  File "app/main.py", line 59, in main
+    db.create_all()
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 900, in create_all
+    self._call_for_binds(bind_key, "create_all")
+  File "venv/lib/site-packages/flask_sqlalchemy/extension.py", line 881, in _call_for_binds
+    getattr(metadata, op_name)(bind=engine)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 5871, in create_all
+    bind._run_ddl_visitor(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 3251, in _run_ddl_visitor
+    conn._run_ddl_visitor(visitorcallable, element, **kwargs)
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2457, in _run_ddl_visitor
+    visitorcallable(self.dialect, self, **kwargs).traverse_single(element)
+  File "venv/lib/site-packages/sqlalchemy/sql/visitors.py", line 664, in traverse_single
+    return meth(obj, **kw)
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 896, in visit_metadata
+    collection = sort_tables_and_constraints(
+  File "venv/lib/site-packages/sqlalchemy/sql/ddl.py", line 1328, in sort_tables_and_constraints
+    dependent_on = fkc.referred_table
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 4756, in referred_table
+    return self.elements[0].column.table
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1141, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3173, in column
+    return self._resolve_column()
+  File "venv/lib/site-packages/sqlalchemy/sql/schema.py", line 3196, in _resolve_column
+    raise exc.NoReferencedTableError(
+sqlalchemy.exc.NoReferencedTableError: Foreign key associated with column 'file.uploader_id' could not find table 'user' with which to generate a foreign key to target column 'id'
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: Foreign key associated with column 'file.uploader_id' could not find table 'user' with which to generate a foreign key to target column 'id'
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/orm/clsregistry.py", line 532, in __call__
+    x = eval(self.arg, globals(), self._dict)
+  File "<string>", line 1, in <module>
+NameError: name 'group_members' is not defined
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 88, in <module>
+    main()
+  File "app/main.py", line 60, in main
+    create_default_admin()
+  File "app/main.py", line 37, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/flask_sqlalchemy/model.py", line 22, in __get__
+    return cls.query_class(
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 275, in __init__
+    self._set_entities(entities)
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 287, in _set_entities
+    self._raw_columns = [
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 288, in <listcomp>
+    coercions.expect(
+  File "venv/lib/site-packages/sqlalchemy/sql/coercions.py", line 389, in expect
+    insp._post_inspect
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2711, in _post_inspect
+    self._check_configure()
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2388, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 4204, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 4245, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2405, in _post_configure_properties
+    prop.init()
+  File "venv/lib/site-packages/sqlalchemy/orm/interfaces.py", line 584, in init
+    self.do_init()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 1641, in do_init
+    self._process_dependent_arguments()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 1682, in _process_dependent_arguments
+    rel_arg._resolve_against_registry(self._clsregistry_resolvers[1])
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 270, in _resolve_against_registry
+    self.resolved = clsregistry_resolver(
+  File "venv/lib/site-packages/sqlalchemy/orm/clsregistry.py", line 539, in __call__
+    self._raise_for_name(n.args[0], n)
+  File "venv/lib/site-packages/sqlalchemy/orm/clsregistry.py", line 500, in _raise_for_name
+    raise exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: When initializing mapper Mapper[Group(groups)], expression 'group_members' failed to locate a name ("name 'group_members' is not defined"). If this is a class name, consider adding this relationship() to the <class 'app.models.group.Group'> class after both dependent classes have been defined.
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: When initializing mapper Mapper[Group(groups)], expression 'group_members' failed to locate a name ("name 'group_members' is not defined"). If this is a class name, consider adding this relationship() to the <class 'app.models.group.Group'> class after both dependent classes have been defined.
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2509, in get_property
+    return self._props[key]
+KeyError: 'created_channels'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 88, in <module>
+    main()
+  File "app/main.py", line 60, in main
+    create_default_admin()
+  File "app/main.py", line 37, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/flask_sqlalchemy/model.py", line 22, in __get__
+    return cls.query_class(
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 275, in __init__
+    self._set_entities(entities)
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 287, in _set_entities
+    self._raw_columns = [
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 288, in <listcomp>
+    coercions.expect(
+  File "venv/lib/site-packages/sqlalchemy/sql/coercions.py", line 389, in expect
+    insp._post_inspect
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2711, in _post_inspect
+    self._check_configure()
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2388, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 4204, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 4245, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2405, in _post_configure_properties
+    prop.init()
+  File "venv/lib/site-packages/sqlalchemy/orm/interfaces.py", line 584, in init
+    self.do_init()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 1647, in do_init
+    self._generate_backref()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 2133, in _generate_backref
+    self._add_reverse_property(self.back_populates)
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 1578, in _add_reverse_property
+    other = self.mapper.get_property(key, _configure_mappers=False)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2511, in get_property
+    raise sa_exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: Mapper 'Mapper[User(users)]' has no property 'created_channels'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: Mapper 'Mapper[User(users)]' has no property 'created_channels'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2509, in get_property
+    return self._props[key]
+KeyError: 'created_channels'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 88, in <module>
+    main()
+  File "app/main.py", line 60, in main
+    create_default_admin()
+  File "app/main.py", line 37, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/flask_sqlalchemy/model.py", line 22, in __get__
+    return cls.query_class(
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 275, in __init__
+    self._set_entities(entities)
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 287, in _set_entities
+    self._raw_columns = [
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 288, in <listcomp>
+    coercions.expect(
+  File "venv/lib/site-packages/sqlalchemy/sql/coercions.py", line 389, in expect
+    insp._post_inspect
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2711, in _post_inspect
+    self._check_configure()
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2388, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 4204, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 4245, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2405, in _post_configure_properties
+    prop.init()
+  File "venv/lib/site-packages/sqlalchemy/orm/interfaces.py", line 584, in init
+    self.do_init()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 1647, in do_init
+    self._generate_backref()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 2133, in _generate_backref
+    self._add_reverse_property(self.back_populates)
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 1578, in _add_reverse_property
+    other = self.mapper.get_property(key, _configure_mappers=False)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2511, in get_property
+    raise sa_exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: Mapper 'Mapper[User(users)]' has no property 'created_channels'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: Mapper 'Mapper[User(users)]' has no property 'created_channels'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2509, in get_property
+    return self._props[key]
+KeyError: 'channel'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 88, in <module>
+    main()
+  File "app/main.py", line 60, in main
+    create_default_admin()
+  File "app/main.py", line 37, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/flask_sqlalchemy/model.py", line 22, in __get__
+    return cls.query_class(
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 275, in __init__
+    self._set_entities(entities)
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 287, in _set_entities
+    self._raw_columns = [
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 288, in <listcomp>
+    coercions.expect(
+  File "venv/lib/site-packages/sqlalchemy/sql/coercions.py", line 389, in expect
+    insp._post_inspect
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2711, in _post_inspect
+    self._check_configure()
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2388, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 4204, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 4245, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2405, in _post_configure_properties
+    prop.init()
+  File "venv/lib/site-packages/sqlalchemy/orm/interfaces.py", line 584, in init
+    self.do_init()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 1647, in do_init
+    self._generate_backref()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 2133, in _generate_backref
+    self._add_reverse_property(self.back_populates)
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 1578, in _add_reverse_property
+    other = self.mapper.get_property(key, _configure_mappers=False)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2511, in get_property
+    raise sa_exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: Mapper 'Mapper[Message(message)]' has no property 'channel'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: Mapper 'Mapper[Message(message)]' has no property 'channel'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.201.45:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+DEBUG:app:Application starting in DEBUG mode
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 124-874-928
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 05:41:08] "GET /socket.io/?EIO=4&transport=polling&t=P2gPGea HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 05:41:08] "POST /socket.io/?EIO=4&transport=polling&t=P2gPGzF&sid=SJJ1mOqYciwyxVVRAAAA HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 05:41:08] "GET /socket.io/?EIO=4&transport=polling&t=P2gPGzH&sid=SJJ1mOqYciwyxVVRAAAA HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 05:41:23] "[31m[1mPOST /register HTTP/1.1[0m" 409 -
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.201.45:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+DEBUG:app:Application starting in DEBUG mode
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 124-874-928
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 05:44:02] "GET /socket.io/?EIO=4&transport=polling&t=P2gPxRy HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 05:44:02] "POST /socket.io/?EIO=4&transport=polling&t=P2gPxVO&sid=Z2JbbEHoABd8pHXUAAAA HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 05:44:02] "GET /socket.io/?EIO=4&transport=polling&t=P2gPxVP&sid=Z2JbbEHoABd8pHXUAAAA HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 05:44:02] "GET /socket.io/?EIO=4&transport=polling&t=P2gPxVX&sid=Z2JbbEHoABd8pHXUAAAA HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 05:44:17] "GET /socket.io/?EIO=4&transport=websocket&sid=Z2JbbEHoABd8pHXUAAAA HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 05:44:17] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 05:44:18] "GET /socket.io/?EIO=4&transport=polling&t=P2gP_LK HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 05:44:18] "POST /socket.io/?EIO=4&transport=polling&t=P2gP_LW&sid=Xe78kT6mGpwXh2_8AAAC HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 05:44:18] "GET /socket.io/?EIO=4&transport=polling&t=P2gP_LX&sid=Xe78kT6mGpwXh2_8AAAC HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 05:44:18] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 05:44:18] "GET /socket.io/?EIO=4&transport=polling&t=P2gP_Lt&sid=Xe78kT6mGpwXh2_8AAAC HTTP/1.1" 200 -
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.201.45:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+DEBUG:app:Application starting in DEBUG mode
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 124-874-928
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.201.45:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+DEBUG:app:Application starting in DEBUG mode
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 124-874-928
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 06:27:18] "GET /socket.io/?EIO=4&transport=polling&t=P2gZrPI HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 06:27:18] "POST /socket.io/?EIO=4&transport=polling&t=P2gZrQ9&sid=8FXn-Ck6zgZbkmmjAAAA HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 06:27:18] "GET /socket.io/?EIO=4&transport=polling&t=P2gZrQ9.0&sid=8FXn-Ck6zgZbkmmjAAAA HTTP/1.1" 200 -
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.201.45:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+DEBUG:app:Application starting in DEBUG mode
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 124-874-928
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 06:29:21] "GET /socket.io/?EIO=4&transport=polling&t=P2gaJMS HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 06:29:21] "POST /socket.io/?EIO=4&transport=polling&t=P2gaJMc&sid=lNkij1_CCw2UUPtdAAAA HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 06:29:21] "GET /socket.io/?EIO=4&transport=polling&t=P2gaJMd&sid=lNkij1_CCw2UUPtdAAAA HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 06:29:46] "GET /socket.io/?EIO=4&transport=websocket&sid=lNkij1_CCw2UUPtdAAAA HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 06:29:46] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 06:29:46] "GET /socket.io/?EIO=4&transport=polling&t=P2gaPQG HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 06:29:46] "POST /socket.io/?EIO=4&transport=polling&t=P2gaPQS&sid=bUinxukmkDGSnz5NAAAC HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 06:29:46] "GET /socket.io/?EIO=4&transport=polling&t=P2gaPQT&sid=bUinxukmkDGSnz5NAAAC HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 06:29:46] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [13/Jul/2024 06:29:46] "GET /socket.io/?EIO=4&transport=polling&t=P2gaPQj&sid=bUinxukmkDGSnz5NAAAC HTTP/1.1" 200 -
+Fatal Python error: _enter_buffered_busy: could not acquire lock for <_io.BufferedReader name='<stdin>'> at interpreter shutdown, possibly due to daemon threads
+Python runtime state: finalizing (tstate=0x0000027d5747eae0)
+
+Current thread 0x00004438 (most recent call first):
+  <no Python frame>
+
+Process exited with return code 3221225477
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 2423, in _determine_joins
+    self.primaryjoin = join_condition(
+  File "venv/lib/site-packages/sqlalchemy/sql/util.py", line 123, in join_condition
+    return Join._join_condition(
+  File "venv/lib/site-packages/sqlalchemy/sql/selectable.py", line 1354, in _join_condition
+    raise exc.NoForeignKeysError(
+sqlalchemy.exc.NoForeignKeysError: Can't find any foreign key relationships between 'groups' and 'user'.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 72, in <module>
+    main()
+  File "app/main.py", line 45, in main
+    create_default_admin()
+  File "app/main.py", line 21, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/flask_sqlalchemy/model.py", line 22, in __get__
+    return cls.query_class(
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 275, in __init__
+    self._set_entities(entities)
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 287, in _set_entities
+    self._raw_columns = [
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 288, in <listcomp>
+    coercions.expect(
+  File "venv/lib/site-packages/sqlalchemy/sql/coercions.py", line 389, in expect
+    insp._post_inspect
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2711, in _post_inspect
+    self._check_configure()
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2388, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 4204, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 4245, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2405, in _post_configure_properties
+    prop.init()
+  File "venv/lib/site-packages/sqlalchemy/orm/interfaces.py", line 584, in init
+    self.do_init()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 1644, in do_init
+    self._setup_join_conditions()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 1884, in _setup_join_conditions
+    self._join_condition = jc = JoinCondition(
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 2310, in __init__
+    self._determine_joins()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 2444, in _determine_joins
+    raise sa_exc.NoForeignKeysError(
+sqlalchemy.exc.NoForeignKeysError: Could not determine join condition between parent/child tables on relationship Group.creator - there are no foreign keys linking these tables.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify a 'primaryjoin' expression.
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: Could not determine join condition between parent/child tables on relationship Group.creator - there are no foreign keys linking these tables.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify a 'primaryjoin' expression.
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 2423, in _determine_joins
+    self.primaryjoin = join_condition(
+  File "venv/lib/site-packages/sqlalchemy/sql/util.py", line 123, in join_condition
+    return Join._join_condition(
+  File "venv/lib/site-packages/sqlalchemy/sql/selectable.py", line 1354, in _join_condition
+    raise exc.NoForeignKeysError(
+sqlalchemy.exc.NoForeignKeysError: Can't find any foreign key relationships between 'groups' and 'user'.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 72, in <module>
+    main()
+  File "app/main.py", line 45, in main
+    create_default_admin()
+  File "app/main.py", line 21, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/flask_sqlalchemy/model.py", line 22, in __get__
+    return cls.query_class(
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 275, in __init__
+    self._set_entities(entities)
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 287, in _set_entities
+    self._raw_columns = [
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 288, in <listcomp>
+    coercions.expect(
+  File "venv/lib/site-packages/sqlalchemy/sql/coercions.py", line 389, in expect
+    insp._post_inspect
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2711, in _post_inspect
+    self._check_configure()
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2388, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 4204, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 4245, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2405, in _post_configure_properties
+    prop.init()
+  File "venv/lib/site-packages/sqlalchemy/orm/interfaces.py", line 584, in init
+    self.do_init()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 1644, in do_init
+    self._setup_join_conditions()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 1884, in _setup_join_conditions
+    self._join_condition = jc = JoinCondition(
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 2310, in __init__
+    self._determine_joins()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 2444, in _determine_joins
+    raise sa_exc.NoForeignKeysError(
+sqlalchemy.exc.NoForeignKeysError: Could not determine join condition between parent/child tables on relationship Group.creator - there are no foreign keys linking these tables.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify a 'primaryjoin' expression.
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: Could not determine join condition between parent/child tables on relationship Group.creator - there are no foreign keys linking these tables.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify a 'primaryjoin' expression.
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 2423, in _determine_joins
+    self.primaryjoin = join_condition(
+  File "venv/lib/site-packages/sqlalchemy/sql/util.py", line 123, in join_condition
+    return Join._join_condition(
+  File "venv/lib/site-packages/sqlalchemy/sql/selectable.py", line 1354, in _join_condition
+    raise exc.NoForeignKeysError(
+sqlalchemy.exc.NoForeignKeysError: Can't find any foreign key relationships between 'groups' and 'user'.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 72, in <module>
+    main()
+  File "app/main.py", line 45, in main
+    create_default_admin()
+  File "app/main.py", line 21, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/flask_sqlalchemy/model.py", line 22, in __get__
+    return cls.query_class(
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 275, in __init__
+    self._set_entities(entities)
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 287, in _set_entities
+    self._raw_columns = [
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 288, in <listcomp>
+    coercions.expect(
+  File "venv/lib/site-packages/sqlalchemy/sql/coercions.py", line 389, in expect
+    insp._post_inspect
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2711, in _post_inspect
+    self._check_configure()
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2388, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 4204, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 4245, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2405, in _post_configure_properties
+    prop.init()
+  File "venv/lib/site-packages/sqlalchemy/orm/interfaces.py", line 584, in init
+    self.do_init()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 1644, in do_init
+    self._setup_join_conditions()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 1884, in _setup_join_conditions
+    self._join_condition = jc = JoinCondition(
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 2310, in __init__
+    self._determine_joins()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 2444, in _determine_joins
+    raise sa_exc.NoForeignKeysError(
+sqlalchemy.exc.NoForeignKeysError: Could not determine join condition between parent/child tables on relationship Group.creator - there are no foreign keys linking these tables.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify a 'primaryjoin' expression.
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: Could not determine join condition between parent/child tables on relationship Group.creator - there are no foreign keys linking these tables.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify a 'primaryjoin' expression.
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2509, in get_property
+    return self._props[key]
+KeyError: 'created_channels'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 72, in <module>
+    main()
+  File "app/main.py", line 45, in main
+    create_default_admin()
+  File "app/main.py", line 21, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/flask_sqlalchemy/model.py", line 22, in __get__
+    return cls.query_class(
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 275, in __init__
+    self._set_entities(entities)
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 287, in _set_entities
+    self._raw_columns = [
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 288, in <listcomp>
+    coercions.expect(
+  File "venv/lib/site-packages/sqlalchemy/sql/coercions.py", line 389, in expect
+    insp._post_inspect
+  File "venv/lib/site-packages/sqlalchemy/util/langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2711, in _post_inspect
+    self._check_configure()
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2388, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 4204, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 4245, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2405, in _post_configure_properties
+    prop.init()
+  File "venv/lib/site-packages/sqlalchemy/orm/interfaces.py", line 584, in init
+    self.do_init()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 1647, in do_init
+    self._generate_backref()
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 2133, in _generate_backref
+    self._add_reverse_property(self.back_populates)
+  File "venv/lib/site-packages/sqlalchemy/orm/relationships.py", line 1578, in _add_reverse_property
+    other = self.mapper.get_property(key, _configure_mappers=False)
+  File "venv/lib/site-packages/sqlalchemy/orm/mapper.py", line 2511, in get_property
+    raise sa_exc.InvalidRequestError(
+sqlalchemy.exc.InvalidRequestError: Mapper 'Mapper[User(users)]' has no property 'created_channels'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: Mapper 'Mapper[User(users)]' has no property 'created_channels'.  If this property was indicated from other mappers or configure events, ensure registry.configure() has been called.
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: users.is_banned
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 72, in <module>
+    main()
+  File "app/main.py", line 45, in main
+    create_default_admin()
+  File "app/main.py", line 21, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2728, in first
+    return self.limit(1)._iter().first()  # type: ignore
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2236, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "venv/lib/site-packages/sqlalchemy/orm/context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+  File "venv/lib/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2353, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: users.is_banned
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 72, in <module>
+    main()
+  File "app/main.py", line 45, in main
+    create_default_admin()
+  File "app/main.py", line 21, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2728, in first
+    return self.limit(1)._iter().first()  # type: ignore
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2236, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "venv/lib/site-packages/sqlalchemy/orm/context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+  File "venv/lib/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2353, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: users.is_banned
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 72, in <module>
+    main()
+  File "app/main.py", line 45, in main
+    create_default_admin()
+  File "app/main.py", line 21, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2728, in first
+    return self.limit(1)._iter().first()  # type: ignore
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2236, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "venv/lib/site-packages/sqlalchemy/orm/context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+  File "venv/lib/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2353, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: users.is_banned
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 72, in <module>
+    main()
+  File "app/main.py", line 45, in main
+    create_default_admin()
+  File "app/main.py", line 21, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2728, in first
+    return self.limit(1)._iter().first()  # type: ignore
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2236, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "venv/lib/site-packages/sqlalchemy/orm/context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+  File "venv/lib/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2353, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: users.is_banned
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 72, in <module>
+    main()
+  File "app/main.py", line 45, in main
+    create_default_admin()
+  File "app/main.py", line 21, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2728, in first
+    return self.limit(1)._iter().first()  # type: ignore
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2236, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "venv/lib/site-packages/sqlalchemy/orm/context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+  File "venv/lib/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2353, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: users.is_banned
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 72, in <module>
+    main()
+  File "app/main.py", line 45, in main
+    create_default_admin()
+  File "app/main.py", line 21, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2728, in first
+    return self.limit(1)._iter().first()  # type: ignore
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2236, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "venv/lib/site-packages/sqlalchemy/orm/context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+  File "venv/lib/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2353, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+ERROR:flask_migrate:Error: Path doesn't exist: 'H://git//AGENT_FIRST_TEST//makeappssubfolder//app//migrations'.  Please use the 'init' command to create a new scripts folder.
+
+Process exited with return code 1
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: users.is_banned
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 91, in <module>
+    main()
+  File "app/main.py", line 64, in main
+    create_default_admin()
+  File "app/main.py", line 22, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2728, in first
+    return self.limit(1)._iter().first()  # type: ignore
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2236, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "venv/lib/site-packages/sqlalchemy/orm/context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+  File "venv/lib/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2353, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+Creating directory 'H://git//AGENT_FIRST_TEST//makeappssubfolder//app//migrations' ...  done
+Creating directory 'H://git//AGENT_FIRST_TEST//makeappssubfolder//app//migrations//versions' ...  done
+Generating app/migrations/alembic.ini ...  done
+Generating app/migrations/env.py ...  done
+Generating app/migrations/README ...  done
+Generating app/migrations/script.py.mako ...  done
+Please edit configuration/connection/logging settings in 'H://git//AGENT_FIRST_TEST//makeappssubfolder//app//migrations//alembic.ini' before proceeding.
+Migrations folder initialized.
+An error occurred while starting the application: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+ERROR:flask_migrate:Error: Directory migrations already exists and is not empty
+
+Process exited with return code 1
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: users.is_banned
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 92, in <module>
+    main()
+  File "app/main.py", line 65, in main
+    create_default_admin()
+  File "app/main.py", line 22, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2728, in first
+    return self.limit(1)._iter().first()  # type: ignore
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2236, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "venv/lib/site-packages/sqlalchemy/orm/context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+  File "venv/lib/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2353, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: users.is_banned
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 92, in <module>
+    main()
+  File "app/main.py", line 65, in main
+    create_default_admin()
+  File "app/main.py", line 22, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2728, in first
+    return self.limit(1)._iter().first()  # type: ignore
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2236, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "venv/lib/site-packages/sqlalchemy/orm/context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+  File "venv/lib/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2353, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: users.is_banned
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 92, in <module>
+    main()
+  File "app/main.py", line 65, in main
+    create_default_admin()
+  File "app/main.py", line 22, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2728, in first
+    return self.limit(1)._iter().first()  # type: ignore
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2236, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "venv/lib/site-packages/sqlalchemy/orm/context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+  File "venv/lib/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2353, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Runtime errors:
+DEBUG:app:Application starting in DEBUG mode
+INFO  [alembic.runtime.migration] Context impl SQLiteImpl.
+INFO  [alembic.runtime.migration] Will assume non-transactional DDL.
+Traceback (most recent call last):
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: users.is_banned
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "app/main.py", line 92, in <module>
+    main()
+  File "app/main.py", line 65, in main
+    create_default_admin()
+  File "app/main.py", line 22, in create_default_admin
+    admin = User.query.filter_by(username='admin').first()
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2728, in first
+    return self.limit(1)._iter().first()  # type: ignore
+  File "venv/lib/site-packages/sqlalchemy/orm/query.py", line 2827, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2351, in execute
+    return self._execute_internal(
+  File "venv/lib/site-packages/sqlalchemy/orm/session.py", line 2236, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+  File "venv/lib/site-packages/sqlalchemy/orm/context.py", line 293, in orm_execute_statement
+    result = conn.execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1418, in execute
+    return meth(
+  File "venv/lib/site-packages/sqlalchemy/sql/elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1640, in _execute_clauseelement
+    ret = self._execute_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 2353, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "venv/lib/site-packages/sqlalchemy/engine/base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+  File "venv/lib/site-packages/sqlalchemy/engine/default.py", line 924, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Process exited with return code 1
+Possible errors in output: 
+Debug mode is ON
+An error occurred while starting the application: (sqlite3.OperationalError) no such column: users.is_banned
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password_hash AS users_password_hash, users.is_admin AS users_is_admin, users.is_banned AS users_is_banned 
+FROM users 
+WHERE users.username = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('admin', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+
+Runtime errors:
+
+Error running application: name 'user_terminated' is not defined
+Traceback (most recent call last):
+  File "agent_application_makercopysystemupdate.py", line 421, in run_application
+    user_input_task = asyncio.create_task(user_input(process, user_terminated))
+NameError: name 'user_terminated' is not defined. Did you mean: 'user_terminated_flag'?
+
+Runtime errors:
+
+Error running application: name 'user_terminated' is not defined
+Traceback (most recent call last):
+  File "agent_application_makercopysystemupdate.py", line 421, in run_application
+    user_input_task = asyncio.create_task(user_input(process, user_terminated))
+NameError: name 'user_terminated' is not defined. Did you mean: 'user_terminated_flag'?
+
+Runtime errors:
+
+Error running application: name 'user_terminated' is not defined
+Traceback (most recent call last):
+  File "agent_application_makercopysystemupdate.py", line 421, in run_application
+    user_input_task = asyncio.create_task(user_input(process, user_terminated))
+NameError: name 'user_terminated' is not defined. Did you mean: 'user_terminated_flag'?
+
+Runtime errors:
+
+Error running application: name 'user_terminated' is not defined
+Traceback (most recent call last):
+  File "agent_application_makercopysystemupdate.py", line 421, in run_application
+    user_input_task = asyncio.create_task(user_input(process, user_terminated))
+NameError: name 'user_terminated' is not defined. Did you mean: 'user_terminated_flag'?
+
+Runtime errors:
+
+Error running application: name 'user_terminated' is not defined
+Traceback (most recent call last):
+  File "agent_application_makercopysystemupdate.py", line 421, in run_application
+    user_input_task = asyncio.create_task(user_input(process, user_terminated))
+NameError: name 'user_terminated' is not defined. Did you mean: 'user_terminated_flag'?
+
+Runtime errors:
+
+Error running application: name 'user_terminated' is not defined
+Traceback (most recent call last):
+  File "agent_application_makercopysystemupdate.py", line 421, in run_application
+    user_input_task = asyncio.create_task(user_input(process, user_terminated))
+NameError: name 'user_terminated' is not defined. Did you mean: 'user_terminated_flag'?
+

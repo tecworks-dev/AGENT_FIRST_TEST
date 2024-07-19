@@ -1,0 +1,1162 @@
+
+<application_plan>
+    <overview>
+        The AI Software Factory is an advanced, Flask-based web application that leverages AI to assist in the entire software development lifecycle. It includes project planning, code generation, error fixing, testing, and continuous improvement based on user feedback. The system supports web browsing for research, task management with AI completions, and implements system 1, 2, and 3 thinking for decision-making processes. Additionally, it incorporates version control, dependency management, code review, deployment, documentation generation, and performance monitoring.
+    </overview>
+    
+    <components>
+        <component>
+            <name>Core AI Factory</name>
+            <description>
+                The heart of the application, responsible for AI-driven software development tasks.
+            </description>
+            <files>
+                <file>
+                    <name>app/services/ai_service.py</name>
+                    <classes>
+                        <class>
+                            <name>AIService</name>
+                            <methods>
+                                <method>
+                                    <name>generate_project_plan</name>
+                                    <input>project_requirements: str</input>
+                                    <output>Dict[str, Any]</output>
+                                    <description>Generates a detailed project plan based on given requirements.</description>
+                                </method>
+                                <method>
+                                    <name>incorporate_feedback</name>
+                                    <input>feedback: str, current_state: Dict[str, Any]</input>
+                                    <output>Dict[str, Any]</output>
+                                    <description>Incorporates user feedback into the current project state.</description>
+                                </method>
+                                <method>
+                                    <name>system_1_thinking</name>
+                                    <input>context: str</input>
+                                    <output>str</output>
+                                    <description>Implements fast, intuitive decision-making.</description>
+                                </method>
+                                <method>
+                                    <name>system_2_thinking</name>
+                                    <input>context: str, options: List[str]</input>
+                                    <output>str</output>
+                                    <description>Implements slow, deliberate decision-making.</description>
+                                </method>
+                                <method>
+                                    <name>system_3_thinking</name>
+                                    <input>context: str, options: List[str], constraints: List[str]</input>
+                                    <output>str</output>
+                                    <description>Implements complex, multi-step decision-making.</description>
+                                </method>
+                            </methods>
+                        </class>
+                    </classes>
+                </file>
+                <file>
+                    <name>app/services/code_generation_service.py</name>
+                    <classes>
+                        <class>
+                            <name>CodeGenerationService</name>
+                            <methods>
+                                <method>
+                                    <name>generate_code</name>
+                                    <input>specifications: Dict[str, Any]</input>
+                                    <output>List[Tuple[str, str]]</output>
+                                    <description>Generates code based on given specifications. Returns a list of tuples containing file names and their content.</description>
+                                </method>
+                            </methods>
+                        </class>
+                    </classes>
+                </file>
+                <file>
+                    <name>app/services/error_fixing_service.py</name>
+                    <classes>
+                        <class>
+                            <name>ErrorFixingService</name>
+                            <methods>
+                                <method>
+                                    <name>analyze_and_fix_errors</name>
+                                    <input>code: str, error_message: str</input>
+                                    <output>str</output>
+                                    <description>Analyzes the given code and error message, then returns fixed code.</description>
+                                </method>
+                            </methods>
+                        </class>
+                    </classes>
+                </file>
+                <file>
+                    <name>app/services/test_generation_service.py</name>
+                    <classes>
+                        <class>
+                            <name>TestGenerationService</name>
+                            <methods>
+                                <method>
+                                    <name>generate_unit_tests</name>
+                                    <input>code: str, function_name: str</input>
+                                    <output>str</output>
+                                    <description>Generates unit tests for the given code and function.</description>
+                                </method>
+                            </methods>
+                        </class>
+                    </classes>
+                </file>
+            </files>
+        </component>
+        
+        <component>
+            <name>Version Control</name>
+            <description>
+                Manages version control operations, integrating with systems like Git.
+            </description>
+            <files>
+                <file>
+                    <name>app/services/version_control_service.py</name>
+                    <classes>
+                        <class>
+                            <name>VersionControlService</name>
+                            <methods>
+                                <method>
+                                    <name>init_repository</name>
+                                    <input>project_path: str</input>
+                                    <output>bool</output>
+                                    <description>Initializes a new Git repository for the project.</description>
+                                </method>
+                                <method>
+                                    <name>commit_changes</name>
+                                    <input>project_path: str, commit_message: str</input>
+                                    <output>bool</output>
+                                    <description>Commits changes to the repository.</description>
+                                </method>
+                                <method>
+                                    <name>create_branch</name>
+                                    <input>project_path: str, branch_name: str</input>
+                                    <output>bool</output>
+                                    <description>Creates a new branch in the repository.</description>
+                                </method>
+                            </methods>
+                        </class>
+                    </classes>
+                </file>
+            </files>
+        </component>
+        
+        <component>
+            <name>Dependency Management</name>
+            <description>
+                Handles project dependencies, including updating and resolving conflicts.
+            </description>
+            <files>
+                <file>
+                    <name>app/services/dependency_management_service.py</name>
+                    <classes>
+                        <class>
+                            <name>DependencyManagementService</name>
+                            <methods>
+                                <method>
+                                    <name>analyze_dependencies</name>
+                                    <input>project_path: str</input>
+                                    <output>Dict[str, str]</output>
+                                    <description>Analyzes and returns the project's dependencies and their versions.</description>
+                                </method>
+                                <method>
+                                    <name>update_dependencies</name>
+                                    <input>project_path: str</input>
+                                    <output>Dict[str, str]</output>
+                                    <description>Updates project dependencies to their latest compatible versions.</description>
+                                </method>
+                                <method>
+                                    <name>resolve_conflicts</name>
+                                    <input>project_path: str, conflicts: List[str]</input>
+                                    <output>bool</output>
+                                    <description>Attempts to resolve dependency conflicts automatically.</description>
+                                </method>
+                            </methods>
+                        </class>
+                    </classes>
+                </file>
+            </files>
+        </component>
+        
+        <component>
+            <name>Code Review</name>
+            <description>
+                Automates code review processes using AI and static analysis tools.
+            </description>
+            <files>
+                <file>
+                    <name>app/services/code_review_service.py</name>
+                    <classes>
+                        <class>
+                            <name>CodeReviewService</name>
+                            <methods>
+                                <method>
+                                    <name>review_code</name>
+                                    <input>code: str, language: str</input>
+                                    <output>List[Dict[str, Any]]</output>
+                                    <description>Performs an automated code review and returns a list of suggestions and issues.</description>
+                                </method>
+                                <method>
+                                    <name>apply_suggestion</name>
+                                    <input>code: str, suggestion: Dict[str, Any]</input>
+                                    <output>str</output>
+                                    <description>Applies a given suggestion to the code and returns the updated code.</description>
+                                </method>
+                            </methods>
+                        </class>
+                    </classes>
+                </file>
+            </files>
+        </component>
+        
+        <component>
+            <name>Deployment</name>
+            <description>
+                Manages the deployment of generated code to various environments.
+            </description>
+            <files>
+                <file>
+                    <name>app/services/deployment_service.py</name>
+                    <classes>
+                        <class>
+                            <name>DeploymentService</name>
+                            <methods>
+                                <method>
+                                    <name>deploy_to_environment</name>
+                                    <input>project_path: str, environment: str</input>
+                                    <output>bool</output>
+                                    <description>Deploys the project to the specified environment (e.g., development, staging, production).</description>
+                                </method>
+                                <method>
+                                    <name>rollback_deployment</name>
+                                    <input>project_path: str, environment: str, version: str</input>
+                                    <output>bool</output>
+                                    <description>Rolls back a deployment to a previous version in the specified environment.</description>
+                                </method>
+                            </methods>
+                        </class>
+                    </classes>
+                </file>
+            </files>
+        </component>
+        
+        <component>
+            <name>Documentation</name>
+            <description>
+                Automates the generation of code documentation.
+            </description>
+            <files>
+                <file>
+                    <name>app/services/documentation_service.py</name>
+                    <classes>
+                        <class>
+                            <name>DocumentationService</name>
+                            <methods>
+                                <method>
+                                    <name>generate_documentation</name>
+                                    <input>project_path: str</input>
+                                    <output>str</output>
+                                    <description>Generates comprehensive documentation for the entire project.</description>
+                                </method>
+                                <method>
+                                    <name>update_readme</name>
+                                    <input>project_path: str, changes: List[str]</input>
+                                    <output>bool</output>
+                                    <description>Updates the project's README file with recent changes.</description>
+                                </method>
+                            </methods>
+                        </class>
+                    </classes>
+                </file>
+            </files>
+        </component>
+        
+        <component>
+            <name>Performance Monitoring</name>
+            <description>
+                Monitors the performance of generated code and suggests optimizations.
+            </description>
+            <files>
+                <file>
+                    <name>app/services/performance_monitoring_service.py</name>
+                    <classes>
+                        <class>
+                            <name>PerformanceMonitoringService</name>
+                            <methods>
+                                <method>
+                                    <name>analyze_performance</name>
+                                    <input>project_path: str</input>
+                                    <output>Dict[str, Any]</output>
+                                    <description>Analyzes the performance of the project and returns metrics.</description>
+                                </method>
+                                <method>
+                                    <name>suggest_optimizations</name>
+                                    <input>performance_data: Dict[str, Any]</input>
+                                    <output>List[str]</output>
+                                    <description>Suggests optimizations based on performance analysis.</description>
+                                </method>
+                            </methods>
+                        </class>
+                    </classes>
+                </file>
+            </files>
+        </component>
+        
+        <component>
+            <name>Machine Learning</name>
+            <description>
+                Handles machine learning tasks to enhance AI capabilities.
+            </description>
+            <files>
+                <file>
+                    <name>app/machine_learning/model_trainer.py</name>
+                    <classes>
+                        <class>
+                            <name>ModelTrainer</name>
+                            <methods>
+                                <method>
+                                    <name>train_model</name>
+                                    <input>data: pd.DataFrame, target: str, model_type: str</input>
+                                    <output>Any</output>
+                                    <description>Trains a machine learning model on the given data.</description>
+                                </method>
+                            </methods>
+                        </class>
+                    </classes>
+                </file>
+                <file>
+                    <name>app/machine_learning/feature_extractor.py</name>
+                    <classes>
+                        <class>
+                            <name>FeatureExtractor</name>
+                            <methods>
+                                <method>
+                                    <name>extract_features</name>
+                                    <input>code: str</input>
+                                    <output>Dict[str, Any]</output>
+                                    <description>Extracts relevant features from code for machine learning models.</description>
+                                </method>
+                            </methods>
+                        </class>
+                    </classes>
+                </file>
+                <file>
+                    <name>app/machine_learning/prediction_service.py</name>
+                    <classes>
+                        <class>
+                            <name>PredictionService</name>
+                            <methods>
+                                <method>
+                                    <name>predict</name>
+                                    <input>model: Any, features: Dict[str, Any]</input>
+                                    <output>Any</output>
+                                    <description>Makes predictions using a trained machine learning model.</description>
+                                </method>
+                            </methods>
+                        </class>
+                    </classes>
+                </file>
+            </files>
+        </component>
+    </components>
+    
+    <database>
+        <models>
+            <model>
+                <name>Project</name>
+                <fields>
+                    <field>
+                        <name>id</name>
+                        <type>Integer, primary_key=True</type>
+                    </field>
+                    <field>
+                        <name>name</name>
+                        <type>String(64), nullable=False</type>
+                    </field>
+                    <field>
+                        <name>description</name>
+                        <type>Text</type>
+                    </field>
+                    <field>
+                        <name>user_id</name>
+                        <type>Integer, ForeignKey('user.id')</type>
+                    </field>
+                    <field>
+                        <name>created_at</name>
+                        <type>DateTime, default=datetime.utcnow</type>
+                    </field>
+                    <field>
+                        <name>last_updated</name>
+                        <type>DateTime, default=datetime.utcnow, onupdate=datetime.utcnow</type>
+                    </field>
+                    <field>
+                        <name>repository_url</name>
+                        <type>String(256)</type>
+                    </field>
+                </fields>
+            </model>
+            <model>
+                <name>Task</name>
+                <fields>
+                    <field>
+                        <name>id</name>
+                        <type>Integer, primary_key=True</type>
+                    </field>
+                    <field>
+                        <name>title</name>
+                        <type>String(128), nullable=False</type>
+                    </field>
+                    <field>
+                        <name>description</name>
+                        <type>Text</type>
+                    </field>
+                    <field>
+                        <name>status</name>
+                        <type>String(20), default='pending'</type>
+                    </field>
+                    <field>
+                        <name>project_id</name>
+                        <type>Integer, ForeignKey('project.id')</type>
+                    </field>
+                    <field>
+                        <name>created_at</name>
+                        <type>DateTime, default=datetime.utcnow</type>
+                    </field>
+                    <field>
+                        <name>updated_at</name>
+                        <type>DateTime, default=datetime.utcnow, onupdate=datetime.utcnow</type>
+                    </field>
+                    <field>
+                        <name>assigned_to</name>
+                        <type>Integer, ForeignKey('user.id')</type>
+                    </field>
+                </fields>
+            </model>
+            <model>
+                <name>File</name>
+                <fields>
+                    <field>
+                        <name>id</name>
+                        <type>Integer, primary_key=True</type>
+                    </field>
+                    <field>
+                        <name>name</name>
+                        <type>String(128), nullable=False</type>
+                    </field>
+                    <field>
+                        <name>content</name>
+                        <type>Text</type>
+                    </field>
+                    <field>
+                        <name>project_id</name>
+                        <type>Integer, ForeignKey('project.id')</type>
+                    </field>
+                    <field>
+                        <name>created_at</name>
+                        <type>DateTime, default=datetime.utcnow</type>
+                    </field>
+                    <field>
+                        <name>updated_at</name>
+                        <type>DateTime, default=datetime.utcnow, onupdate=datetime.utcnow</type>
+                    </field>
+                    <field>
+                        <name>version</name>
+                        <type>Integer, default=1</type>
+                    </field>
+                </fields>
+            </model>
+            <model>
+                <name>User</name>
+                <fields>
+                    <field>
+                        <name>id</name>
+                        <type>Integer, primary_key=True</type>
+                    </field>
+                    <field>
+                        <name>username</name>
+                        <type>String(64), unique=True, nullable=False</type>
+                    </field>
+                    <field>
+                        <name>email</name>
+                        <type>String(120), unique=True, nullable=False</type>
+                    </field>
+                    <field>
+                        <name>password_hash</name>
+                        <type>String(128)</type>
+                    </field>
+                    <field>
+                        <name>created_at</name>
+                        <type>DateTime, default=datetime.utcnow</type>
+                    </field>
+                    <field>
+                        <name>last_login</name>
+                        <type>DateTime</type>
+                    </field>
+                </fields>
+            </model>
+            <model>
+                <name>CodeReview</name>
+                <fields>
+                    <field>
+                        <name>id</name>
+                        <type>Integer, primary_key=True</type>
+                    </field>
+                    <field>
+                        <name>file_id</name>
+                        <type>Integer, ForeignKey('file.id')</type>
+                    </field>
+                    <field>
+                        <name>reviewer_id</name>
+                        <type>Integer, ForeignKey('user.id')</type>
+                    </field>
+                    <field>
+                        <name>comments</name>
+                        <type>Text</type>
+                    </field>
+                    <field>
+                        <name>status</name>
+                        <type>String(20), default='pending'</type>
+                    </field>
+                    <field>
+                        <name>created_at</name>
+                        <type>DateTime, default=datetime.utcnow</type>
+                    </field>
+                    <field>
+                        <name>updated_at</name>
+                        <type>DateTime, default=datetime.utcnow, onupdate=datetime.utcnow</type>
+                    </field>
+                </fields>
+            </model>
+            <model>
+                <name>Deployment</name>
+                <fields>
+                    <field>
+                        <name>id</name>
+                        <type>Integer, primary_key=True</type>
+                    </field>
+                    <field>
+                        <name>project_id</name>
+                        <type>Integer, ForeignKey('project.id')</type>
+                    </field>
+                    <field>
+                        <name>environment</name>
+                        <type>String(20), nullable=False</type>
+                    </field>
+                    <field>
+                        <name>version</name>
+                        <type>String(40), nullable=False</type>
+                    </field>
+                    <field>
+                        <name>status</name>
+                        <type>String(20), default='pending'</type>
+                    </field>
+                    <field>
+                        <name>deployed_by</name>
+                        <type>Integer, ForeignKey('user.id')</type>
+                    </field>
+                    <field>
+                        <name>deployed_at</name>
+                        <type>DateTime, default=datetime.utcnow</type>
+                    </field>
+                </fields>
+            </model>
+        </models>
+    </database>
+
+    <api>
+        <endpoint>
+            <name>Create Project</name>
+            <route>/api/projects</route>
+            <method>POST</method>
+            <input>
+                <field>
+                    <name>name</name>
+                    <type>str</type>
+                </field>
+                <field>
+                    <name>description</name>
+                    <type>str</type>
+                </field>
+            </input>
+            <output>
+                <field>
+                    <name>id</name>
+                    <type>int</type>
+                </field>
+                <field>
+                    <name>name</name>
+                    <type>str</type>
+                </field>
+                <field>
+                    <name>description</name>
+                    <type>str</type>
+                </field>
+                <field>
+                    <name>created_at</name>
+                    <type>str (ISO 8601 datetime)</type>
+                </field>
+            </output>
+        </endpoint>
+        <endpoint>
+            <name>Get Project</name>
+            <route>/api/projects/{project_id}</route>
+            <method>GET</method>
+            <input>
+                <field>
+                    <name>project_id</name>
+                    <type>int</type>
+                </field>
+            </input>
+            <output>
+                <field>
+                    <name>id</name>
+                    <type>int</type>
+                </field>
+                <field>
+                    <name>name</name>
+                    <type>str</type>
+                </field>
+                <field>
+                    <name>description</name>
+                    <type>str</type>
+                </field>
+                <field>
+                    <name>created_at</name>
+                    <type>str (ISO 8601 datetime)</type>
+                </field>
+                <field>
+                    <name>tasks</name>
+                    <type>List[Task]</type>
+                </field>
+            </output>
+        </endpoint>
+        <endpoint>
+            <name>Create Task</name>
+            <route>/api/projects/{project_id}/tasks</route>
+            <method>POST</method>
+            <input>
+                <field>
+                    <name>title</name>
+                    <type>str</type>
+                </field>
+                <field>
+                    <name>description</name>
+                    <type>str</type>
+                </field>
+                <field>
+                    <name>assigned_to</name>
+                    <type>int (user_id)</type>
+                </field>
+            </input>
+            <output>
+                <field>
+                    <name>id</name>
+                    <type>int</type>
+                </field>
+                <field>
+                    <name>title</name>
+                    <type>str</type>
+                </field>
+                <field>
+                    <name>description</name>
+                    <type>str</type>
+                </field>
+                <field>
+                    <name>status</name>
+                    <type>str</type>
+                </field>
+                <field>
+                    <name>assigned_to</name>
+                    <type>int (user_id)</type>
+                </field>
+                <field>
+                    <name>created_at</name>
+                    <type>str (ISO 8601 datetime)</type>
+                </field>
+            </output>
+        </endpoint>
+        <endpoint>
+            <name>Generate Code</name>
+            <route>/api/projects/{project_id}/generate</route>
+            <method>POST</method>
+            <input>
+                <field>
+                    <name>specifications</name>
+                    <type>Dict[str, Any]</type>
+                </field>
+            </input>
+            <output>
+                <field>
+                    <name>files</name>
+                    <type>List[Dict[str, str]]</type>
+                </field>
+            </output>
+        </endpoint>
+        <endpoint>
+            <name>Review Code</name>
+            <route>/api/projects/{project_id}/files/{file_id}/review</route>
+            <method>POST</method>
+            <input>
+                <field>
+                    <name>reviewer_id</name>
+                    <type>int</type>
+                </field>
+            </input>
+            <output>
+                <field>
+                    <name>review_id</name>
+                    <type>int</type>
+                </field>
+                <field>
+                    <name>comments</name>
+                    <type>List[Dict[str, Any]]</type>
+                </field>
+            </output>
+        </endpoint>
+        <endpoint>
+            <name>Deploy Project</name>
+            <route>/api/projects/{project_id}/deploy</route>
+            <method>POST</method>
+            <input>
+                <field>
+                    <name>environment</name>
+                    <type>str</type>
+                </field>
+                <field>
+                    <name>version</name>
+                    <type>str</type>
+                </field>
+            </input>
+            <output>
+                <field>
+                    <name>deployment_id</name>
+                    <type>int</type>
+                </field>
+                <field>
+                    <name>status</name>
+                    <type>str</type>
+                </field>
+                <field>
+                    <name>deployed_at</name>
+                    <type>str (ISO 8601 datetime)</type>
+                </field>
+            </output>
+        </endpoint>
+    </api>
+
+    <frontend>
+        <pages>
+            <page>
+                <name>Home</name>
+                <route>/</route>
+                <components>
+                    <component>Header</component>
+                    <component>ProjectList</component>
+                    <component>CreateProjectButton</component>
+                    <component>Footer</component>
+                </components>
+            </page>
+            <page>
+                <name>Project Details</name>
+                <route>/projects/{project_id}</route>
+                <components>
+                    <component>Header</component>
+                    <component>ProjectDetails</component>
+                    <component>TaskList</component>
+                    <component>FileList</component>
+                    <component>AIAssistant</component>
+                    <component>Footer</component>
+                </components>
+            </page>
+            <page>
+                <name>Code Editor</name>
+                <route>/projects/{project_id}/files/{file_id}</route>
+                <components>
+                    <component>Header</component>
+                    <component>CodeEditor</component>
+                    <component>AIAssistant</component>
+                    <component>Footer</component>
+                </components>
+            </page>
+            <page>
+                <name>Code Review</name>
+                <route>/projects/{project_id}/files/{file_id}/review</route>
+                <components>
+                    <component>Header</component>
+                    <component>CodeReviewInterface</component>
+                    <component>AIAssistant</component>
+                    <component>Footer</component>
+                </components>
+            </page>
+            <page>
+                <name>Deployment</name>
+                <route>/projects/{project_id}/deploy</route>
+                <components>
+                    <component>Header</component>
+                    <component>DeploymentInterface</component>
+                    <component>EnvironmentSelector</component>
+                    <component>VersionSelector</component>
+                    <component>DeploymentHistory</component>
+                    <component>Footer</component>
+                </components>
+            </page>
+        </pages>
+    </frontend>
+
+    <utils>
+        <util>
+            <name>APIRateLimiter</name>
+            <file>app/utils/api_rate_limiter.py</file>
+            <description>Handles API rate limiting to prevent exceeding quotas.</description>
+            <methods>
+                <method>
+                    <name>limit</name>
+                    <input>
+                        <param>
+                            <name>func</name>
+                            <type>Callable</type>
+                        </param>
+                    </input>
+                    <output>
+                        <type>Callable</type>
+                        <description>Rate-limited function</description>
+                    </output>
+                </method>
+            </methods>
+        </util>
+        <util>
+            <name>CodeParser</name>
+            <file>app/utils/code_parser.py</file>
+            <description>Parses and analyzes code structure for various programming languages.</description>
+            <methods>
+                <method>
+                    <name>parse_code</name>
+                    <input>
+                        <param>
+                            <name>code</name>
+                            <type>str</type>
+                        </param>
+                        <param>
+                            <name>language</name>
+                            <type>str</type>
+                        </param>
+                    </input>
+                    <output>
+                        <type>Dict[str, Any]</type>
+                        <description>Parsed code structure</description>
+                    </output>
+                </method>
+            </methods>
+        </util>
+        <util>
+            <name>DependencyGraph</name>
+            <file>app/utils/dependency_graph.py</file>
+            <description>Creates and manages dependency graphs for projects.</description>
+            <methods>
+                <method>
+                    <name>generate_graph</name>
+                    <input>
+                        <param>
+                            <name>project_id</name>
+                            <type>int</type>
+                        </param>
+                    </input>
+                    <output>
+                        <type>networkx.Graph</type>
+                        <description>Dependency graph    </output>
+                </method>
+            </methods>
+        </util>
+        <util>
+            <name>TestCoverageAnalyzer</name>
+            <file>app/utils/test_coverage_analyzer.py</file>
+            <description>Analyzes and reports on test coverage for projects.</description>
+            <methods>
+                <method>
+                    <name>analyze_coverage</name>
+                    <input>
+                        <param>
+                            <name>project_id</name>
+                            <type>int</type>
+                        </param>
+                    </input>
+                    <output>
+                        <type>Dict[str, Any]</type>
+                        <description>Test coverage report</description>
+                    </output>
+                </method>
+            </methods>
+        </util>
+        <util>
+            <name>SecurityScanner</name>
+            <file>app/utils/security_scanner.py</file>
+            <description>Scans code for potential security vulnerabilities.</description>
+            <methods>
+                <method>
+                    <name>scan_code</name>
+                    <input>
+                        <param>
+                            <name>code</name>
+                            <type>str</type>
+                        </param>
+                        <param>
+                            <name>language</name>
+                            <type>str</type>
+                        </param>
+                    </input>
+                    <output>
+                        <type>List[Dict[str, Any]]</type>
+                        <description>List of potential security vulnerabilities</description>
+                    </output>
+                </method>
+            </methods>
+        </util>
+        <util>
+            <name>CodeMetrics</name>
+            <file>app/utils/code_metrics.py</file>
+            <description>Calculates various code quality metrics.</description>
+            <methods>
+                <method>
+                    <name>calculate_metrics</name>
+                    <input>
+                        <param>
+                            <name>code</name>
+                            <type>str</type>
+                        </param>
+                        <param>
+                            <name>language</name>
+                            <type>str</type>
+                        </param>
+                    </input>
+                    <output>
+                        <type>Dict[str, Any]</type>
+                        <description>Code quality metrics</description>
+                    </output>
+                </method>
+            </methods>
+        </util>
+    </utils>
+
+    <tests>
+        <test>
+            <name>TestAIService</name>
+            <file>tests/test_ai_service.py</file>
+            <description>Unit tests for the AIService</description>
+            <methods>
+                <method>
+                    <name>test_generate_project_plan</name>
+                </method>
+                <method>
+                    <name>test_incorporate_feedback</name>
+                </method>
+                <method>
+                    <name>test_system_1_thinking</name>
+                </method>
+                <method>
+                    <name>test_system_2_thinking</name>
+                </method>
+                <method>
+                    <name>test_system_3_thinking</name>
+                </method>
+            </methods>
+        </test>
+        <test>
+            <name>TestCodeGenerationService</name>
+            <file>tests/test_code_generation_service.py</file>
+            <description>Unit tests for the CodeGenerationService</description>
+            <methods>
+                <method>
+                    <name>test_generate_code</name>
+                </method>
+            </methods>
+        </test>
+        <test>
+            <name>TestErrorFixingService</name>
+            <file>tests/test_error_fixing_service.py</file>
+            <description>Unit tests for the ErrorFixingService</description>
+            <methods>
+                <method>
+                    <name>test_analyze_and_fix_errors</name>
+                </method>
+            </methods>
+        </test>
+        <test>
+            <name>TestVersionControlService</name>
+            <file>tests/test_version_control_service.py</file>
+            <description>Unit tests for the VersionControlService</description>
+            <methods>
+                <method>
+                    <name>test_init_repository</name>
+                </method>
+                <method>
+                    <name>test_commit_changes</name>
+                </method>
+                <method>
+                    <name>test_create_branch</name>
+                </method>
+            </methods>
+        </test>
+        <test>
+            <name>TestDependencyManagementService</name>
+            <file>tests/test_dependency_management_service.py</file>
+            <description>Unit tests for the DependencyManagementService</description>
+            <methods>
+                <method>
+                    <name>test_analyze_dependencies</name>
+                </method>
+                <method>
+                    <name>test_update_dependencies</name>
+                </method>
+                <method>
+                    <name>test_resolve_conflicts</name>
+                </method>
+            </methods>
+        </test>
+        <test>
+            <name>TestCodeReviewService</name>
+            <file>tests/test_code_review_service.py</file>
+            <description>Unit tests for the CodeReviewService</description>
+            <methods>
+                <method>
+                    <name>test_review_code</name>
+                </method>
+                <method>
+                    <name>test_apply_suggestion</name>
+                </method>
+            </methods>
+        </test>
+        <test>
+            <name>TestDeploymentService</name>
+            <file>tests/test_deployment_service.py</file>
+            <description>Unit tests for the DeploymentService</description>
+            <methods>
+                <method>
+                    <name>test_deploy_to_environment</name>
+                </method>
+                <method>
+                    <name>test_rollback_deployment</name>
+                </method>
+            </methods>
+        </test>
+        <test>
+            <name>TestDocumentationService</name>
+            <file>tests/test_documentation_service.py</file>
+            <description>Unit tests for the DocumentationService</description>
+            <methods>
+                <method>
+                    <name>test_generate_documentation</name>
+                </method>
+                <method>
+                    <name>test_update_readme</name>
+                </method>
+            </methods>
+        </test>
+        <test>
+            <name>TestPerformanceMonitoringService</name>
+            <file>tests/test_performance_monitoring_service.py</file>
+            <description>Unit tests for the PerformanceMonitoringService</description>
+            <methods>
+                <method>
+                    <name>test_analyze_performance</name>
+                </method>
+                <method>
+                    <name>test_suggest_optimizations</name>
+                </method>
+            </methods>
+        </test>
+    </tests>
+
+    <documentation>
+        <doc>
+            <name>API Documentation</name>
+            <file>docs/api_docs.md</file>
+            <description>Detailed documentation of all API endpoints</description>
+            <sections>
+                <section>
+                    <name>Introduction</name>
+                    <content>Overview of the API and authentication methods</content>
+                </section>
+                <section>
+                    <name>Projects</name>
+                    <content>Endpoints related to project management</content>
+                </section>
+                <section>
+                    <name>Tasks</name>
+                    <content>Endpoints related to task management</content>
+                </section>
+                <section>
+                    <name>Code Generation</name>
+                    <content>Endpoints related to AI-powered code generation</content>
+                </section>
+                <section>
+                    <name>Code Review</name>
+                    <content>Endpoints related to code review processes</content>
+                </section>
+                <section>
+                    <name>Deployment</name>
+                    <content>Endpoints related to project deployment</content>
+                </section>
+            </sections>
+        </doc>
+        <doc>
+            <name>User Guide</name>
+            <file>docs/user_guide.md</file>
+            <description>Guide for end-users on how to use the AI Software Factory</description>
+            <sections>
+                <section>
+                    <name>Getting Started</name>
+                    <content>How to create an account and set up your first project</content>
+                </section>
+                <section>
+                    <name>Project Management</name>
+                    <content>How to create, edit, and manage projects</content>
+                </section>
+                <section>
+                    <name>Task Management</name>
+                    <content>How to create, assign, and track tasks</content>
+                </section>
+                <section>
+                    <name>Using AI Assistance</name>
+                    <content>How to leverage AI for code generation and problem-solving</content>
+                </section>
+                <section>
+                    <name>Code Review Process</name>
+                    <content>How to participate in and benefit from code reviews</content>
+                </section>
+                <section>
+                    <name>Deployment</name>
+                    <content>How to deploy your projects to different environments</content>
+                </section>
+            </sections>
+        </doc>
+        <doc>
+            <name>Developer Guide</name>
+            <file>docs/developer_guide.md</file>
+            <description>Guide for developers on how to extend and maintain the AI Software Factory</description>
+            <sections>
+                <section>
+                    <name>Architecture Overview</name>
+                    <content>High-level overview of the system architecture</content>
+                </section>
+                <section>
+                    <name>Setting Up Development Environment</name>
+                    <content>Steps to set up a local development environment</content>
+                </section>
+                <section>
+                    <name>Code Structure</name>
+                    <content>Explanation of the codebase organization</content>
+                </section>
+                <section>
+                    <name>Adding New Features</name>
+                    <content>Guidelines for adding new features to the system</content>
+                </section>
+                <section>
+                    <name>Testing</name>
+                    <content>How to write and run tests</content>
+                </section>
+                <section>
+                    <name>Deployment Process</name>
+                    <content>Steps to deploy updates to production</content>
+                </section>
+            </sections>
+        </doc>
+    </documentation>
+</application_plan>

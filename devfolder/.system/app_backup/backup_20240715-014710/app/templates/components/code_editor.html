@@ -1,0 +1,110 @@
+
+<!-- app/templates/components/code_editor.html -->
+<!-- Reusable component for in-browser code editing -->
+
+<div class="code-editor-container">
+    <div class="code-editor-header">
+        <select id="language-selector" class="language-selector">
+            <option value="python">Python</option>
+            <option value="javascript">JavaScript</option>
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
+        </select>
+        <button id="run-code-btn" class="run-code-btn">Run Code</button>
+    </div>
+    <div id="code-editor" class="code-editor"></div>
+    <div id="code-output" class="code-output">
+        <h3>Output:</h3>
+        <pre id="output-content"></pre>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize the code editor using a library like Monaco Editor or CodeMirror
+        let editor = initializeCodeEditor('code-editor');
+
+        // Set up language change listener
+        document.getElementById('language-selector').addEventListener('change', function(e) {
+            let language = e.target.value;
+            editor.setOption('mode', language);
+        });
+
+        // Set up run code button listener
+        document.getElementById('run-code-btn').addEventListener('click', function() {
+            let code = editor.getValue();
+            let language = document.getElementById('language-selector').value;
+            runCode(code, language);
+        });
+    });
+
+    function initializeCodeEditor(elementId) {
+        // This is a placeholder function. In a real implementation, you would initialize
+        // your chosen code editor library here. For example, using Monaco Editor:
+        // return monaco.editor.create(document.getElementById(elementId), {
+        //     value: '# Enter your code here',
+        //     language: 'python',
+        //     theme: 'vs-dark'
+        // });
+        console.log('Code editor initialized');
+        return {
+            getValue: function() { return '# Placeholder for actual code'; },
+            setOption: function(option, value) { console.log(`Set ${option} to ${value}`); }
+        };
+    }
+
+    function runCode(code, language) {
+        // In a real implementation, this function would send the code to the server
+        // for execution and display the result. For now, we'll just log to console.
+        console.log(`Running ${language} code:`);
+        console.log(code);
+        document.getElementById('output-content').textContent = 'Code execution not implemented in this example.';
+    }
+</script>
+
+<style>
+    .code-editor-container {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+
+    .code-editor-header {
+        background-color: #f0f0f0;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .language-selector, .run-code-btn {
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+    }
+
+    .run-code-btn {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+
+    .run-code-btn:hover {
+        background-color: #45a049;
+    }
+
+    .code-editor {
+        height: 300px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .code-output {
+        padding: 10px;
+        background-color: #f9f9f9;
+    }
+
+    #output-content {
+        margin: 0;
+        white-space: pre-wrap;
+    }
+</style>

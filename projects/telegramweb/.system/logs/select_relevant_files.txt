@@ -1,0 +1,17 @@
+Based on the user feedback and the application plan provided, the most likely files that need updates to address the error are:
+
+<relevant_files>
+<file>main.py</file>
+<file>app/__init__.py</file>
+<file>app/extensions.py</file>
+</relevant_files>
+
+The error message "signal only works in main thread of the main interpreter" suggests that there's an issue with how the application is being run or how certain components are being initialized. These files are the most relevant because:
+
+1. main.py: This is the entry point of the application and is responsible for creating and running the Flask app. The error might be occurring due to how the app is being run or how signals are being handled in the main thread.
+
+2. app/__init__.py: This file initializes the Flask application and configures it. It's possible that the way the app or its extensions are being initialized is causing the signal issue.
+
+3. app/extensions.py: This file initializes Flask extensions, including SocketIO. The SocketIO extension, in particular, might be related to the signal error if it's not being properly configured or run in the main thread.
+
+These files are the most likely candidates for addressing the thread-related signal error in the main application setup and initialization process.

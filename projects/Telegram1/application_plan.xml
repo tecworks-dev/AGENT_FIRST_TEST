@@ -1,0 +1,185 @@
+<application_plan>
+<overview>A web-based Telegram clone application that replicates core functionality and design of Telegram's professional version, including secure messaging, group chats, file sharing, calling capabilities, and more.</overview>
+
+<mechanics>
+- Secure messaging with end-to-end encryption
+- Group chats and channels management
+- File sharing and media support
+- Voice and video calling
+- Custom themes and appearance settings
+- Cross-platform synchronization
+- Bot integration
+- Inline search functionality
+- Self-destructing messages
+- Two-factor authentication
+</mechanics>
+
+<files>
+<file>
+<name>main.py</name>
+<description>
+Entry point of the application. Initializes the Flask web server and defines routes.
+Imports: flask, user_management, messaging, group_management, file_sharing, call_management, theme_management, sync_management, bot_management, search, authentication
+Main function: run_app() - Starts the Flask server (no arguments, no return)
+</description>
+</file>
+
+<file>
+<name>user_management.py</name>
+<description>
+Handles user registration, login, and profile management.
+Imports: flask, bcrypt, database
+Functions:
+- register_user(username, password, email) -> bool
+- login_user(username, password) -> dict
+- update_profile(user_id, profile_data) -> bool
+</description>
+</file>
+
+<file>
+<name>messaging.py</name>
+<description>
+Manages secure messaging with end-to-end encryption and self-destructing messages.
+Imports: flask, cryptography, database
+Functions:
+- send_message(sender_id, recipient_id, message) -> bool
+- retrieve_messages(user_id) -> list
+- set_self_destruct(message_id, time) -> bool
+</description>
+</file>
+
+<file>
+<name>group_management.py</name>
+<description>
+Handles creation and management of group chats and channels.
+Imports: flask, database
+Functions:
+- create_group(creator_id, group_name, members) -> int
+- add_member(group_id, user_id) -> bool
+- remove_member(group_id, user_id) -> bool
+</description>
+</file>
+
+<file>
+<name>file_sharing.py</name>
+<description>
+Manages file uploads, downloads, and media support.
+Imports: flask, werkzeug.utils
+Functions:
+- upload_file(user_id, file) -> str
+- download_file(file_id) -> file
+- list_user_files(user_id) -> list
+</description>
+</file>
+
+<file>
+<name>call_management.py</name>
+<description>
+Handles voice and video calling capabilities.
+Imports: flask, webrtc
+Functions:
+- initiate_call(caller_id, callee_id, call_type) -> str
+- end_call(call_id) -> bool
+- get_call_status(call_id) -> str
+</description>
+</file>
+
+<file>
+<name>theme_management.py</name>
+<description>
+Manages custom themes and appearance settings.
+Imports: flask
+Functions:
+- set_theme(user_id, theme_name) -> bool
+- get_user_theme(user_id) -> dict
+- list_available_themes() -> list
+</description>
+</file>
+
+<file>
+<name>sync_management.py</name>
+<description>
+Handles cross-platform synchronization of user data and messages.
+Imports: flask, database
+Functions:
+- sync_user_data(user_id, device_id, data) -> bool
+- get_sync_status(user_id) -> dict
+- resolve_conflicts(user_id, conflicting_data) -> bool
+</description>
+</file>
+
+<file>
+<name>bot_management.py</name>
+<description>
+Manages bot integration and interactions.
+Imports: flask, database
+Functions:
+- register_bot(owner_id, bot_name, bot_token) -> int
+- send_bot_message(bot_id, recipient_id, message) -> bool
+- get_bot_updates(bot_id) -> list
+</description>
+</file>
+
+<file>
+<name>search.py</name>
+<description>
+Implements inline search functionality across messages and contacts.
+Imports: flask, database
+Functions:
+- search_messages(user_id, query) -> list
+- search_contacts(user_id, query) -> list
+- search_global(user_id, query) -> dict
+</description>
+</file>
+
+<file>
+<name>authentication.py</name>
+<description>
+Implements two-factor authentication.
+Imports: flask, pyotp
+Functions:
+- enable_2fa(user_id) -> str
+- verify_2fa(user_id, token) -> bool
+- disable_2fa(user_id) -> bool
+</description>
+</file>
+
+<file>
+<name>database.py</name>
+<description>
+Handles database operations and schema management.
+Imports: sqlalchemy
+Functions:
+- init_db() -> None
+- get_user(user_id) -> dict
+- update_user(user_id, data) -> bool
+- (Other CRUD operations for different entities)
+</description>
+</file>
+
+<file>
+<name>config.py</name>
+<description>
+Stores configuration variables for the application.
+Imports: None
+Variables:
+- DATABASE_URI: str
+- SECRET_KEY: str
+- DEBUG: bool
+- (Other configuration variables)
+</description>
+</file>
+
+<file>
+<name>utils.py</name>
+<description>
+Contains utility functions used across the application.
+Imports: None
+Functions:
+- generate_unique_id() -> str
+- validate_email(email) -> bool
+- format_timestamp(timestamp) -> str
+</description>
+</file>
+</files>
+</application_plan>

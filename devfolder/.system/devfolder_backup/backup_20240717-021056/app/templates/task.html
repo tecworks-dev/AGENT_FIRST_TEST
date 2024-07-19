@@ -1,0 +1,80 @@
+
+{% extends "layout.html" %}
+
+{% block title %}Task Details{% endblock %}
+
+{% block content %}
+<div class="task-container">
+    <h1>{{ task.title }}</h1>
+    
+    <div class="task-details">
+        <p><strong>Description:</strong> {{ task.description }}</p>
+        <p><strong>Status:</strong> <span class="task-status {{ task.status }}">{{ task.status }}</span></p>
+        <p><strong>Project:</strong> <a href="{{ url_for('project', project_id=task.project_id) }}">{{ task.project.name }}</a></p>
+        <p><strong>Assigned to:</strong> {{ task.assigned_to.username if task.assigned_to else 'Unassigned' }}</p>
+        <p><strong>Created at:</strong> {{ task.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+        <p><strong>Last updated:</strong> {{ task.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+    </div>
+
+    <div class="task-actions">
+        <button id="editTaskBtn" class="btn btn-primary">Edit Task</button>
+        <button id="deleteTaskBtn" class="btn btn-danger">Delete Task</button>
+    </div>
+
+    <div id="editTaskForm" style="display: none;">
+        <h2>Edit Task</h2>
+        <form id="taskForm">
+            <div class="form-group">
+                <label for="taskTitle">Title:</label>
+                <input type="text" id="taskTitle" name="title" value="{{ task.title }}" required class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="taskDescription">Description:</label>
+                <textarea id="taskDescription" name="description" class="form-control">{{ task.description }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="taskStatus">Status:</label>
+                <select id="taskStatus" name="status" class="form-control">
+                    <option value="pending" {% if task.status == 'pending' %}selected{% endif %}>Pending</option>
+                    <option value="in_progress" {% if task.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                    <option value="completed" {% if task.status == 'completed' %}selected{% endif %}>Completed</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="taskAssignedTo">Assigned to:</label>
+                <select id="taskAssignedTo" name="assigned_to" class="form-control">
+                    <option value="">Unassigned</option>
+                    {% for user in users %}
+                    <option value="{{ user.id }}" {% if task.assigned_to and task.assigned_to.id == user.id %}selected{% endif %}>{{ user.username }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-success">Update Task</button>
+            <button type="button" id="cancelEditBtn" class="btn btn-secondary">Cancel</button>
+        </form>
+    </div>
+
+    <div class="task-comments">
+        <h2>Comments</h2>
+        <ul id="commentsList">
+            {% for comment in task.comments %}
+            <li>
+                <strong>{{ comment.user.username }}</strong> ({{ comment.created_at.strftime('%Y-%m-%d %H:%M:%S') }}):
+                <p>{{ comment.content }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+        <form id="commentForm">
+            <div class="form-group">
+                <label for="commentContent">Add a comment:</label>
+                <textarea id="commentContent" name="content" required class="form-control"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Post Comment</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/task.js') }}"></script>
+{% endblock %}

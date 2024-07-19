@@ -1,0 +1,153 @@
+<application_plan>
+<overview>A secure, user-friendly web-based chat application that facilitates real-time communication across various devices. The application features instant messaging, file sharing, emoji support, and end-to-end encryption, with a responsive design for desktop and mobile devices.</overview>
+
+<mechanics>
+- Real-time messaging using WebSockets
+- User authentication and profile management
+- End-to-end encryption for messages and files
+- File upload and sharing
+- Responsive web interface with dark mode option
+- Database integration for data persistence
+</mechanics>
+
+<files>
+<file>
+<name>main.py</name>
+<description>
+Entry point of the application. Initializes the Flask app, SocketIO, and runs the server.
+Functions:
+- create_app(): Creates and configures the Flask app
+- run_server(): Starts the SocketIO server
+Imports: flask, flask_socketio, chat_server, user_management, message_handling, file_sharing, encryption, config
+</description>
+</file>
+
+<file>
+<name>chat_server.py</name>
+<description>
+Handles WebSocket connections and chat events.
+Functions:
+- handle_connect(sid): Manages new client connections
+- handle_disconnect(sid): Manages client disconnections
+- handle_message(sid, data): Processes incoming messages
+Imports: flask_socketio, user_management, message_handling, file_sharing
+</description>
+</file>
+
+<file>
+<name>user_management.py</name>
+<description>
+Manages user authentication, registration, and profiles.
+Functions:
+- register_user(username, password, email): Registers a new user
+- authenticate_user(username, password): Authenticates a user
+- update_profile(user_id, data): Updates user profile information
+Imports: flask_login, database
+</description>
+</file>
+
+<file>
+<name>message_handling.py</name>
+<description>
+Handles message processing, storage, and retrieval.
+Functions:
+- store_message(sender_id, receiver_id, content): Stores a message in the database
+- retrieve_messages(user_id, other_user_id): Retrieves message history
+- search_messages(user_id, query): Searches messages for a given query
+Imports: database, encryption
+</description>
+</file>
+
+<file>
+<name>file_sharing.py</name>
+<description>
+Manages file upload, storage, and sharing functionality.
+Functions:
+- upload_file(user_id, file): Handles file upload and storage
+- share_file(file_id, recipient_id): Shares a file with another user
+- retrieve_shared_files(user_id): Retrieves shared files for a user
+Imports: flask, database, encryption
+</description>
+</file>
+
+<file>
+<name>encryption.py</name>
+<description>
+Implements end-to-end encryption for messages and files.
+Functions:
+- encrypt_message(message, public_key): Encrypts a message
+- decrypt_message(encrypted_message, private_key): Decrypts a message
+- generate_key_pair(): Generates a public-private key pair
+Imports: cryptography
+</description>
+</file>
+
+<file>
+<name>database.py</name>
+<description>
+Handles database connections and operations.
+Functions:
+- init_db(): Initializes the database connection
+- execute_query(query, params): Executes a database query
+- close_connection(): Closes the database connection
+Imports: sqlalchemy
+</description>
+</file>
+
+<file>
+<name>config.py</name>
+<description>
+Contains configuration settings for the application.
+Variables:
+- SECRET_KEY: Secret key for Flask sessions
+- DATABASE_URI: URI for database connection
+- ENCRYPTION_KEY: Key for encryption operations
+Imports: None
+</description>
+</file>
+
+<file>
+<name>static/js/chat.js</name>
+<description>
+Client-side JavaScript for real-time chat functionality.
+Functions:
+- connectSocket(): Establishes WebSocket connection
+- sendMessage(message): Sends a message to the server
+- receiveMessage(data): Handles incoming messages
+Imports: None (client-side file)
+</description>
+</file>
+
+<file>
+<name>static/css/styles.css</name>
+<description>
+CSS file for styling the web interface, including responsive design and dark mode.
+Imports: None (static file)
+</description>
+</file>
+
+<file>
+<name>templates/index.html</name>
+<description>
+Main HTML template for the chat application, including chat interface and user list.
+Imports: None (template file)
+</description>
+</file>
+
+<file>
+<name>templates/login.html</name>
+<description>
+HTML template for the login page.
+Imports: None (template file)
+</description>
+</file>
+
+<file>
+<name>templates/register.html</name>
+<description>
+HTML template for the registration page.
+Imports: None (template file)
+</description>
+</file>
+</files>
+</application_plan>

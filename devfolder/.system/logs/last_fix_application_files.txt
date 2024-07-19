@@ -1,0 +1,1886 @@
+An error occurred while running the python application project. Here's the error message:
+
+Runtime errors:
+[2024-07-17 02:11:03,751] INFO in __init__: AI Software Factory startup
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+ * Restarting with stat
+[2024-07-17 02:11:04,572] INFO in __init__: AI Software Factory startup
+ * Debugger is active!
+ * Debugger PIN: 347-731-170
+[2024-07-17 02:11:46,475] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,476] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/ HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,494] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,495] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,510] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,511] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,525] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,526] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,544] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,545] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,565] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,565] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,582] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,582] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,599] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,599] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,647] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,647] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,679] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,680] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,699] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,699] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+
+Possible errors in output: 
+stderr:  [2024-07-17 02:11:03,751] INFO in __init__: AI Software Factory startup
+stdout:   * Serving Flask app 'app'
+stdout:   * Debug mode: on
+stderr:  WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+stderr:   * Running on http://127.0.0.1:5000
+stderr:  Press CTRL+C to quit
+stderr:   * Restarting with stat
+stderr:  [2024-07-17 02:11:04,572] INFO in __init__: AI Software Factory startup
+stderr:   * Debugger is active!
+stderr:   * Debugger PIN: 347-731-170
+stderr:  [2024-07-17 02:11:46,475] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,476] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/ HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,494] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,495] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,510] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,511] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,525] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,526] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,544] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,545] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,565] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,565] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,582] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,582] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,599] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,599] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,647] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,647] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,679] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,680] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,699] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,699] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+
+
+
+Here is the output of diagnostics_report.py unittest:
+
+None
+
+Here are the contents of the files involved in the error:File: app/__init__.py
+
+
+# app/__init__.py
+# Purpose: Initialize the Flask application and configure extensions
+# Description: This file sets up the Flask app, database, migrations, login manager, and WebSocket support
+
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from flask_login import LoginManager
+from flask_socketio import SocketIO
+from config import Config
+import logging
+import os
+
+# Initialize extensions
+db = SQLAlchemy()
+migrate = Migrate()
+login = LoginManager()
+login.login_view = 'auth.login'
+login.login_message = 'Please log in to access this page.'
+socketio = SocketIO()
+
+def create_app(config=None):
+    app = Flask(__name__)
+    
+    if config is None:
+        app.config.from_object(Config)
+    else:
+        app.config.from_object(config)
+
+    # Initialize extensions with the app
+    db.init_app(app)
+    migrate.init_app(app, db)
+    login.init_app(app)
+    socketio.init_app(app)
+
+    # Register blueprints
+    from app.auth import bp as auth_bp
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+
+    from app.main import bp as main_bp
+    app.register_blueprint(main_bp)
+
+    from app.errors import bp as errors_bp
+    app.register_blueprint(errors_bp)
+
+    # Set up logging
+    if not app.debug and not app.testing:
+        if not os.path.exists('logs'):
+            os.mkdir('logs')
+        
+        try:
+            log_file = 'logs/ai_software_factory.log'
+            file_handler = logging.FileHandler(log_file)
+            file_handler.setFormatter(logging.Formatter(
+                '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'))
+            file_handler.setLevel(logging.INFO)
+            app.logger.addHandler(file_handler)
+        except PermissionError:
+            print("Warning: Unable to set up file logging due to permission error.")
+        
+        app.logger.setLevel(logging.INFO)
+        app.logger.info('AI Software Factory startup')
+
+    # Add user_loader function
+    from app.models import User
+
+    @login.user_loader
+    def load_user(id):
+        return User.query.get(int(id))
+
+    return app
+
+# Import models at the bottom to avoid circular imports
+from app import models
+
+
+File: app/auth/__init__.py
+
+# app/auth/__init__.py
+"""
+Implements authentication-related functionality for the AI Software Factory application.
+This module handles user authentication, registration, and password reset functionality.
+"""
+
+from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
+from flask_login import login_user, logout_user, login_required, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from app.models import User
+from app import db
+from app.utils.data_validator import DataValidator
+from app.services.notification_service import NotificationService
+from app.utils.encryption_service import EncryptionService
+from app.forms import LoginForm, RegistrationForm, ResetPasswordRequestForm, ResetPasswordForm
+import traceback
+
+bp = Blueprint('auth', __name__)
+data_validator = DataValidator()
+notification_service = NotificationService()
+encryption_service = EncryptionService()
+
+@bp.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and check_password_hash(user.password_hash, form.password.data):
+            login_user(user, remember=form.remember_me.data)
+            flash('Logged in successfully.', 'success')
+            next_page = request.args.get('next')
+            if not next_page or not next_page.startswith('/'):
+                next_page = url_for('main.index')
+            return redirect(next_page)
+        else:
+            flash('Invalid email or password', 'danger')
+    return render_template('login.html', title='Sign In', form=form)
+
+@bp.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('main.index'))
+
+@bp.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User(username=form.username.data, email=form.email.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!', 'success')
+        return redirect(url_for('auth.login'))
+    return render_template('register.html', title='Register', form=form)
+
+@bp.route('/reset_password_request', methods=['GET', 'POST'])
+def reset_password_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    form = ResetPasswordRequestForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            # Send password reset email
+            # Note: Implement the actual email sending logic here
+            flash('Check your email for the instructions to reset your password', 'info')
+        else:
+            flash('Email not found in our records', 'warning')
+        return redirect(url_for('auth.login'))
+    return render_template('reset_password_request.html', title='Reset Password', form=form)
+
+@bp.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    user = User.verify_reset_password_token(token)
+    if not user:
+        return redirect(url_for('main.index'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data)
+        db.session.commit()
+        flash('Your password has been reset.', 'success')
+        return redirect(url_for('auth.login'))
+    return render_template('reset_password.html', form=form)
+
+# Error handling
+@bp.errorhandler(Exception)
+def handle_error(e):
+    current_app.logger.error(f"An error occurred in the auth module: {str(e)}")
+    current_app.logger.error(traceback.format_exc())
+    flash('An unexpected error occurred. Please try again later.', 'danger')
+    return redirect(url_for('main.index'))
+
+File: app/errors/__init__.py
+
+
+# app/errors/__init__.py
+
+from flask import Blueprint
+
+bp = Blueprint('errors', __name__)
+
+from app.errors import handlers
+
+
+File: app/routes/__init__.py
+
+
+"""
+Defines various Flask routes for the application.
+This module contains route handlers for different endpoints of the AI Software Factory application.
+"""
+
+from flask import Blueprint, render_template, request, jsonify, abort
+from flask_login import login_required, current_user
+from app.models import User, Project, Task
+from app.services import (
+    AIService, ProjectManager, TaskManager, FileManager,
+    WebBrowsingService, StateMonitoringService
+)
+from app.utils.error_handler import handle_error
+import traceback
+
+# Create a Blueprint for the routes
+routes = Blueprint('routes', __name__)
+
+@routes.route('/')
+@login_required
+def index():
+    """Home page route"""
+    try:
+        projects = ProjectManager().get_user_projects(current_user.id)
+        return render_template('index.html', projects=projects)
+    except Exception as e:
+        return handle_error(e)
+
+@routes.route('/user/<int:user_id>')
+@login_required
+def user_profile(user_id):
+    """User profile page"""
+    try:
+        user = User.query.get_or_404(user_id)
+        if user != current_user and not current_user.is_admin:
+            abort(403)
+        return render_template('user_profile.html', user=user)
+    except Exception as e:
+        return handle_error(e)
+
+@routes.route('/project/create', methods=['POST'])
+@login_required
+def create_project():
+    """Creates a new project"""
+    try:
+        data = request.json
+        project = ProjectManager().create_project(
+            name=data['name'],
+            description=data['description'],
+            user_id=current_user.id
+        )
+        return jsonify(project.to_dict()), 201
+    except Exception as e:
+        return handle_error(e)
+
+@routes.route('/task/<int:task_id>/update', methods=['PATCH'])
+@login_required
+def update_task(task_id):
+    """Updates task status"""
+    try:
+        data = request.json
+        task = TaskManager().update_task(task_id, status=data['status'])
+        return jsonify(task.to_dict())
+    except Exception as e:
+        return handle_error(e)
+
+@routes.route('/browse', methods=['POST'])
+@login_required
+def browse_web():
+    """Initiates web browsing for research"""
+    try:
+        data = request.json
+        results = WebBrowsingService().search(data['query'])
+        return jsonify(results)
+    except Exception as e:
+        return handle_error(e)
+
+@routes.route('/project/<int:project_id>/state')
+@login_required
+def get_project_state(project_id):
+    """Gets the current state of a project"""
+    try:
+        project = Project.query.get_or_404(project_id)
+        if project.user_id != current_user.id and not current_user.is_admin:
+            abort(403)
+        state = StateMonitoringService().get_current_state(project_id)
+        return jsonify(state)
+    except Exception as e:
+        return handle_error(e)
+
+@routes.route('/ai/generate', methods=['POST'])
+@login_required
+def generate_code():
+    """Generates code using AI"""
+    try:
+        data = request.json
+        code = AIService().generate_code(data['prompt'])
+        return jsonify({'code': code})
+    except Exception as e:
+        return handle_error(e)
+
+@routes.route('/project/<int:project_id>/files')
+@login_required
+def get_project_files(project_id):
+    """Gets all files for a project"""
+    try:
+        project = Project.query.get_or_404(project_id)
+        if project.user_id != current_user.id and not current_user.is_admin:
+            abort(403)
+        files = FileManager().get_project_files(project_id)
+        return jsonify([file.to_dict() for file in files])
+    except Exception as e:
+        return handle_error(e)
+
+@routes.errorhandler(404)
+def not_found_error(error):
+    return render_template('errors/404.html'), 404
+
+@routes.errorhandler(500)
+def internal_error(error):
+    return render_template('errors/500.html'), 500
+
+if __name__ == '__main__':
+    print("This module should not be run directly. Please run main.py instead.")
+
+
+File: app/templates/layout.html
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}AI Software Factory{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/layout.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/components.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/project.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/task.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_profile.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <header>
+        {% include 'components/navbar.html' %}
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        {% include 'components/footer.html' %}
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/api.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/websocket.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/error_handling.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
+
+
+File: app/templates/components/footer.html
+
+
+<!-- app/templates/components/footer.html -->
+<!-- Reusable footer component -->
+
+<footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h5>AI Software Factory</h5>
+                <p class="text-muted">Empowering developers with AI-assisted software development.</p>
+            </div>
+            <div class="col-md-4">
+                <h5>Quick Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{{ url_for('main.index') }}">Home</a></li>
+                    <li><a href="{{ url_for('main.about') }}">About</a></li>
+                    <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
+                    <li><a href="{{ url_for('main.privacy') }}">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Connect With Us</h5>
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="#" target="_blank"><i class="fab fa-github"></i></a></li>
+                    <li class="list-inline-item"><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                    <li class="list-inline-item"><a href="#" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-12 text-center">
+                <p class="text-muted">&copy; {{ current_year }} AI Software Factory. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Update the current year dynamically
+    document.addEventListener('DOMContentLoaded', function() {
+        const yearElement = document.querySelector('.footer .text-muted');
+        const currentYear = new Date().getFullYear();
+        yearElement.textContent = yearElement.textContent.replace('{{ current_year }}', currentYear);
+    });
+</script>
+
+
+Here a reminder of the error:
+
+Runtime errors:
+[2024-07-17 02:11:03,751] INFO in __init__: AI Software Factory startup
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+ * Restarting with stat
+[2024-07-17 02:11:04,572] INFO in __init__: AI Software Factory startup
+ * Debugger is active!
+ * Debugger PIN: 347-731-170
+[2024-07-17 02:11:46,475] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,476] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/ HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,494] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,495] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,510] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,511] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,525] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,526] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,544] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,545] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,565] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,565] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,582] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,582] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,599] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,599] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,647] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,647] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,679] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,680] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+[2024-07-17 02:11:46,699] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+[2024-07-17 02:11:46,699] ERROR in __init__: Traceback (most recent call last):
+  File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+  File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+  File "app/auth/__init__.py", line 40, in login
+    return render_template('login.html', title='Sign In', form=form)
+  File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+    rv = template.render(context)
+  File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "app/templates/login.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "app/templates/layout.html", line 37, in top-level template code
+    {% include 'components/footer.html' %}
+  File "app/templates/components/footer.html", line 16, in top-level template code
+    <li><a href="{{ url_for('main.about') }}">About</a></li>
+  File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+  File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+  File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+
+127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+
+Possible errors in output: 
+stderr:  [2024-07-17 02:11:03,751] INFO in __init__: AI Software Factory startup
+stdout:   * Serving Flask app 'app'
+stdout:   * Debug mode: on
+stderr:  WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+stderr:   * Running on http://127.0.0.1:5000
+stderr:  Press CTRL+C to quit
+stderr:   * Restarting with stat
+stderr:  [2024-07-17 02:11:04,572] INFO in __init__: AI Software Factory startup
+stderr:   * Debugger is active!
+stderr:   * Debugger PIN: 347-731-170
+stderr:  [2024-07-17 02:11:46,475] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,476] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/ HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,494] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,495] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,510] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,511] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,525] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,526] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,544] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,545] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,565] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,565] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,582] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,582] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,599] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,599] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,647] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,647] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,679] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,680] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /index HTTP/1.1" 302 -
+stderr:  [2024-07-17 02:11:46,699] ERROR in __init__: An error occurred in the auth module: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  [2024-07-17 02:11:46,699] ERROR in __init__: Traceback (most recent call last):
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 880, in full_dispatch_request
+stderr:      rv = self.dispatch_request()
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 865, in dispatch_request
+stderr:      return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+stderr:    File "app/auth/__init__.py", line 40, in login
+stderr:      return render_template('login.html', title='Sign In', form=form)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 150, in render_template
+stderr:      return _render(app, template, context)
+stderr:    File ".venv/lib/site-packages/flask/templating.py", line 131, in _render
+stderr:      rv = template.render(context)
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 1304, in render
+stderr:      self.environment.handle_exception()
+stderr:    File ".venv/lib/site-packages/jinja2/environment.py", line 939, in handle_exception
+stderr:      raise rewrite_traceback_stack(source=source)
+stderr:    File "app/templates/login.html", line 1, in top-level template code
+stderr:      {% extends "layout.html" %}
+stderr:    File "app/templates/layout.html", line 37, in top-level template code
+stderr:      {% include 'components/footer.html' %}
+stderr:    File "app/templates/components/footer.html", line 16, in top-level template code
+stderr:      <li><a href="{{ url_for('main.about') }}">About</a></li>
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1084, in url_for
+stderr:      return self.handle_url_build_error(error, endpoint, values)
+stderr:    File ".venv/lib/site-packages/flask/app.py", line 1073, in url_for
+stderr:      rv = url_adapter.build(  # type: ignore[union-attr]
+stderr:    File ".venv/lib/site-packages/werkzeug/routing/map.py", line 924, in build
+stderr:      raise BuildError(endpoint, values, method, self)
+stderr:  werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'main.about'. Did you mean 'main.dashboard' instead?
+stderr:  
+stderr:  127.0.0.1 - - [17/Jul/2024 02:11:46] "GET /auth/login?next=/index HTTP/1.1" 302 -
+
+
+
+Please analyze the error and provide corrected versions of the files to resolve the error. return the full content of the files Remember that the application should start with a main module in the main.py file(main shouldn't take any arguments).

@@ -1,0 +1,62 @@
+
+<!-- app/templates/components/project_dashboard.html -->
+<!-- Reusable component for displaying project dashboard -->
+
+<div class="project-dashboard">
+    <h2 class="dashboard-title">Project Dashboard</h2>
+
+    <div class="project-overview">
+        <h3>Project Overview</h3>
+        <div class="project-details">
+            <p><strong>Project Name:</strong> {{ project.name }}</p>
+            <p><strong>Description:</strong> {{ project.description }}</p>
+            <p><strong>Created:</strong> {{ project.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+            <p><strong>Last Updated:</strong> {{ project.updated_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+        </div>
+    </div>
+
+    <div class="task-summary">
+        <h3>Task Summary</h3>
+        <div class="progress-indicators">
+            <div class="progress-bar">
+                <div class="progress" style="width: {{ (completed_tasks / total_tasks) * 100 }}%"></div>
+            </div>
+            <p><strong>{{ completed_tasks }} / {{ total_tasks }}</strong> tasks completed</p>
+        </div>
+        <div class="task-status">
+            <p><strong>Pending:</strong> {{ pending_tasks }}</p>
+            <p><strong>In Progress:</strong> {{ in_progress_tasks }}</p>
+            <p><strong>Completed:</strong> {{ completed_tasks }}</p>
+        </div>
+    </div>
+
+    <div class="recent-activity">
+        <h3>Recent Activity</h3>
+        <ul class="activity-feed">
+            {% for activity in recent_activities %}
+            <li class="activity-item">
+                <span class="activity-time">{{ activity.timestamp.strftime('%H:%M') }}</span>
+                <span class="activity-description">{{ activity.description }}</span>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="quick-actions">
+        <h3>Quick Actions</h3>
+        <button class="btn btn-primary" onclick="createNewTask()">Create New Task</button>
+        <button class="btn btn-secondary" onclick="generateProjectReport()">Generate Report</button>
+    </div>
+</div>
+
+<script>
+    function createNewTask() {
+        // Implement logic to open a modal or navigate to task creation page
+        console.log('Create new task clicked');
+    }
+
+    function generateProjectReport() {
+        // Implement logic to generate and display project report
+        console.log('Generate project report clicked');
+    }
+</script>
