@@ -1,0 +1,23 @@
+# ignore ALL .log files
+*.log
+
+# ignore ALL files in ANY directory named temp
+temp/ 
+.venv
+apptg\.system\app_backup\backup_20240713-083941\.venv
+apptg\.system\app_backup\backup_20240713-090404\.venv
+apptg\.system\app_backup\backup_20240713-092604\.venv
+apptg\.system\app_backup\backup_20240713-104542\.venv
+apptg\.system\app_backup\backup_20240713-105548\.venv
+devfolder\.venv
+devfolder\.system\devfolder_backup\backup_20240717-021056\.venv
+projects\AI-assisted Python application development tool\.venv
+projects\chat\.venv
+projects\chatapp1\.venv
+projects\chatapp2\.venv
+projects\comprehensive secure web based communication suite\.venv
+projects\telegram2\.venv
+projects\telegram3\.venv
+projects\telegram5\.venv
+projects\telegramweb\.venv
+.env
