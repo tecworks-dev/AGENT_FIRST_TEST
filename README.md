@@ -38,22 +38,22 @@ Agent Application Dev is an AI-assisted Python application development tool. It 
 
 To start creating a new application:
 ```
-python agent_application_maker.py
+python agent_application_makercopysystemupdate.py
 ```
 
 To fix issues in an existing application:
 ```
-python agent_application_maker.py --fix
+python agent_application_makercopysystemupdate.py --fix
 ```
 
 To provide feedback and update an existing application:
 ```
-python agent_application_maker.py --feedback
+python agent_application_makercopysystemupdate.py --feedback
 ```
 
 To plan an application without creating files:
 ```
-python agent_application_maker.py --plan
+python agent_application_makercopysystemupdate.py --plan
 ```
 
 ## How it works
@@ -67,7 +67,7 @@ python agent_application_maker.py --plan
 
 ## File Structure
 
-- `agent_application_maker.py`: The main script that orchestrates the application development process.
+- `agent_application_makercopysystemupdate.py`: The main script that orchestrates the application development process.
 - `devfolder/`: The directory where the generated application files are stored.
 - `.system/`: Contains system files including backups and logs.
 - `projects/`: Archived versions of previous projects.
